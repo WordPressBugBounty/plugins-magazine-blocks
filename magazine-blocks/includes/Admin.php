@@ -55,62 +55,87 @@ class Admin {
 			'data:image/svg+xml;base64,' . base64_encode( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 22H2V2h20zM3 21h18V3H3z" fill="#fff"/><path d="M13.46 10l-1.39-5-1.39 5zm.92 3H9.77l-1 4.46V19h6.4v-1.52z" fill="#fff" fill-rule="evenodd"/></svg>' ) // phpcs:ignore
 		);
 
-		add_submenu_page(
-			'magazine-blocks',
-			esc_html__( 'Dashboard', 'magazine-blocks' ),
-			esc_html__( 'Dashboard', 'magazine-blocks' ),
-			'manage_options',
-			'magazine-blocks#/dashboard',
-			array( $this, 'markup' )
+		$submenus = $this->get_submenus();
+
+		uasort(
+			$submenus,
+			function ( $a, $b ) {
+				if ( $a['position'] === $b['position'] ) {
+					return 0;
+				}
+				return ( $a['position'] < $b['position'] ) ? -1 : 1;
+			}
 		);
 
-		add_submenu_page(
-			'magazine-blocks',
-			esc_html__( 'Blocks', 'magazine-blocks' ),
-			esc_html__( 'Blocks', 'magazine-blocks' ),
-			'manage_options',
-			'magazine-blocks#/blocks',
-			array( $this, 'markup' )
-		);
-
-		add_submenu_page(
-			'magazine-blocks',
-			esc_html__( 'Products', 'magazine-blocks' ),
-			esc_html__( 'Products', 'magazine-blocks' ),
-			'manage_options',
-			'magazine-blocks#/products',
-			array( $this, 'markup' )
-		);
-
-		add_submenu_page(
-			'magazine-blocks',
-			esc_html__( 'Settings', 'magazine-blocks' ),
-			esc_html__( 'Settings', 'magazine-blocks' ),
-			'manage_options',
-			'magazine-blocks#/settings',
-			array( $this, 'markup' )
-		);
-
-		// add_submenu_page(
-		// 	'magazine-blocks',
-		// 	esc_html__( 'Free vs Pro', 'magazine-blocks' ),
-		// 	esc_html__( 'Free vs Pro', 'magazine-blocks' ),
-		// 	'manage_options',
-		// 	'magazine-blocks#/free-vs-pro',
-		// 	array( $this, 'markup' )
-		// );
-
-		add_submenu_page(
-			'magazine-blocks',
-			esc_html__( 'Help', 'magazine-blocks' ),
-			esc_html__( 'Help', 'magazine-blocks' ),
-			'manage_options',
-			'magazine-blocks#/help',
-			array( $this, 'markup' )
-		);
+		foreach ( $submenus as $slug => $submenu ) {
+			add_submenu_page(
+				$submenu['parent_slug'],
+				$submenu['page_title'],
+				$submenu['menu_title'],
+				$submenu['capability'],
+				'magazine-blocks#/' . $slug,
+				$submenu['callback'],
+				$submenu['position']
+			);
+		}
 
 		add_action( "admin_print_scripts-$magazine_blocks_page", array( $this, 'enqueue' ) );
 		remove_submenu_page( 'magazine-blocks', 'magazine-blocks' );
+	}
+
+	/**
+	 * Get submenus.
+	 *
+	 * @return array
+	 */
+	private function get_submenus() {
+		$submenus = [
+			'dashboard' => [
+				'page_title' => __( 'Dashboard', 'magazine-blocks' ),
+				'menu_title' => __( 'Dashboard', 'magazine-blocks' ),
+				'position'   => 10,
+			],
+			'blocks'    => [
+				'page_title' => __( 'Blocks', 'magazine-blocks' ),
+				'menu_title' => __( 'Blocks', 'magazine-blocks' ),
+				'position'   => 20,
+			],
+			'products'  => [
+				'page_title' => __( 'Products', 'magazine-blocks' ),
+				'menu_title' => __( 'Products', 'magazine-blocks' ),
+				'position'   => 30,
+			],
+			'settings'  => [
+				'page_title' => __( 'Settings', 'magazine-blocks' ),
+				'menu_title' => __( 'Settings', 'magazine-blocks' ),
+				'position'   => 40,
+			],
+			'help'      => [
+				'page_title' => __( 'Help', 'magazine-blocks' ),
+				'menu_title' => __( 'Help', 'magazine-blocks' ),
+				'position'   => 50,
+			],
+		];
+
+		$submenus = apply_filters( 'magazine_blocks_admin_submenus', $submenus );
+		$submenus = array_map(
+			function ( $submenu ) {
+				return wp_parse_args(
+					$submenu,
+					array(
+						'page_title'  => '',
+						'menu_title'  => '',
+						'parent_slug' => 'magazine-blocks',
+						'capability'  => 'manage_options',
+						'position'    => 1000,
+						'callback'    => [ $this, 'markup' ],
+					)
+				);
+			},
+			$submenus
+		);
+
+		return $submenus;
 	}
 
 	/**

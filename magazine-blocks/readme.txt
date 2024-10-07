@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 1.3.17
+Stable tag: 1.3.18
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,10 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.3.18 - 07-10-2024 =
+* Enhancement - Feature image clickable and link to the post in grid module block.
+* Enhancement - General Security measures.
+
 = 1.3.15 - 01-10-2024 =
 * Enhancement - General security measures.
 

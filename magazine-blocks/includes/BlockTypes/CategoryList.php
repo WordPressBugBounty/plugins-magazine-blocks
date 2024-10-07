@@ -69,8 +69,8 @@ class CategoryList extends AbstractBlock {
 		# The Loop.
 		$html = '';
 
-		$html .= '<div class="mzb-category-list mzb-category-list-' . $client_id . '">';
-		$html .= $enable_heading ? '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '"><h2>' . esc_html( $label ) . '</h2></div>' : '';
+		$html .= '<div class="mzb-category-list mzb-category-list-' . esc_attr( $client_id ) . '">';
+		$html .= $enable_heading ? '<div class="mzb-post-heading mzb-' . esc_attr( $heading_layout ) . ' mzb-' . esc_attr( $heading_style ) . '"><h2>' . esc_html( $label ) . '</h2></div>' : '';
 
 		if ( '' !== $advanced_style ) {
 			$advanced_style_class = $advanced_style;
@@ -78,7 +78,7 @@ class CategoryList extends AbstractBlock {
 			$advanced_style_class = '';
 		}
 
-		$html .= '<div class="mzb-posts mzb-' . $layout . ' ' . $advanced_style_class . '">';
+		$html .= '<div class="mzb-posts mzb-' . esc_attr( $layout ) . ' ' . esc_attr( $advanced_style_class ) . '">';
 		foreach ( $categories as $category ) {
 			$cat_id = get_cat_ID( $category->cat_name );
 			$src    = get_category_image( $category->slug );

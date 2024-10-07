@@ -86,7 +86,7 @@ class ScriptStyle {
 		$path = plugins_url( 'dist/', MAGAZINE_BLOCKS_PLUGIN_FILE );
 
 		if ( $dev && magazine_blocks_is_development() ) {
-			$path = 'http://localhost:3000/dist/';
+			$path = 'http://localhost:5432/dist/';
 		}
 
 		return $path . $filename;
@@ -157,6 +157,9 @@ class ScriptStyle {
 				'deps'    => array(),
 			),
 		);
+
+		$this->scripts = apply_filters( 'magazine_blocks_scripts', $this->scripts );
+		$this->styles  = apply_filters( 'magazine_blocks_scripts', $this->styles );
 	}
 
 	/**

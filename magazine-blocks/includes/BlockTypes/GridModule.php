@@ -130,7 +130,7 @@ class GridModule extends AbstractBlock {
 				$id     = get_post_thumbnail_id();
 				$src    = wp_get_attachment_image_src( $id );
 				$src    = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-				$image  = $src ? '<div class="mzb-featured-image ' . $hover_animation . '"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
+				$image  = $src ? '<a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><div class="mzb-featured-image ' . $hover_animation . '"><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/></div></a>' : '';
 				$title  = $enable_post_title ? '<h3 class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></h3>' : '';
 				$author = $enable_author ? '<span class="mzb-post-author" ><img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' . get_the_author_posts_link() . '</span>' : '';
 				$date   = $enable_date ? '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">

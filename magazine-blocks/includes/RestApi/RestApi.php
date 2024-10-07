@@ -50,15 +50,7 @@ class RestApi {
 	 * @return void
 	 */
 	private function register_rest_routes() {
-		$controllers = array(
-			'MagazineBlocks\RestApi\Controllers\LibraryDataController',
-			'MagazineBlocks\RestApi\Controllers\ImageImportController',
-			'MagazineBlocks\RestApi\Controllers\RegenCSSController',
-			'MagazineBlocks\RestApi\Controllers\SettingsController',
-			'MagazineBlocks\RestApi\Controllers\ChangelogController',
-			'MagazineBlocks\RestApi\Controllers\VersionControlController',
-			'MagazineBlocks\RestApi\Controllers\GlobalStylesController',
-		);
+		$controllers = $this->get_controllers();
 
 		foreach ( $controllers as $controller ) {
 			$controller = new $controller();
@@ -173,11 +165,30 @@ class RestApi {
 
 		return array_reduce(
 			$categories,
-			function( $acc, $curr ) {
+			function ( $acc, $curr ) {
 				$acc[] = $curr->name;
 				return $acc;
 			},
 			array()
+		);
+	}
+
+	/**
+	 * Get controllers.
+	 *
+	 * @return array
+	 */
+	public function get_controllers() {
+		return apply_filters(
+			'magazine_blocks_get_rest_api_controllers',
+			[
+				'MagazineBlocks\RestApi\Controllers\LibraryDataController',
+				'MagazineBlocks\RestApi\Controllers\ImageImportController',
+				'MagazineBlocks\RestApi\Controllers\RegenCSSController',
+				'MagazineBlocks\RestApi\Controllers\SettingsController',
+				'MagazineBlocks\RestApi\Controllers\ChangelogController',
+				'MagazineBlocks\RestApi\Controllers\VersionControlController',
+			]
 		);
 	}
 }
