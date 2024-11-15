@@ -266,6 +266,14 @@
       "type": "boolean",
       "default": true
     },
+    "enableReadTime": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableViewCount": {
+      "type": "boolean",
+      "default": false
+    },
     "metaIconColor": {
       "type": "string",
       "style": [

@@ -147,6 +147,14 @@ class SettingsController extends \WP_REST_Controller {
 							'description' => __( 'Heading block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
+						'icon'                => array(
+							'description' => __( 'Icon block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'image'               => array(
+							'description' => __( 'Image block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
 						'advertisement'       => array(
 							'description' => __( 'Advertisement block', 'magazine-blocks' ),
 							'type'        => 'boolean',
@@ -193,6 +201,10 @@ class SettingsController extends \WP_REST_Controller {
 						),
 						'social-icons'        => array(
 							'description' => __( 'Social Icons block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'social-share'        => array(
+							'description' => __( 'Social Share block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'slider'              => array(
@@ -332,7 +344,7 @@ class SettingsController extends \WP_REST_Controller {
 					'type'        => 'object',
 					'description' => __( 'Third party integrations', 'magazine-blocks' ),
 					'properties'  => array(
-						'dateWeatherApiKey'     => array(
+						'dateWeatherApiKey'  => array(
 							'type'        => 'string',
 							'description' => __( 'Newsticker api key', 'magazine-blocks' ),
 						),

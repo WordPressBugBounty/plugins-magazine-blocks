@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit580a2069a1320ac5b5791ae915a2060b
+class ComposerStaticInitb01ef43a8d1621f080bb49c1216b8abc
 {
     public static $files = array (
         '3703a551cf6c1195f75d3eb3d959d24e' => __DIR__ . '/../..' . '/includes/Helpers/core.php',
@@ -186,6 +186,8 @@ class ComposerStaticInit580a2069a1320ac5b5791ae915a2060b
         'MagazineBlocks\\BlockTypes\\FeaturedPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/FeaturedPosts.php',
         'MagazineBlocks\\BlockTypes\\GridModule' => __DIR__ . '/../..' . '/includes/BlockTypes/GridModule.php',
         'MagazineBlocks\\BlockTypes\\Heading' => __DIR__ . '/../..' . '/includes/BlockTypes/Heading.php',
+        'MagazineBlocks\\BlockTypes\\Icon' => __DIR__ . '/../..' . '/includes/BlockTypes/Icon.php',
+        'MagazineBlocks\\BlockTypes\\Image' => __DIR__ . '/../..' . '/includes/BlockTypes/Image.php',
         'MagazineBlocks\\BlockTypes\\LatestPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/LatestPosts.php',
         'MagazineBlocks\\BlockTypes\\Modal' => __DIR__ . '/../..' . '/includes/BlockTypes/Modal.php',
         'MagazineBlocks\\BlockTypes\\NewsTicker' => __DIR__ . '/../..' . '/includes/BlockTypes/NewsTicker.php',
@@ -195,6 +197,8 @@ class ComposerStaticInit580a2069a1320ac5b5791ae915a2060b
         'MagazineBlocks\\BlockTypes\\Slider' => __DIR__ . '/../..' . '/includes/BlockTypes/Slider.php',
         'MagazineBlocks\\BlockTypes\\SocialIcon' => __DIR__ . '/../..' . '/includes/BlockTypes/SocialIcon.php',
         'MagazineBlocks\\BlockTypes\\SocialIcons' => __DIR__ . '/../..' . '/includes/BlockTypes/SocialIcons.php',
+        'MagazineBlocks\\BlockTypes\\SocialInner' => __DIR__ . '/../..' . '/includes/BlockTypes/SocialInner.php',
+        'MagazineBlocks\\BlockTypes\\SocialShare' => __DIR__ . '/../..' . '/includes/BlockTypes/SocialShare.php',
         'MagazineBlocks\\BlockTypes\\TabPost' => __DIR__ . '/../..' . '/includes/BlockTypes/TabPost.php',
         'MagazineBlocks\\Blocks' => __DIR__ . '/../..' . '/includes/Blocks.php',
         'MagazineBlocks\\Deactivation' => __DIR__ . '/../..' . '/includes/Deactivation.php',
@@ -224,9 +228,9 @@ class ComposerStaticInit580a2069a1320ac5b5791ae915a2060b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit580a2069a1320ac5b5791ae915a2060b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit580a2069a1320ac5b5791ae915a2060b::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit580a2069a1320ac5b5791ae915a2060b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb01ef43a8d1621f080bb49c1216b8abc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb01ef43a8d1621f080bb49c1216b8abc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb01ef43a8d1621f080bb49c1216b8abc::$classMap;
 
         }, null, ClassLoader::class);
     }

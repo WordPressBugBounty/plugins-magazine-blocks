@@ -56,20 +56,28 @@ class PostVideo extends AbstractBlock {
 
 			while ( $query->have_posts() ) {
 				$query->the_post();
-				$id     = get_post_thumbnail_id();
-				$src    = wp_get_attachment_image_src( $id );
-				$src    = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
+
+				$video_url = get_post_meta( get_the_ID(), 'video_url', true );
+
+				$src    = get_the_post_thumbnail_url( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : MAGAZINE_BLOCKS_ASSETS_DIR_URL . '/images/default_thumbnail.png';
 				$image  = $src ? '<img class="mzb-featured-image" src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/>' : '';
 				$author = '<span class="magazine-post-author" >' . get_the_author_posts_link() . '</span>';
-				$html  .= '<div class="mzb-post">';
-				$html  .= '<a href="' . esc_url( get_the_permalink() ) . '">';
-				$html  .= '<div class="mzb-image-overlay">';
-				$html  .= $image;
-				$html  .= '</div>';
-				$html  .= '<div class="mzb-custom-embed-play" role="button">
+
+				$html .= '<div class="mzb-post">';
+				$html .= '<a href="' . esc_url( get_the_permalink() ) . '">';
+				$html .= '<div class="mzb-image-overlay">';
+
+				if ( $video_url ) {
+					$html .= '<video class="mzb-video-player" src="' . esc_url( $video_url ) . '" controls poster="' . esc_url( $src ) . '"></video>';
+				} else {
+					$html .= $image;
+				}
+
+				$html .= '</div>';
+				$html .= '<div class="mzb-custom-embed-play" role="button">
 								<svg viewBox="0 0 18 21" xmlns="http://www.w3.org/2000/svg"><path d="M17.6602 10.9341L0.339646 20.9341L0.339647 0.934081L17.6602 10.9341Z" /></svg>
 							</div>';
-				$html  .= '</a></div>';
+				$html .= '</a></div>';
 			}
 
 			$html .= '</div>';

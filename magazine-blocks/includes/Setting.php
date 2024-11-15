@@ -23,6 +23,8 @@ class Setting {
 		'blocks'           => array(
 			'section'             => true,
 			'heading'             => true,
+			'icon'                => true,
+			'image'               => true,
 			'advertisement'       => true,
 			'banner-posts'        => true,
 			'grid-module'         => true,
@@ -35,6 +37,7 @@ class Setting {
 			'news-ticker'         => true,
 			'date-weather'        => true,
 			'social-icons'        => true,
+			'social-share'        => true,
 			'slider'              => true,
 		),
 		'editor'           => array(
@@ -65,7 +68,7 @@ class Setting {
 			'maintenance-page' => null,
 		),
 		'integrations'     => array(
-			'dateWeatherApiKey'     => '',
+			'dateWeatherApiKey'  => '',
 			'dateWeatherZipCode' => '',
 		),
 		'global-styles'    => '',
@@ -80,6 +83,8 @@ class Setting {
 		'blocks'           => array(
 			'section'        => 'magazine_blocks_string_to_bool',
 			'heading'        => 'magazine_blocks_string_to_bool',
+			'icon'           => 'magazine_blocks_string_to_bool',
+			'image'          => 'magazine_blocks_string_to_bool',
 			'paragraph'      => 'magazine_blocks_string_to_bool',
 			'button'         => 'magazine_blocks_string_to_bool',
 			'image'          => 'magazine_blocks_string_to_bool',
@@ -143,6 +148,7 @@ class Setting {
 	 */
 	public static function read() {
 		self::set_default_global_styles();
+		self::$data = apply_filters( 'magazine_blocks_default_settings', self::$data );
 		$settings   = get_option( '_magazine_blocks_settings', self::$data );
 		self::$data = magazine_blocks_parse_args( $settings, self::$data );
 		return self::$data;

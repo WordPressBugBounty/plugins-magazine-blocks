@@ -98,6 +98,14 @@
       "type": "boolean",
       "default": true
     },
+    "enableReadTime": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableViewCount": {
+      "type": "boolean",
+      "default": false
+    },
     "headingLayout": {
       "type": "string",
       "default": "heading-layout-1"

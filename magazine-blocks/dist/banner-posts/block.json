@@ -72,6 +72,14 @@
       "type": "string",
       "default": "all"
     },
+    "enableReadTime": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableViewCount": {
+      "type": "boolean",
+      "default": false
+    },
     "tag": {
       "type": "string",
       "default": "all"

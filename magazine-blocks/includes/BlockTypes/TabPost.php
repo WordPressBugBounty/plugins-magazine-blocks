@@ -50,8 +50,8 @@ class TabPost extends AbstractBlock {
 
 		$html .= '<div id="' . $css_id . '" class="mzb-tab-post mzb-tab-post-' . $client_id . ' ' . $class_name . '" data-active-tab="latest">';
 		$html .= '<div class="mzb-tab-controls">';
-		$html .= '<div data-tab="latest" class="mzb-tab-title active">Latest</div>';
-		$html .= '<div data-tab="popular" class="mzb-tab-title">Popular</div>';
+		$html .= '<div data-tab="latest" class="mzb-tab-title active">' . __( 'Latest', 'magazine-blocks' ) . '</div>';
+		$html .= '<div data-tab="popular" class="mzb-tab-title">' . __( 'Popular', 'magazine-blocks' ) . '</div>';
 		$html .= '</div>';
 
 		if ( $query->have_posts() ) {

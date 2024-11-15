@@ -73,6 +73,8 @@ class RestApi {
 			'magazineBlocksPostCommentsNumber' => array( $this, 'get_post_comments_number' ),
 			'magazineBlocksPostExcerpt'        => array( $this, 'get_post_excerpt' ),
 			'magazineBlocksPostCategories'     => array( $this, 'get_post_categories' ),
+			'magazineBlocksPostViewCount'      => [ $this, 'get_post_view_count' ],
+			'magazineBlocksPostReadTime'       => [ $this, 'get_post_read_time' ],
 		];
 
 		foreach ( $post_types as $post_type ) {
@@ -88,6 +90,33 @@ class RestApi {
 				);
 			}
 		}
+	}
+
+	/**
+	 * Get post view count.
+	 *
+	 * @param array $post Post data.
+	 *
+	 * @return array
+	 */
+	public function get_post_view_count( $post ) {
+		$count = get_post_meta( $post['id'], '_mzb_post_view_count', true );
+		return ! $count ? 0 : absint( $count );
+	}
+
+	/**
+	 * Get post read time.
+	 *
+	 * @param array $post Post data.
+	 *
+	 * @return array
+	 */
+	public function get_post_read_time( $post ) {
+		$words_per_minute = 200;
+		$content          = get_post_field( 'post_content', $post['id'] );
+		$word_count       = str_word_count( wp_strip_all_tags( $content ) );
+		$read_time        = ceil( $word_count / $words_per_minute );
+		return $read_time;
 	}
 
 	/**

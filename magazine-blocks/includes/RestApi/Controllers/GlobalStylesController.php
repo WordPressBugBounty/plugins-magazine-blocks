@@ -10,13 +10,13 @@ namespace MagazineBlocks\RestApi\Controllers;
 
 use MagazineBlocks\Setting;
 
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Setting controller.
  */
-class GlobalStylesController extends \WP_REST_Controller
-{
+class GlobalStylesController extends \WP_REST_Controller {
+
 
 	/**
 	 * The namespace of this controller's route.
@@ -37,21 +37,20 @@ class GlobalStylesController extends \WP_REST_Controller
 	 *
 	 * @return void
 	 */
-	public function register_routes()
-	{
+	public function register_routes() {
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base,
 			array(
 				array(
 					'methods'             => \WP_REST_Server::READABLE,
-					'callback'            => array($this, 'get_styles'),
-					'permission_callback' => array($this, 'get_styles_permissions_check'),
+					'callback'            => array( $this, 'get_styles' ),
+					'permission_callback' => array( $this, 'get_styles_permissions_check' ),
 				),
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
-					'callback'            => array($this, 'save_styles'),
-					'permission_callback' => array($this, 'save_styles_permissions_check'),
+					'callback'            => array( $this, 'save_styles' ),
+					'permission_callback' => array( $this, 'save_styles_permissions_check' ),
 					'args'                => $this->get_endpoint_args_for_item_schema(),
 				),
 			)
@@ -66,18 +65,17 @@ class GlobalStylesController extends \WP_REST_Controller
 	 *
 	 * @return WP_Error|WP_REST_Response
 	 */
-	public function save_styles($request)
-	{
+	public function save_styles( $request ) {
 		try {
 			$styles = $request->get_params();
 
-			unset($styles['_locale']);
+			unset( $styles['_locale'] );
 
-			$styles_json = json_encode($styles);
-			update_option('magazine-blocks_global_styles', $styles_json);
-			return new \WP_REST_Response('Styles updated successfully.', 200);
-		} catch (\Exception $e) {
-			return new \WP_Error('rest_setting_create_error', $e->getMessage(), array('status' => 500));
+			$styles_json = json_encode( $styles );
+			update_option( 'magazine-blocks_global_styles', $styles_json );
+			return new \WP_REST_Response( 'Styles updated successfully.', 200 );
+		} catch ( \Exception $e ) {
+			return new \WP_Error( 'rest_setting_create_error', $e->getMessage(), array( 'status' => 500 ) );
 		}
 	}
 
@@ -88,13 +86,12 @@ class GlobalStylesController extends \WP_REST_Controller
 	 *
 	 * @return true|\WP_Error
 	 */
-	public function get_styles_permissions_check($request)
-	{
-		if (!current_user_can('manage_options')) {
+	public function get_styles_permissions_check( $request ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__('You are not allowed to access this resource.', 'magazine-blocks'),
-				array('status' => rest_authorization_required_code())
+				esc_html__( 'You are not allowed to access this resource.', 'magazine-blocks' ),
+				array( 'status' => rest_authorization_required_code() )
 			);
 		}
 		return true;
@@ -107,13 +104,12 @@ class GlobalStylesController extends \WP_REST_Controller
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
 	 */
-	public function save_styles_permissions_check($request)
-	{
-		if (!current_user_can('manage_options')) {
+	public function save_styles_permissions_check( $request ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
-				esc_html__('You are not allowed to access this resource.', 'magazine-blocks'),
-				array('status' => rest_authorization_required_code())
+				esc_html__( 'You are not allowed to access this resource.', 'magazine-blocks' ),
+				array( 'status' => rest_authorization_required_code() )
 			);
 		}
 		return true;
@@ -126,11 +122,10 @@ class GlobalStylesController extends \WP_REST_Controller
 	 *
 	 * @return \WP_REST_Response
 	 */
-	public function get_styles($request): \WP_REST_Response
-	{
-		$styles = json_decode(get_option('magazine-blocks_global_styles', '{}'));
+	public function get_styles( $request ): \WP_REST_Response {
+		$styles = json_decode( get_option( 'magazine-blocks_global_styles', '{}' ) );
 
-		return new \WP_REST_Response($styles, 200);
+		return new \WP_REST_Response( $styles, 200 );
 	}
 
 	/**
@@ -138,8 +133,7 @@ class GlobalStylesController extends \WP_REST_Controller
 	 *
 	 * @return array
 	 */
-	public function get_item_schema()
-	{
+	public function get_item_schema() {
 		$schema = array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
 			'title'      => 'setting',
@@ -150,162 +144,170 @@ class GlobalStylesController extends \WP_REST_Controller
 				),
 				'blocks'           => array(
 					'type'        => 'object',
-					'description' => __('Blocks', 'magazine-blocks'),
+					'description' => __( 'Blocks', 'magazine-blocks' ),
 					'properties'  => array(
 						'section'           => array(
-							'description' => __('Section block', 'magazine-blocks'),
+							'description' => __( 'Section block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'heading'           => array(
-							'description' => __('Heading block', 'magazine-blocks'),
+							'description' => __( 'Heading block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
-						'paragraph'         => array(
-							'description' => __('Paragraph block', 'magazine-blocks'),
-							'type'        => 'boolean',
-						),
-						'button'            => array(
-							'description' => __('Button block', 'magazine-blocks'),
+						'icon'              => array(
+							'description' => __( 'Icon block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'image'             => array(
-							'description' => __('Image block', 'magazine-blocks'),
+							'description' => __( 'Image block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'paragraph'         => array(
+							'description' => __( 'Paragraph block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'button'            => array(
+							'description' => __( 'Button block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'image'             => array(
+							'description' => __( 'Image block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'countdown'         => array(
-							'description' => __('Countdown block', 'magazine-blocks'),
+							'description' => __( 'Countdown block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'counter'           => array(
-							'description' => __('Counter block', 'magazine-blocks'),
+							'description' => __( 'Counter block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'spacing'           => array(
-							'description' => __('Spacing block', 'magazine-blocks'),
+							'description' => __( 'Spacing block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'info-box'          => array(
-							'description' => __('Info box block', 'magazine-blocks'),
+							'description' => __( 'Info box block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'lottie'            => array(
-							'description' => __('Lottie animation block', 'magazine-blocks'),
+							'description' => __( 'Lottie animation block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'team'              => array(
-							'description' => __('Team block', 'magazine-blocks'),
+							'description' => __( 'Team block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'table-of-contents' => array(
-							'description' => __('Table of contents block', 'magazine-blocks'),
+							'description' => __( 'Table of contents block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'tabs'              => array(
-							'description' => __('Tabs block', 'magazine-blocks'),
+							'description' => __( 'Tabs block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'social-share'      => array(
-							'description' => __('Social share block', 'magazine-blocks'),
+							'description' => __( 'Social share block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'info'              => array(
-							'description' => __('Info block', 'magazine-blocks'),
+							'description' => __( 'Info block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'blockquote'        => array(
-							'description' => __('Blockquote block', 'magazine-blocks'),
+							'description' => __( 'Blockquote block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'timeline'          => array(
-							'description' => __('Timeline block', 'magazine-blocks'),
+							'description' => __( 'Timeline block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'notice'            => array(
-							'description' => __('Notice block', 'magazine-blocks'),
+							'description' => __( 'Notice block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'progress'          => array(
-							'description' => __('Progress block', 'magazine-blocks'),
+							'description' => __( 'Progress block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'call-to-action'    => array(
-							'description' => __('Call to action block', 'magazine-blocks'),
+							'description' => __( 'Call to action block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'slider'            => array(
-							'description' => __('Slider block', 'magazine-blocks'),
+							'description' => __( 'Slider block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'map'               => array(
-							'description' => __('Google maps block', 'magazine-blocks'),
+							'description' => __( 'Google maps block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'testimonial'       => array(
-							'description' => __('Testimonial block', 'magazine-blocks'),
+							'description' => __( 'Testimonial block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 					),
 				),
 				'editor'           => array(
 					'type'        => 'object',
-					'description' => __('Editor Options', 'magazine-blocks'),
+					'description' => __( 'Editor Options', 'magazine-blocks' ),
 					'properties'  => array(
 						'section-width'          => array(
 							'type'        => 'integer',
-							'description' => __('Default section max width', 'magazine-blocks'),
+							'description' => __( 'Default section max width', 'magazine-blocks' ),
 						),
 						'editor-blocks-spacing'  => array(
 							'type'        => 'integer',
-							'description' => __('Spacing between blocks in the block editor', 'magazine-blocks'),
+							'description' => __( 'Spacing between blocks in the block editor', 'magazine-blocks' ),
 						),
 						'design-library'         => array(
 							'type'        => 'boolean',
-							'description' => __('Collection of pre-made blocks', 'magazine-blocks'),
+							'description' => __( 'Collection of pre-made blocks', 'magazine-blocks' ),
 						),
 						'responsive-breakpoints' => array(
 							'type'        => 'object',
-							'description' => __('Responsive breakpoints', 'magazine-blocks'),
+							'description' => __( 'Responsive breakpoints', 'magazine-blocks' ),
 							'properties'  => array(
 								'tablet' => array(
 									'type'        => 'integer',
-									'description' => __('Tablet breakpoint', 'magazine-blocks'),
+									'description' => __( 'Tablet breakpoint', 'magazine-blocks' ),
 								),
 								'mobile' => array(
 									'type'        => 'integer',
-									'description' => __('Mobile breakpoint', 'magazine-blocks'),
+									'description' => __( 'Mobile breakpoint', 'magazine-blocks' ),
 								),
 							),
 						),
 						'copy-paste-styles'      => array(
 							'type'        => 'boolean',
-							'description' => __('Copy paste style for blocks', 'magazine-blocks'),
+							'description' => __( 'Copy paste style for blocks', 'magazine-blocks' ),
 						),
 						'auto-collapse-panels'   => array(
 							'type'        => 'boolean',
-							'description' => __('Panels behavior similar to accordion. Open one at a time', 'magazine-blocks'),
+							'description' => __( 'Panels behavior similar to accordion. Open one at a time', 'magazine-blocks' ),
 						),
 					),
 				),
 				'performance'      => array(
 					'type'        => 'object',
-					'description' => __('Performance', 'magazine-blocks'),
+					'description' => __( 'Performance', 'magazine-blocks' ),
 					'properties'  => array(
 						'local-google-fonts'        => array(
 							'type'        => 'boolean',
-							'description' => __('Load google fonts locally', 'magazine-blocks'),
+							'description' => __( 'Load google fonts locally', 'magazine-blocks' ),
 						),
 						'preload-local-fonts'       => array(
 							'type'        => 'boolean',
-							'description' => __('Preload local fonts', 'magazine-blocks'),
+							'description' => __( 'Preload local fonts', 'magazine-blocks' ),
 						),
 						'allow-only-selected-fonts' => array(
 							'type'        => 'boolean',
-							'description' => __('Allow only selected fonts', 'magazine-blocks'),
+							'description' => __( 'Allow only selected fonts', 'magazine-blocks' ),
 						),
 
 						'allowed-fonts'             => array(
 							'type'        => 'array',
-							'description' => __('Allowed fonts', 'magazine-blocks'),
+							'description' => __( 'Allowed fonts', 'magazine-blocks' ),
 							'items'       => array(
 								'type'       => 'object',
 								'properties' => array(
@@ -355,47 +357,47 @@ class GlobalStylesController extends \WP_REST_Controller
 				),
 				'asset-generation' => array(
 					'type'        => 'object',
-					'description' => __('Asset generation', 'magazine-blocks'),
+					'description' => __( 'Asset generation', 'magazine-blocks' ),
 					'properties'  => array(
 						'external-file' => array(
 							'type'        => 'boolean',
-							'description' => __('File generation', 'magazine-blocks'),
+							'description' => __( 'File generation', 'magazine-blocks' ),
 						),
 					),
 				),
 				'version-control'  => array(
 					'type'        => 'object',
-					'description' => __('Version control', 'magazine-blocks'),
+					'description' => __( 'Version control', 'magazine-blocks' ),
 					'properties'  => array(
 						'beta-tester' => array(
 							'type'        => 'boolean',
-							'description' => __('Beta tester', 'magazine-blocks'),
+							'description' => __( 'Beta tester', 'magazine-blocks' ),
 						),
 					),
 				),
 				'integrations'     => array(
 					'type'        => 'object',
-					'description' => __('Third party integrations', 'magazine-blocks'),
+					'description' => __( 'Third party integrations', 'magazine-blocks' ),
 					'properties'  => array(
 						'google-maps-embed-api-key' => array(
 							'type'        => 'string',
-							'description' => __('Google maps embed api key', 'magazine-blocks'),
+							'description' => __( 'Google maps embed api key', 'magazine-blocks' ),
 						),
 					),
 				),
 				'maintenance-mode' => array(
 					'type'        => 'object',
-					'description' => __('Maintenance mode', 'magazine-blocks'),
+					'description' => __( 'Maintenance mode', 'magazine-blocks' ),
 					'properties'  => array(
 						'maintenance-mode' => array(
 							'type'        => 'boolean',
-							'description' => __('Enable or disable maintenance mode', 'magazine-blocks'),
+							'description' => __( 'Enable or disable maintenance mode', 'magazine-blocks' ),
 						),
 						'maintenance-page' => array(
 							'oneOf' => array(
 								array(
 									'type'        => 'object',
-									'description' => __('Maintenance mode page data.', 'magazine-blocks'),
+									'description' => __( 'Maintenance mode page data.', 'magazine-blocks' ),
 									'properties'  => array(
 										'id'    => array(
 											'type' => 'number',
@@ -415,6 +417,6 @@ class GlobalStylesController extends \WP_REST_Controller
 			),
 		);
 
-		return $this->add_additional_fields_schema($schema);
+		return $this->add_additional_fields_schema( $schema );
 	}
 }

@@ -32,6 +32,9 @@ use MagazineBlocks\BlockTypes\AbstractBlock;
 use MagazineBlocks\BlockTypes\LatestPosts;
 use MagazineBlocks\BlockTypes\SocialIcons;
 use MagazineBlocks\BlockTypes\SocialIcon;
+use MagazineBlocks\BlockTypes\Icon;
+use MagazineBlocks\BlockTypes\Image;
+use MagazineBlocks\BlockTypes\SocialShare;
 use WP_Query;
 
 /**
@@ -98,6 +101,19 @@ final class Blocks {
 		add_action( 'save_post', array( $this, 'maybe_clear_block_styles' ), 10, 3 );
 		add_action( 'delete_post', array( $this, 'maybe_clear_block_styles' ), 10, 2 );
 		add_action( 'magazine_blocks_responsive_breakpoints_changed', array( $this, 'regenerate_block_styles' ) );
+		add_action(
+			'wp_head',
+			function () {
+				if ( ! is_single() ) {
+					return;
+				}
+				$id   = get_the_ID();
+				$view = get_post_meta( $id, '_mzb_post_view_count', true );
+				$view = ! $view ? 0 : $view;
+				$view++;
+				update_post_meta( $id, '_mzb_post_view_count', $view );
+			}
+		);
 	}
 
 	/**
@@ -198,6 +214,9 @@ final class Blocks {
 				SocialIcon::class,
 				Modal::class,
 				LatestPosts::class,
+				Image::class,
+				Icon::class,
+				SocialShare::class,
 			)
 		);
 	}

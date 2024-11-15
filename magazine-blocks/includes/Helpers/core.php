@@ -95,7 +95,7 @@ function magazine_blocks_get_post_types(): array {
 			),
 			'objects'
 		),
-		function( $post_type ) {
+		function ( $post_type ) {
 			return ! in_array( $post_type->name, array( 'revision', 'nav_menu_item', 'attachment' ), true );
 		}
 	);
@@ -247,7 +247,7 @@ function magazine_blocks_generate_blocks_styles( array &$blocks, $id = null, boo
  * @return array Array of blocks.
  */
 function magazine_blocks_get_widget_blocks() {
-	$callback = function( $acc, $curr ) {
+	$callback = function ( $acc, $curr ) {
 		if ( ! empty( $curr['content'] ) ) {
 			$acc .= $curr['content'];
 		}
@@ -345,16 +345,22 @@ function magazine_blocks_build_html_attrs( $attributes = array(), $echo_attribut
 			if ( is_array( $value ) ) {
 				$value = implode( ' ', array_filter( $value ) );
 			}
+			$value = strval( $value );
+			if ( '' === $value ) {
+				continue;
+			}
+			$esc_func = 'src' === $key ? 'esc_url' : 'esc_attr';
 
 			if ( $echo_attributes ) {
-				echo ' ' . esc_attr( $key ) . '="' . esc_attr( $value ) . '"' . ( $length === $index + 1 ? ' ' : '' );
+				echo ' ' . esc_attr( $key ) . '="' . call_user_func_array( $esc_func, [ $value ] ) . '"' . ( $length === $index + 1 ? ' ' : '' ); // phpcs:ignore -- see: L:348
 			} else {
-				$attrs .= ' ' . esc_attr( $key ) . '="' . esc_attr( $value ) . '"' . ( $length === $index + 1 ? ' ' : '' );
+				$attrs .= ' ' . esc_attr( $key ) . '="' . call_user_func_array( $esc_func, [ $value ] ) . '"' . ( $length === $index + 1 ? ' ' : '' );
 			}
 		}
 		++$index;
 	}
-	return ! $echo_attributes ? true : $attrs;
+
+	return $attrs;
 }
 
 /**
