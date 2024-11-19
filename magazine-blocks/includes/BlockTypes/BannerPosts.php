@@ -134,8 +134,8 @@ class BannerPosts extends AbstractBlock {
 		$html = '';
 
 		if ( $query->have_posts() ) {
-			$html .= '<div class="mzb-banner-posts mzb-banner-posts-' . $client_id . ' ' . $class_name . '">';
-			$html .= '<div class="mzb-posts mzb-' . $layout . ' mzb-' . $advanced_style . '">';
+			$html .= '<div class="mzb-banner-posts mzb-banner-posts-' . esc_attr( $client_id ) . ' ' . esc_attr( $class_name ) . '">';
+			$html .= '<div class="mzb-posts mzb-' . esc_attr( $layout ) . ' mzb-' . esc_attr( $advanced_style ) . '">';
 
 			$first_post = true; // Track the first post.
 

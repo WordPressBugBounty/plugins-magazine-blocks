@@ -203,7 +203,7 @@
       ]
     },
     "topSeparator": {
-      "type": "object", 
+      "type": "object",
       "default": {
         "topSeparator": 1,
         "topSeparatorIcon": "top_separator_1"
@@ -343,7 +343,7 @@
       "type": "string"
     }
   },
-  "style": "magazine-blocks",
-  "editorScript": "magazine-blocks",
-  "editorStyle": "magazine-blocks-editor"
+  "style": "magazine-blocks-blocks",
+  "editorScript": "magazine-blocks-blocks",
+  "editorStyle": "magazine-blocks-blocks-editor"
 }

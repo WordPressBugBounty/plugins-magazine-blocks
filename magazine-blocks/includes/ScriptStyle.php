@@ -214,12 +214,12 @@ class ScriptStyle {
 
 	/**
 	 * Register styles.
-	 *
+	 *S
 	 * @return void
 	 */
 	public function register_styles() {
 		foreach ( $this->styles as $handle => $style ) {
-			wp_register_style( "magazine-$handle", $style['src'], $style['deps'], $style['version'] );
+			wp_register_style( "magazine-blocks-$handle", $style['src'], $style['deps'], $style['version'] );
 		}
 	}
 

@@ -139,7 +139,7 @@
       "default": ""
     }
   },
-  "style": "magazine-blocks",
-  "editorScript": "magazine-blocks",
-  "editorStyle": "magazine-blocks-editor"
+  "style": "magazine-blocks-blocks",
+  "editorScript": "magazine-blocks-blocks",
+  "editorStyle": "magazine-blocks-blocks-editor"
 }

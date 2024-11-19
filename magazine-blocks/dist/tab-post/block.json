@@ -3,7 +3,11 @@
   "name": "magazine-blocks/tab-post",
   "title": "Tab Post",
   "description": "Display the latest and popular posts in tabbed design",
-  "keywords": [ "tab-post", "tab", "post" ],
+  "keywords": [
+    "tab-post",
+    "tab",
+    "post"
+  ],
   "category": "magazine-blocks",
   "textdomain": "magazine-blocks",
   "supports": {
@@ -38,39 +42,61 @@
     },
     "tabBackground": {
       "type": "object",
-      "default": { "background": 1 },
-      "style": [{ "selector": "{{WRAPPER}} .mzb-tab-title.active" }]
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-tab-title.active"
+        }
+      ]
     },
     "tabTypography": {
       "type": "object",
-      "default": { "typography": 1, "weight": 500 },
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
       "style": [
-        { "selector": "{{WRAPPER}} .mzb-tab-title" }
+        {
+          "selector": "{{WRAPPER}} .mzb-tab-title"
+        }
       ]
     },
     "tabColor": {
       "type": "string",
       "style": [
-        { "selector": "{{WRAPPER}} .mzb-tab-title {color: {{VALUE}}; }" }
+        {
+          "selector": "{{WRAPPER}} .mzb-tab-title {color: {{VALUE}}; }"
+        }
       ]
     },
     "postTitleTypography": {
       "type": "object",
-      "default": { "typography": 1, "weight": 500 },
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
       "style": [
-        { "selector": "{{WRAPPER}} .mzb-post-title a" }
+        {
+          "selector": "{{WRAPPER}} .mzb-post-title a"
+        }
       ]
     },
     "postTitleColor": {
       "type": "string",
       "style": [
-        { "selector": "{{WRAPPER}} .mzb-post-title a {color: {{VALUE}}; }" }
+        {
+          "selector": "{{WRAPPER}} .mzb-post-title a {color: {{VALUE}}; }"
+        }
       ]
     },
     "postTitleHoverColor": {
       "type": "string",
       "style": [
-        { "selector": "{{WRAPPER}} .mzb-post-title a:hover {color: {{VALUE}}; }" }
+        {
+          "selector": "{{WRAPPER}} .mzb-post-title a:hover {color: {{VALUE}}; }"
+        }
       ]
     },
     "blockHTML": {
@@ -147,8 +173,8 @@
       "type": "string"
     }
   },
-  "style": "magazine-blocks",
-  "editorScript": "magazine-blocks",
-  "editorStyle": "magazine-blocks-editor",
+  "style": "magazine-blocks-blocks",
+  "editorScript": "magazine-blocks-blocks",
+  "editorStyle": "magazine-blocks-blocks-editor",
   "viewScript": "magazine-blocks-frontend-tab-post"
 }
