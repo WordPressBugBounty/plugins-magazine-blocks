@@ -3,7 +3,10 @@
   "name": "magazine-blocks/post-video",
   "title": "Post Video",
   "description": "Uses WordPress video post format to list videos from YouTube",
-  "keywords": [ "post-video", "video" ],
+  "keywords": [
+    "post-video",
+    "video"
+  ],
   "category": "magazine-blocks",
   "textdomain": "magazine-blocks",
   "supports": {
@@ -39,14 +42,22 @@
       "type": "number",
       "default": 4
     },
+    "offset": {
+      "type": "number",
+      "default": 0
+    },
     "radius": {
       "type": "object",
       "default": {
         "dimension": 1,
-        "desktop": { "lock": true }
+        "desktop": {
+          "lock": true
+        }
       },
       "style": [
-        { "selector": "{{WRAPPER}} .mzb-post { border-radius: {{VALUE}}; }" }
+        {
+          "selector": "{{WRAPPER}} .mzb-post { border-radius: {{VALUE}}; }"
+        }
       ]
     },
     "size": {

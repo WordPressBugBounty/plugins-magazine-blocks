@@ -99,6 +99,10 @@
     "excludedCategory": {
       "type": "array"
     },
+    "offset": {
+      "type": "number",
+      "default": 0
+    },
     "postBoxHeight": {
       "type": "object",
       "default": {

@@ -83,6 +83,10 @@
         }
       ]
     },
+    "offset": {
+      "type": "number",
+      "default": 0
+    },
     "column": {
       "type": "number",
       "default": 4

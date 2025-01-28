@@ -97,6 +97,10 @@
       "type": "number",
       "default": 4
     },
+    "offset": {
+      "type": "number",
+      "default": 0
+    },
     "postBoxBackground": {
       "type": "object",
       "default": {
