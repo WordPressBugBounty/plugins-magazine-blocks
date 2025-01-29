@@ -2,9 +2,9 @@
 Contributors: WPBlockArt
 Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.3.22
+Stable tag: 1.3.23
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,9 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.3.23 - 29/01/2025 =
+* Tweak - Update `Tested up to`.
+
 = 1.3.22 - 28-01-2025 =
 * Feature - Offset option on post blocks.
 * Fix - Translation ready titles in Tab Post Block.
