@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.3.23
+Stable tag: 1.3.24
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,10 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.3.24 - 13/02/2025 =
+* Fix         - Add link to the posts count in Category List block.
+* Enhancement - Option to add longitude and latitude for Date and Weather block .
+
 = 1.3.23 - 29/01/2025 =
 * Tweak - Update `Tested up to`.
 

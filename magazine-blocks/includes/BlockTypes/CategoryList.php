@@ -87,7 +87,7 @@ class CategoryList extends AbstractBlock {
 			$html  .= '<span class="mzb-post-categories"><a href="' . get_category_link( $cat_id ) . '">' . get_cat_name( $cat_id ) . '</a></span>';
 			$html  .= '</div>';
 			$html  .= '<div class="mzb-post-count-wrapper">';
-			$html  .= '<div class="mzb-post-count"><a href="#"> ' . $category->category_count . '</a><a href="#"> Posts </a></div>';
+			$html  .= '<div class="mzb-post-count"><a href="' . get_category_link( $cat_id ) . '"> ' . $category->category_count . ' Posts </a></div>';
 			$html  .= '</div>';
 			$html  .= '</div>';
 		}

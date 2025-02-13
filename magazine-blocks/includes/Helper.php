@@ -11,7 +11,7 @@ class Helper {
 	private static $instance;
 
 	public static function getInstance() {
-		if (!isset(self::$instance)) {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
 		return self::$instance;
@@ -60,16 +60,35 @@ class Helper {
 
 		$api       = magazine_blocks_get_setting( 'integrations.dateWeatherApiKey' );
 		$postal    = magazine_blocks_get_setting( 'integrations.dateWeatherZipCode' );
+		$lat       = magazine_blocks_get_setting( 'integrations.dateWeatherLatitude' );
+		$lon       = magazine_blocks_get_setting( 'integrations.dateWeatherLongitude' );
+		$unit      = magazine_blocks_get_setting( 'integrations.dateWeatherUnit', 'imperial' );
 		$transient = get_transient( 'show_temp' );
 
 		if ( ! empty( $transient ) ) {
 			return $transient;
 		}
 
-		if ( empty( $api ) && empty( $postal ) ) {
+		if ( empty( $api ) ) {
 			return '';
 		}
-		$url = 'http://api.openweathermap.org/data/2.5/weather?zip=' . $postal . ',us&units=imperial&APPID=' . $api . '';
+
+		if ( empty( $lat ) && empty( $lon ) && $postal ) {
+
+			$geo_api = 'http://api.openweathermap.org/geo/1.0/zip?zip=' . $postal . ',us&units=imperial&APPID=' . $api . '';
+
+			$response = wp_remote_get( $geo_api );
+			$body     = $response['body'];
+			$resp     = json_decode( $body );
+			$lat      = $resp->lat;
+			$lon      = $resp->lon;
+		}
+
+		if ( empty( $lat ) || empty( $lon ) ) {
+			return;
+		}
+
+		$url = 'http://api.openweathermap.org/data/2.5/weather?lat=' . $lat . '&lon=' . $lon . '&units=' . $unit . '&APPID=' . $api . '';
 
 		$response = wp_remote_get( $url );
 
@@ -89,18 +108,35 @@ class Helper {
 
 		$api       = magazine_blocks_get_setting( 'integrations.dateWeatherApiKey' );
 		$postal    = magazine_blocks_get_setting( 'integrations.dateWeatherZipCode' );
+		$lat       = magazine_blocks_get_setting( 'integrations.dateWeatherLatitude' );
+		$lon       = magazine_blocks_get_setting( 'integrations.dateWeatherLongitude' );
+		$unit      = magazine_blocks_get_setting( 'integrations.dateWeatherUnit', 'imperial' );
 		$transient = get_transient( 'show_weather' );
 
 		if ( ! empty( $transient ) ) {
 			return $transient;
 		}
-		if ( empty( $api ) && empty( $postal ) ) {
+		if ( empty( $api ) ) {
 			return '';
 		}
 
-			$url = 'http://api.openweathermap.org/data/2.5/weather?zip=' . $postal . ',us&units=imperial&APPID=' . $api . '';
+		if ( empty( $lat ) && empty( $lon ) && $postal ) {
 
-			$response = wp_remote_get( $url );
+			$geo_api = 'http://api.openweathermap.org/geo/1.0/zip?zip=' . $postal . ',us&units=imperial&APPID=' . $api . '';
+
+			$response = wp_remote_get( $geo_api );
+			$body     = $response['body'];
+			$resp     = json_decode( $body );
+			$lat      = $resp->lat;
+			$lon      = $resp->lon;
+		}
+
+		if ( empty( $lat ) || empty( $lon ) ) {
+			return;
+		}
+		$url = 'http://api.openweathermap.org/data/2.5/weather?lat=' . $lat . '&lon=' . $lon . '&units=' . $unit . '&APPID=' . $api . '';
+
+		$response = wp_remote_get( $url );
 
 		if ( is_array( $response ) ) {
 			$body    = $response['body'];
@@ -118,17 +154,34 @@ class Helper {
 
 		$api       = magazine_blocks_get_setting( 'integrations.dateWeatherApiKey' );
 		$postal    = magazine_blocks_get_setting( 'integrations.dateWeatherZipCode' );
+		$lat       = magazine_blocks_get_setting( 'integrations.dateWeatherLatitude' );
+		$lon       = magazine_blocks_get_setting( 'integrations.dateWeatherLongitude' );
+		$unit      = magazine_blocks_get_setting( 'integrations.dateWeatherUnit', 'imperial' );
 		$transient = get_transient( 'show_location' );
 
 		if ( ! empty( $transient ) ) {
 			return $transient;
 		}
-		if ( empty( $api ) && empty( $postal ) ) {
+		if ( empty( $api ) ) {
 			return;
 		}
-			$url = 'http://api.openweathermap.org/data/2.5/weather?zip=' . $postal . ',us&units=imperial&APPID=' . $api . '';
+		if ( empty( $lat ) && empty( $lon ) && $postal ) {
 
-			$response = wp_remote_get( $url );
+			$geo_api = 'http://api.openweathermap.org/geo/1.0/zip?zip=' . $postal . ',us&units=imperial&APPID=' . $api . '';
+
+			$response = wp_remote_get( $geo_api );
+			$body     = $response['body'];
+			$resp     = json_decode( $body );
+			$lat      = $resp->lat;
+			$lon      = $resp->lon;
+		}
+
+		if ( empty( $lat ) || empty( $lon ) ) {
+			return;
+		}
+		$url = 'http://api.openweathermap.org/data/2.5/weather?lat=' . $lat . '&lon=' . $lon . '&units=' . $unit . '&APPID=' . $api . '';
+
+		$response = wp_remote_get( $url );
 
 		if ( is_array( $response ) ) {
 			$body     = $response['body'];

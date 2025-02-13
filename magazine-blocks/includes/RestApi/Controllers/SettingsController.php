@@ -344,13 +344,25 @@ class SettingsController extends \WP_REST_Controller {
 					'type'        => 'object',
 					'description' => __( 'Third party integrations', 'magazine-blocks' ),
 					'properties'  => array(
-						'dateWeatherApiKey'  => array(
+						'dateWeatherApiKey'    => array(
 							'type'        => 'string',
 							'description' => __( 'Newsticker api key', 'magazine-blocks' ),
 						),
-						'dateWeatherZipCode' => array(
+						'dateWeatherZipCode'   => array(
 							'type'        => 'string',
 							'description' => __( 'Newsticker api key', 'magazine-blocks' ),
+						),
+						'dateWeatherLatitude'  => array(
+							'type'        => 'string',
+							'description' => __( 'Latitude', 'magazine-blocks' ),
+						),
+						'dateWeatherLongitude' => array(
+							'type'        => 'string',
+							'description' => __( 'Longitude', 'magazine-blocks' ),
+						),
+						'dateWeatherUnit'      => array(
+							'type'        => 'string',
+							'description' => __( 'Unit', 'magazine-blocks' ),
 						),
 					),
 				),

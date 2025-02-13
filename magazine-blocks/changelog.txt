@@ -1,4 +1,8 @@
 == Changelog ==
+= 1.3.24 - 13/02/2025 =
+* Fix         - Add link to the posts count in Category List block.
+* Enhancement - Option to add longitude and latitude for Date and Weather block .
+
 = 1.3.23 - 29/01/2025 =
 * Tweak - Update `Tested up to`.
 
