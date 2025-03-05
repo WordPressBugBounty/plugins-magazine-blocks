@@ -52,7 +52,8 @@ class Admin {
 			'manage_options',
 			'magazine-blocks',
 			array( $this, 'markup' ),
-			'data:image/svg+xml;base64,' . base64_encode( '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 22H2V2h20zM3 21h18V3H3z" fill="#fff"/><path d="M13.46 10l-1.39-5-1.39 5zm.92 3H9.77l-1 4.46V19h6.4v-1.52z" fill="#fff" fill-rule="evenodd"/></svg>' ) // phpcs:ignore
+			'data:image/svg+xml;base64,' . base64_encode(
+				'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#F3F1F1"><path d="M10.155 15.105H4.803V5.273l5.352 3.343v6.49Zm5.341 0h-5.341v-6.49l5.341-3.342v9.832Z"/><path d="M18 18.057H2V2h16v16.057Zm-15.276-.723h14.564V2.724H2.724v14.61Z"/></svg>' ) // phpcs:ignore
 		);
 
 		$submenus = $this->get_submenus();

@@ -29,9 +29,10 @@
     },
     "alignment": {
       "type": "object",
+      "default": "start",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-advertisement-content  {justify-content: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-advertisement-content.mzb-has-image {align-items: {{VALUE}}; }"
         }
       ]
     },

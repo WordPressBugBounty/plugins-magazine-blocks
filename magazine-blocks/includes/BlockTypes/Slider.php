@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Slider block.
  *
@@ -16,6 +17,9 @@ defined( 'ABSPATH' ) || exit;
  */
 class Slider extends AbstractBlock {
 
+
+
+
 	/**
 	 * Block name.
 	 *
@@ -32,7 +36,7 @@ class Slider extends AbstractBlock {
 		$class_name        = magazine_blocks_array_get( $attributes, 'className', '' );
 		$post_count        = magazine_blocks_array_get( $attributes, 'postCount', '' );
 		$slider_style      = magazine_blocks_array_get( $attributes, 'sliderStyle', 'style1' );
-		$slides_per_view   = 'style3' === $slider_style ? magazine_blocks_array_get( $attributes, 'slidesPerView', '1' ) : '';
+		$slides_per_view   = ( 'style3' === $slider_style || 'style4' === $slider_style ) ? magazine_blocks_array_get( $attributes, 'slidesPerView', '1' ) : '';
 		$slider_args       = array(
 			'speed'         => magazine_blocks_array_get( $attributes, 'sliderSpeed', '' ),
 			'autoplay'      => magazine_blocks_array_get( $attributes, 'enableAutoPlay', 'true' ),
@@ -59,8 +63,15 @@ class Slider extends AbstractBlock {
 		$enable_readmore = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
 		$read_more_text  = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
 
+		// Hide on Desktop.
+		$hide_on_desktop = magazine_blocks_array_get( $attributes, 'hideOnDesktop', '' );
+
+		// Arrow Position.
+		$enable_arrow   = magazine_blocks_array_get( $attributes, 'enableArrow', '' );
+		$arrow_position = magazine_blocks_array_get( $attributes, 'arrowPosition', 'center' );
+
 		//slider style
-		$slider_style = magazine_blocks_array_get( $attributes, 'sliderStyle', 'style2' );
+		$slider_style = magazine_blocks_array_get( $attributes, 'sliderStyle', 'style1' );
 
 		// Define the custom excerpt length function as an anonymous function
 		$custom_excerpt_length = function ( $length ) use ( $excerpt_limit ) {
@@ -88,7 +99,12 @@ class Slider extends AbstractBlock {
 		$html = '';
 
 		if ( $query->have_posts() ) {
-			$html .= '<div class="mzb-slider mzb-slider-' . $client_id . ' ' . $class_name . '">';
+			$html .= '<div class="mzb-slider mzb-slider-' . $client_id . ' ' . $class_name .
+				( $hide_on_desktop ? 'magazine-blocks-hide-on-desktop' : '' ) . 'mzb-arrow-position-' . $arrow_position . '">';
+			if ( 'top' === $arrow_position && $enable_arrow ) {
+				$html .= '<div class="swiper-button-prev"></div>';
+				$html .= '<div class="swiper-button-next"></div>';
+			}
 			$html .= '<div class="swiper" data-swiper=' . htmlspecialchars_decode( wp_json_encode( $slider_args ) ) . '>';
 			$html .= '<div class="swiper-wrapper">';
 
@@ -147,10 +163,18 @@ class Slider extends AbstractBlock {
 			}
 
 			$html .= '</div>';
+			if ( 'center' === $arrow_position && $enable_arrow ) {
+				$html .= '<div class="swiper-button-prev"></div>';
+				$html .= '<div class="swiper-button-next"></div>';
+			}
 			$html .= '</div>';
+			if ( 'bottom' === $arrow_position && $enable_arrow ) {
+				$html .= '<div class="swiper-button-prev"></div>';
+				$html .= '<div class="swiper-button-next"></div>';
+			}
 			$html .= '</div>';
 			wp_reset_postdata();
 		}
-			return $html;
+		return $html;
 	}
 }

@@ -22,6 +22,51 @@
 
 		/*Lets init*/
 		init();
+
+		// Add arrow click handlers when arrows are enabled
+		if (opts.controls.prev || opts.controls.next) {
+			// Previous button click handler
+			$(opts.controls.prev).on("click", function (e) {
+				e.preventDefault();
+				handleNavigation("prev");
+			});
+
+			// Next button click handler
+			$(opts.controls.next).on("click", function (e) {
+				e.preventDefault();
+				handleNavigation("next");
+			});
+
+			// Or use class-based selectors if controls are added directly in HTML
+			$(".mzb-news-ticker-nav-btn.prev").on("click", function (e) {
+				e.preventDefault();
+				handleNavigation("prev");
+			});
+
+			$(".mzb-news-ticker-nav-btn.next").on("click", function (e) {
+				e.preventDefault();
+				handleNavigation("next");
+			});
+		}
+
+		function handleNavigation(direction) {
+			// Clear any existing animations and intervals
+			clearInterval(intervalID);
+			intervalID = false;
+			thisTicker.find("li").stop(true, true);
+
+			// Trigger the animation
+			switch (opts.type) {
+				case "vertical":
+				case "horizontal":
+					vertiZontal(direction);
+					break;
+				case "typewriter":
+					typeWriter(direction);
+					break;
+			}
+		}
+
 		function init() {
 			switch (opts.type) {
 				case "vertical":
@@ -169,6 +214,8 @@
 				intervalID = setInterval(type, speed);
 			}
 		}
+
+		return this;
 	};
 
 	// plugin defaults - added as a property on our plugin function
@@ -197,6 +244,10 @@
 			direction: "up",
 			autoplay: 2000,
 			speed: 1000,
+			controls: {
+				prev: ".mzb-news-ticker-nav-btn.prev",
+				next: ".mzb-news-ticker-nav-btn.next",
+			},
 		});
 	});
 })(jQuery);

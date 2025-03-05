@@ -177,6 +177,7 @@ class PostList extends AbstractBlock {
 						$html .= $enable_viewcount ? $view_count : '';
 						$html .= '</div>';
 						$html .= $title;
+						$html .= '</div>';
 					}
 				} elseif ( 'bottom' === $meta_position ) {
 					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
@@ -187,6 +188,7 @@ class PostList extends AbstractBlock {
 						$html .= $enable_date ? $date : '';
 						$html .= $enable_readtime ? $read_time : '';
 						$html .= $enable_viewcount ? $view_count : '';
+						$html .= '</div>';
 					}
 				}
 
@@ -196,7 +198,6 @@ class PostList extends AbstractBlock {
 					$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
 					$html .= '</div>';
 				}
-				$html .= '</div>';
 				$html .= '</div>';
 			}
 

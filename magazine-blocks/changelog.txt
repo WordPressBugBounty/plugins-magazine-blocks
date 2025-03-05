@@ -1,4 +1,14 @@
 == Changelog ==
+= 1.3.25 - 05/03/2025 =
+* Fix - Post Lists block layout in frontend.
+* Fix - Grid Module block column styles.
+* Feature - View All Button Option in Post Blocks.
+* Feature - New Preset for slider block style.
+* Feature - News ticker block arrows option.
+* Enhancement - Dashboard color and icons.
+* Enhancement - Advertisement Block.
+* Enhancement - Refine block lists on dashboard.
+
 = 1.3.24 - 13/02/2025 =
 * Fix         - Add link to the posts count in Category List block.
 * Enhancement - Option to add longitude and latitude for Date and Weather block .

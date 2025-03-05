@@ -203,10 +203,6 @@ class SettingsController extends \WP_REST_Controller {
 							'description' => __( 'Social Icons block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
-						'social-share'        => array(
-							'description' => __( 'Social Share block', 'magazine-blocks' ),
-							'type'        => 'boolean',
-						),
 						'slider'              => array(
 							'description' => __( 'Slider block', 'magazine-blocks' ),
 							'type'        => 'boolean',

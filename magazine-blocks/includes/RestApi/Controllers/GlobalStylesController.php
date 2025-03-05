@@ -170,10 +170,6 @@ class GlobalStylesController extends \WP_REST_Controller {
 							'description' => __( 'Button block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
-						'image'             => array(
-							'description' => __( 'Image block', 'magazine-blocks' ),
-							'type'        => 'boolean',
-						),
 						'countdown'         => array(
 							'description' => __( 'Countdown block', 'magazine-blocks' ),
 							'type'        => 'boolean',
@@ -206,8 +202,8 @@ class GlobalStylesController extends \WP_REST_Controller {
 							'description' => __( 'Tabs block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
-						'social-share'      => array(
-							'description' => __( 'Social share block', 'magazine-blocks' ),
+						'social-icons'      => array(
+							'description' => __( 'Social icons block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'info'              => array(

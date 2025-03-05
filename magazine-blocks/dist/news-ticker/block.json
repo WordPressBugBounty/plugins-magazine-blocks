@@ -3,7 +3,9 @@
   "name": "magazine-blocks/news-ticker",
   "title": "News Ticker",
   "description": "Sliding posts to show breaking news",
-  "keywords": [ "news-ticker" ],
+  "keywords": [
+    "news-ticker"
+  ],
   "category": "magazine-blocks",
   "textdomain": "magazine-blocks",
   "supports": {
@@ -27,6 +29,10 @@
         "enable": true,
         "icon": "flash"
       }
+    },
+    "enableArrows": {
+      "type": "boolean",
+      "default": false
     },
     "blockHTML": {
       "type": "string",

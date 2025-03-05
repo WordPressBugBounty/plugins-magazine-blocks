@@ -33,6 +33,7 @@ class NewsTicker extends AbstractBlock {
 		$post_count = magazine_blocks_array_get( $attributes, 'postCount', '' );
 		$label      = magazine_blocks_array_get( $attributes, 'label', '' );
 		$icon       = magazine_blocks_array_get( $attributes, 'icon', '' );
+		$arrows     = magazine_blocks_array_get( $attributes, 'enableArrows', false );
 		$get_icon   = magazine_blocks_get_icon( $icon['icon'], false );
 
 		$args = array(
@@ -50,7 +51,12 @@ class NewsTicker extends AbstractBlock {
 			$date  = '<span class ="mzb-weather">' . $get_icon . '</span>';
 			$html .= $date;
 			$html .= '<span class ="mzb-heading">' . $label . '</span>';
-			$html .= '<div class="mzb-news-ticker-box">';
+			$html .= '<div class="mzb-news-ticker-box' . ( $arrows ? ' mzb-news-ticker-arrows' : '' ) . '" data-total-posts="' . esc_attr( $query->post_count ) . '">';
+
+			if ( $arrows ) {
+				$html .= '<a href="#" class="mzb-news-ticker-nav-btn prev" data-action="prev" aria-label="Previous"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.3 2l-10 10.1 10 10 1.4-1.4-8.5-8.6 8.6-8.7L16.3 2z" /></svg></a>';
+			}
+
 			$html .= '<ul class="mzb-news-ticker-list">';
 			while ( $query->have_posts() ) {
 				$query->the_post();
@@ -63,6 +69,11 @@ class NewsTicker extends AbstractBlock {
 			}
 
 			$html .= '</ul>';
+
+			if ( $arrows ) {
+				$html .= '<a href="#" class="mzb-news-ticker-nav-btn next" data-action="next" aria-label="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.6 3.4l8.7 8.6-8.7 8.7L8 22.1 18 12 8 2 6.6 3.4z" /></svg></a>';
+			}
+
 			$html .= '</div>';
 			$html .= '</div>';
 			wp_reset_postdata();

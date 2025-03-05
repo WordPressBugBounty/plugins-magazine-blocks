@@ -156,8 +156,6 @@ return array(
     'MagazineBlocks\\BlockTypes\\Slider' => $baseDir . '/includes/BlockTypes/Slider.php',
     'MagazineBlocks\\BlockTypes\\SocialIcon' => $baseDir . '/includes/BlockTypes/SocialIcon.php',
     'MagazineBlocks\\BlockTypes\\SocialIcons' => $baseDir . '/includes/BlockTypes/SocialIcons.php',
-    'MagazineBlocks\\BlockTypes\\SocialInner' => $baseDir . '/includes/BlockTypes/SocialInner.php',
-    'MagazineBlocks\\BlockTypes\\SocialShare' => $baseDir . '/includes/BlockTypes/SocialShare.php',
     'MagazineBlocks\\BlockTypes\\TabPost' => $baseDir . '/includes/BlockTypes/TabPost.php',
     'MagazineBlocks\\Blocks' => $baseDir . '/includes/Blocks.php',
     'MagazineBlocks\\Deactivation' => $baseDir . '/includes/Deactivation.php',

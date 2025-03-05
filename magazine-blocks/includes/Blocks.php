@@ -34,7 +34,6 @@ use MagazineBlocks\BlockTypes\SocialIcons;
 use MagazineBlocks\BlockTypes\SocialIcon;
 use MagazineBlocks\BlockTypes\Icon;
 use MagazineBlocks\BlockTypes\Image;
-use MagazineBlocks\BlockTypes\SocialShare;
 use WP_Query;
 
 /**
@@ -216,7 +215,6 @@ final class Blocks {
 				LatestPosts::class,
 				Image::class,
 				Icon::class,
-				SocialShare::class,
 			)
 		);
 	}
