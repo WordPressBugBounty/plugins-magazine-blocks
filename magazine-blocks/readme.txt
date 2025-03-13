@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.3.26
+Stable tag: 1.3.28
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,25 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.3.28 - 13/03/2025 =
+* Fix - Title markup change on banner posts.
+* Fix - Typography for posts in Banner Post block.
+* Fix - Hover color and hover background color in Banner Post.
+* Fix - Pagination Border options.
+* Fix -  Pagination Border color popover design in all blocks.
+* Fix - Spacing of advanced controls options.
+* Enhancement - Adjust inline spacing of select control.
+* Enhancement - Update the toggle button control styles.
+* Enhancement - Icons updated for pagination alignment and meta position.
+* Enhancement - Design of Dimension Control.
+* Enhancement - Design of pagination border type button.
+* Enhancement - Update Preset icons of all blocks.
+* Enhancement - Add "Read More" and "Excerpt" options for all posts in the Banner Post block.
+* Enhancement - Reduce font size of inputs in Dimension Control.
+
+= 1.3.27 - 05/03/2025 =
+* Fix - Arrows style on news ticker block.
+
 = 1.3.25 - 05/03/2025 =
 * Fix - Post Lists block layout in frontend.
 * Fix - Grid Module block column styles.

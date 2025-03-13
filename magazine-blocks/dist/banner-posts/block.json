@@ -386,7 +386,7 @@
         }
       ]
     },
-    "readMorewHoverColor": {
+    "readMoreHoverColor": {
       "type": "string",
       "style": [
         {
