@@ -117,8 +117,6 @@ class GridModule extends AbstractBlock {
 			'paged'               => $paged, // Use the paged parameter.
 		);
 
-		$cat_name = get_cat_name( $category );
-
 		$query = new WP_Query( $args );
 
 		# The Loop.
@@ -136,6 +134,7 @@ class GridModule extends AbstractBlock {
 				$src        = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
 				$image      = $src ? '<a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><div class="mzb-featured-image ' . $hover_animation . '"><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/></div></a>' : '';
 				$title      = $enable_post_title ? '<h3 class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></h3>' : '';
+				$category   = ( true === $enable_category ) ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
 				$author     = $enable_author ? '<span class="mzb-post-author" ><img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' . get_the_author_posts_link() . '</span>' : '';
 				$date       = $enable_date ? '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 				<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
@@ -168,7 +167,7 @@ class GridModule extends AbstractBlock {
 					if ( $date || $author || $read_time || $view_count ) {
 						$html .= '<div class="mzb-post-content">';
 						if ( $enable_category ) {
-							$html .= '<div class="mzb-post-categories"> <p>' . $cat_name . '</p></div>';
+							$html .= $category;
 						}
 						if ( $date || $author || $read_time || $view_count ) {
 							$html .= '<div class="mzb-post-entry-meta">';
@@ -184,7 +183,7 @@ class GridModule extends AbstractBlock {
 					if ( $title || $date || $author || $read_time || $view_count ) {
 						$html .= '<div class="mzb-post-content">';
 						if ( $enable_category ) {
-							$html .= '<div class="mzb-post-categories"> <p>' . $cat_name . '</p></div>';
+							$html .= $category;
 						}
 						$html .= $title;
 						if ( $date || $author || $read_time || $view_count ) {

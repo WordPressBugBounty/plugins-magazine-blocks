@@ -183,7 +183,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 h2 {background-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 h2"
         }
       ]
     },
