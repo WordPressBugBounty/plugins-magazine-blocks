@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.3.29
+Stable tag: 1.3.30
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,23 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.3.30 - 25/03/2025 =
+* Fix - Top Bottom Separator on Section Block.
+* Fix - Wrap Columns in frontend.
+* Fix - Subheading default color on Heading Block.
+* Fix - Heading Layouts border color on Heading Block.
+* Fix - Subheading Background color.
+* Fix - Subheading Border and Box Shadow.
+* Fix - Adjust gaps on Media Control and Url Input Control.
+* Fix - Check activation time to show review notification.
+* Fix - Image Position and Content Alignment Issues on Post Lists.
+* Enhance - Border tab design in section block.
+* Enhance - Added Remove icon in Background Image Control.
+* Added - Time and time zone option to schedule ads.
+* Added - Gradient option on Background Control.
+* Added - Horizontal Alignment setting on Post Lists block.
+* Added - Preset Styles on Post Video block.
+* Added - Preset Styles on Featured Posts block.
 
 = 1.3.29 - 18/03/2025 =
 * Fix - Box Shadow spacing.

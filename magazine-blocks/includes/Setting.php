@@ -101,6 +101,7 @@ class Setting {
 			'latest-posts'        => 'magazine_blocks_string_to_bool',
 			'video-scrolling'     => 'magazine_blocks_string_to_bool',
 			'video-popup'         => 'magazine_blocks_string_to_bool',
+			'split-content'       => 'magazine_blocks_string_to_bool',
 		),
 		'editor'           => array(
 			'section-width'          => 'absint',

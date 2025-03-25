@@ -42,9 +42,397 @@
       "type": "number",
       "default": 4
     },
+    "tag": {
+      "type": "string",
+      "default": "all"
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "date"
+    },
+    "orderType": {
+      "type": "string",
+      "default": "desc"
+    },
+    "authorName": {
+      "type": "string",
+      "default": ""
+    },
+    "excludedCategory": {
+      "type": "array"
+    },
     "offset": {
       "type": "number",
       "default": 0
+    },
+    "presets": {
+      "type": "string"
+    },
+    "enableTitle": {
+      "type": "boolean",
+      "default": false
+    },
+    "postTitleMarkup": {
+      "type": "string",
+      "default": "h3"
+    },
+    "enableCategory": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableAuthor": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableDate": {
+      "type": "boolean",
+      "default": false
+    },
+    "enableExcerpt": {
+      "type": "boolean",
+      "default": false
+    },
+    "excerptLimit": {
+      "type": "number",
+      "default": 20
+    },
+    "enableReadMore": {
+      "type": "boolean",
+      "default": false
+    },
+    "readMoreText": {
+      "type": "string",
+      "default": "Read More..."
+    },
+    "highlightedPostTitleTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post:first-child .mzb-post-title a"
+        }
+      ]
+    },
+    "postTitleColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-title a {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "postTitleHoverColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-title a:hover {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "postTitleTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post:not(:first-child) .mzb-post-title a"
+        }
+      ]
+    },
+    "categoryColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "categoryBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a"
+        }
+      ]
+    },
+    "categoryHoverColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "categoryHoverBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover"
+        }
+      ]
+    },
+    "categoryPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a { padding: {{VALUE}}; }"
+        }
+      ]
+    },
+    "enableCategoryBorder": {
+      "type": "boolean",
+      "default": false
+    },
+    "categoryBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a"
+        }
+      ]
+    },
+    "categoryHoverBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover"
+        }
+      ]
+    },
+    "categoryBoxShadow": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a"
+        }
+      ]
+    },
+    "categoryBoxShadowHover": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover"
+        }
+      ]
+    },
+    "metaLinkColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-date a, {{WRAPPER}} .mzb-post-author a {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "metaLinkHoverColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-date a:hover, {{WRAPPER}} .mzb-post-author a:hover {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "metaIconColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-date svg {fill: {{VALUE}}; }"
+        }
+      ]
+    },
+    "excerptColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-entry-summary p {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "excerptMargin": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p { margin: {{VALUE}}; }"
+        }
+      ]
+    },
+    "readMoreColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-read-more a {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "readMoreBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a"
+        }
+      ]
+    },
+    "readMoreHoverColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a:hover {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "readMoreHoverBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a:hover"
+        }
+      ]
+    },
+    "readMoreSpacing": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more { margin-top: {{VALUE}} }"
+        }
+      ]
+    },
+    "readMorePadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a { padding: {{VALUE}}; }"
+        }
+      ]
+    },
+    "readMoreBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a"
+        }
+      ]
+    },
+    "readMoreHoverBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a:hover"
+        }
+      ]
+    },
+    "readMoreBoxShadow": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a"
+        }
+      ]
+    },
+    "readMoreBoxShadowHover": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-read-more a:hover"
+        }
+      ]
     },
     "radius": {
       "type": "object",

@@ -33,6 +33,7 @@
 		},
 		"subHeadingColor": {
 			"type": "string",
+			"default": "#000000",
 			"style": [
 				{
 					"selector": "{{WRAPPER}} .sub-heading {color: {{VALUE}}; }"
@@ -43,7 +44,7 @@
 			"type": "string",
 			"style": [
 				{
-					"selector": "{{WRAPPER}} .sub-heading {color: {{VALUE}}; }"
+					"selector": "{{WRAPPER}} .sub-heading:hover {color: {{VALUE}}; }"
 				}
 			]
 		},
@@ -65,7 +66,7 @@
 			},
 			"style": [
 				{
-					"selector": "{{WRAPPER}} .sub-heading"
+					"selector": "{{WRAPPER}} .sub-heading:hover"
 				}
 			]
 		},
@@ -257,7 +258,7 @@
 			"type": "string",
 			"style": [
 				{
-					"selector": "{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-heading-inner {border-bottom-color: {{VALUE}}; }"
+					"selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-heading-inner .mzb-heading-text::before {background-color: {{VALUE}}; }{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-heading-inner {border-bottom-color: {{VALUE}}; } {{WRAPPER}}.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; } "
 				}
 			]
 		},

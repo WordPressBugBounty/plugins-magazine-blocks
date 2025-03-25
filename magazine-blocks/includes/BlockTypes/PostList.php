@@ -182,12 +182,12 @@ class PostList extends AbstractBlock {
 				} elseif ( 'bottom' === $meta_position ) {
 					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
 						$html .= '<div class="mzb-post-content">';
-						$html .= '<div class="mzb-post-entry-meta">';
 						$html .= $title;
-						$html .= '</div>';
+						$html .= '<div class="mzb-post-entry-meta">';
 						$html .= $enable_date ? $date : '';
 						$html .= $enable_readtime ? $read_time : '';
 						$html .= $enable_viewcount ? $view_count : '';
+						$html .= '</div>';
 						$html .= '</div>';
 					}
 				}

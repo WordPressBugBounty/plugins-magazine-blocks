@@ -60,6 +60,14 @@
       "type": "string",
       "default": "layout-2-style-1"
     },
+    "layout3AdvancedStyle": {
+      "type": "string",
+      "default": "layout-3-style-1"
+    },
+    "layout4AdvancedStyle": {
+      "type": "string",
+      "default": "layout-4-style-1"
+    },
     "postCount": {
       "type": "number",
       "default": 4

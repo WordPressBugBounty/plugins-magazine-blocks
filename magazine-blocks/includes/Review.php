@@ -9,23 +9,22 @@
 namespace MagazineBlocks;
 
 // Exit if accessed directly.
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 use MagazineBlocks\Traits\Singleton;
 
 /**
  * Class Review.
  */
-class Review
-{
+class Review {
+
 
 	use Singleton;
 
 	/**
 	 * Constructor.
 	 */
-	protected function __construct()
-	{
+	protected function __construct() {
 		$this->init_hooks();
 	}
 
@@ -35,11 +34,10 @@ class Review
 	 * @since 1.0.3
 	 * @return void
 	 */
-	private function init_hooks()
-	{
-		add_action('admin_head', array($this, 'review_notice_scripts'));
-		add_action('admin_notices', array($this, 'review_notice'));
-		add_action('wp_ajax_magazine_blocks_review_notice_dismiss', array($this, 'review_notice_dismiss'));
+	private function init_hooks() {
+		add_action( 'admin_head', array( $this, 'review_notice_scripts' ) );
+		add_action( 'admin_notices', array( $this, 'review_notice' ) );
+		add_action( 'wp_ajax_magazine_blocks_review_notice_dismiss', array( $this, 'review_notice_dismiss' ) );
 	}
 
 	/**
@@ -48,9 +46,8 @@ class Review
 	 * @since 1.0.3
 	 * @return void
 	 */
-	public function review_notice()
-	{
-		if (!$this->maybe_show_review_notice()) {
+	public function review_notice() {
+		if ( ! $this->maybe_show_review_notice() ) {
 			return;
 		}
 		?>
@@ -66,7 +63,7 @@ class Review
 			</div>
 			<div class="mzb-notice-content">
 				<h3 class="mzb-notice-title">
-					<?php esc_html_e('Howdy, Admin 👋', 'magazine-blocks'); ?>
+					<?php esc_html_e( 'Howdy, Admin 👋', 'magazine-blocks' ); ?>
 				</h3>
 				<p class="mzb-notice-description">
 					<?php
@@ -81,25 +78,25 @@ class Review
 						'<h2>What benefit would you have?</h2>',
 						''
 					)
-						?>
+					?>
 				</p>
 				<p class="mzb-notice-actions">
 					<a href="https://wordpress.org/support/plugin/magazine-blocks/reviews?rate=5#new-post" target="_blank"
 						rel="noopener noreferrer" class="button button-primary mzb-leave-review">
 						<span class="dashicons dashicons-external"></span>
-						<?php esc_html_e('Sure, I\'d love to!', 'magazine-blocks'); ?>
+						<?php esc_html_e( 'Sure, I\'d love to!', 'magazine-blocks' ); ?>
 					</a>
 					<a href="#" class="button button-secondary mzb-remind-me-later"><span
 							class="dashicons dashicons-smiley"></span>
-						<?php esc_html_e('Remind me later', 'magazine-blocks'); ?>
+						<?php esc_html_e( 'Remind me later', 'magazine-blocks' ); ?>
 					</a>
 					<a href="#" class="button button-secondary mzb-reviewed-already"><span
 							class="dashicons dashicons-dismiss"></span>
-						<?php esc_html_e('I already did', 'magazine-blocks'); ?>
+						<?php esc_html_e( 'I already did', 'magazine-blocks' ); ?>
 					</a>
 					<a href="https://wpblockart.com/contact/" class="button button-secondary mzb-have-query" target="_blank"
 						rel="noopener noreferrer"><span class="dashicons dashicons-testimonial"></span>
-						<?php esc_html_e('I have a query', 'magazine-blocks'); ?>
+						<?php esc_html_e( 'I have a query', 'magazine-blocks' ); ?>
 					</a>
 				</p>
 			</div>
@@ -113,16 +110,21 @@ class Review
 	 * @since 1.0.3
 	 * @return bool True or false.
 	 */
-	private function maybe_show_review_notice()
-	{
-		$user_id = get_current_user_id();
-		$activation_time = get_option('_magazine_blocks_activation_time');
-		$review = get_user_meta($user_id, '_magazine_blocks_review', true);
+	private function maybe_show_review_notice() {
+		$user_id         = get_current_user_id();
+		$activation_time = get_option( '_magazine_blocks_activation_time' );
+
+		if ( ! $activation_time ) {
+			update_option( '_magazine_blocks_activation_time', time() );
+			return false;
+		}
+
+		$review = get_user_meta( $user_id, '_magazine_blocks_review', true );
 
 		if (
-			$activation_time > strtotime('-14 day') ||
-			(isset($review['partial_dismiss']) && ($review['partial_dismiss'] > strtotime('-14 day'))) ||
-			(isset($review['dismiss']) && $review['dismiss'])
+			$activation_time > strtotime( '-7 day' ) ||
+			( isset( $review['partial_dismiss'] ) && ( $review['partial_dismiss'] > strtotime( '-7 day' ) ) ) ||
+			( isset( $review['dismiss'] ) && $review['dismiss'] )
 		) {
 			return false;
 		}
@@ -135,9 +137,8 @@ class Review
 	 *
 	 * @return void
 	 */
-	public function review_notice_scripts()
-	{
-		if (!$this->maybe_show_review_notice()) {
+	public function review_notice_scripts() {
+		if ( ! $this->maybe_show_review_notice() ) {
 			return;
 		}
 		?>
@@ -228,7 +229,7 @@ class Review
 		</style>
 
 		<script type="text/javascript">
-			jQuery(document).ready(function (t) { t(document).on("click", ".mzb-notice .button:not(.mzb-have-query)", function (e) { t(this).hasClass("mzb-leave-review") || e.preventDefault(); var a = { action: "magazine_blocks_review_notice_dismiss", security: "<?php echo esc_js(wp_create_nonce('magazine_blocks_review_notice_dismiss_nonce')); ?>", type: "dismiss" }; t(this).hasClass("mzb-remind-me-later") && (a.type = "partial_dismiss"), t.post(ajaxurl, a), t(".mzb-notice").remove() }) });
+			jQuery(document).ready(function (t) { t(document).on("click", ".mzb-notice .button:not(.mzb-have-query)", function (e) { t(this).hasClass("mzb-leave-review") || e.preventDefault(); var a = { action: "magazine_blocks_review_notice_dismiss", security: "<?php echo esc_js( wp_create_nonce( 'magazine_blocks_review_notice_dismiss_nonce' ) ); ?>", type: "dismiss" }; t(this).hasClass("mzb-remind-me-later") && (a.type = "partial_dismiss"), t.post(ajaxurl, a), t(".mzb-notice").remove() }) });
 		</script>
 		<?php
 	}
@@ -239,21 +240,20 @@ class Review
 	 * @since 1.0.3
 	 * @return void
 	 */
-	public function review_notice_dismiss()
-	{
-		check_ajax_referer('magazine_blocks_review_notice_dismiss_nonce', 'security');
+	public function review_notice_dismiss() {
+		check_ajax_referer( 'magazine_blocks_review_notice_dismiss_nonce', 'security' );
 
-		$type = isset($_POST['type']) ? sanitize_text_field(wp_unslash($_POST['type'])) : '';
+		$type = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '';
 		$data = array();
 
-		if ('dismiss' === $type) {
+		if ( 'dismiss' === $type ) {
 			$data['dismiss'] = true;
 		}
 
-		if ('partial_dismiss' === $type) {
+		if ( 'partial_dismiss' === $type ) {
 			$data['partial_dismiss'] = time();
 		}
 
-		update_user_meta(get_current_user_id(), '_magazine_blocks_review', $data);
+		update_user_meta( get_current_user_id(), '_magazine_blocks_review', $data );
 	}
 }

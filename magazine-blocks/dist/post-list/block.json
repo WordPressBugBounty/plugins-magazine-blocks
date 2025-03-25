@@ -70,6 +70,17 @@
         "desktop": "flex-start"
       }
     },
+    "horizontalAlignment": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post {justify-content: {{VALUE}}; }"
+        }
+      ],
+      "default": {
+        "desktop": "left"
+      }
+    },
     "category": {
       "type": "string",
       "default": "all"

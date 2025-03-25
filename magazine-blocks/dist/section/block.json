@@ -256,7 +256,7 @@
       "type": "object",
       "default": {
         "background": 1,
-        "color": "rgba(37, 99, 235,0.3)"
+        "color": "rgba(126, 54, 244, 0.06)"
       },
       "style": [
         {
