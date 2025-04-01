@@ -73,6 +73,10 @@ class Slider extends AbstractBlock {
 		//slider style
 		$slider_style = magazine_blocks_array_get( $attributes, 'sliderStyle', 'style1' );
 
+		// Post Title.
+		$post_title_markup = magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' );
+		$post_title_markup = magazine_blocks_sanitize_html_tag( $post_title_markup, 'h3' );
+
 		// Define the custom excerpt length function as an anonymous function
 		$custom_excerpt_length = function ( $length ) use ( $excerpt_limit ) {
 			return $excerpt_limit; // Change this number to your desired word limit
@@ -115,7 +119,7 @@ class Slider extends AbstractBlock {
 				$src      = wp_get_attachment_image_src( $id );
 				$src      = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
 				$image    = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
-				$title    = '<h3 class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></h3>';
+				$title    = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
 				$category = '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
 				$author   = '<span class="mzb-post-author" ><img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' . get_the_author_posts_link() . '</span>';
 				$date     = '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
@@ -133,7 +137,6 @@ class Slider extends AbstractBlock {
 				}
 				if ( 'top' === $meta_position ) {
 					if ( $enable_author || $enable_date ) {
-						$html .= $title;
 						$html .= '<div class="mzb-post-entry-meta">';
 						$html .= $enable_author ? $author : '';
 						$html .= '';
@@ -141,6 +144,7 @@ class Slider extends AbstractBlock {
 						$html .= '</div>';
 					}
 				}
+				$html .= $title;
 				if ( 'bottom' === $meta_position ) {
 					if ( $enable_author || $enable_date ) {
 						$html .= '<div class="mzb-post-entry-meta">';
@@ -148,7 +152,6 @@ class Slider extends AbstractBlock {
 						$html .= '';
 						$html .= $enable_date ? $date : '';
 						$html .= '</div>';
-						$html .= $title;
 					}
 				}
 				if ( $enable_excerpt || $enable_readmore ) {

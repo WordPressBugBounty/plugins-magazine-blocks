@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.3.30
+Stable tag: 1.3.31
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,7 +49,7 @@ Our plugin lives up to its name by providing a collection of customizable magazi
 * **Social Icons:** Add social icons and link social profiles on your site.
 * **Modal:** Showcase important information and call-to-action prompts with the visually striking modal popup.
 
-WHY CHOOSE MAGAZINE BLOCKS FOR YOUR MAGAZINE SITE? 
+WHY CHOOSE MAGAZINE BLOCKS FOR YOUR MAGAZINE SITE?
 
 Magazine Blocks is a Gutenberg block plugin exclusively developed to enable users to create stunning magazines, news portals, and blog websites. You can experiment with our customizable post blocks to design diverse layouts according to your preferences.
 
@@ -63,7 +63,7 @@ With many blocks and customization options, this plugin offers endless magazine 
 Choose the posts based on the Category. Likewise, it’s also possible to select the posts based on Tag, Date, Title, and Author
 
 * **Number of posts to show**
-Select the desired number of posts for display. 
+Select the desired number of posts for display.
 
 * **Advertisement image sizes**
 Choose the appropriate size for your advertisement images.
@@ -81,7 +81,7 @@ Make your site visually appealing and reinforce brand identity with various colo
 Easily add the background image and overlay to achieve the desired aesthetics for your website.
 
 * **Size and spacing**
-Efficiently manage the margin/padding, border/box, shadow, and radius as needed.  
+Efficiently manage the margin/padding, border/box, shadow, and radius as needed.
 
 * **Horizontal and vertical alignment**
 Adjust the alignment of your content, either horizontally or vertically, to suit your preferences.
@@ -159,6 +159,33 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.3.31 - 01/04/2025 =
+* Fix - Post Title Markup issue on Slider Block.
+* Fix - Meta position issue in frontend of Slider Block.
+* Fix - Slider height issue in all slider styles of Slider Block.
+* Fix - Content alignment issue on Slider Block
+* Fix - Card border radius issue in all slider styles of Slider Block.
+* Fix - Remove padding in arrows of Slider Block.
+* Fix - View all option not displayed in frontend on Featured Posts Block.
+* Fix - Meta link hover color issue in editor on Featured Posts Block.
+* Fix -  Post box shadow issue in frontend on Featured Posts Block.
+* Fix - Heading layout 2 background issue on Featured Posts Block.
+* Fix - View all option not displayed in frontend on Featured Categories Block.
+* Fix - Update frontend structure of Post List block on frontend.
+* Added - Template Library.
+* Added - Icon Controls on Date & Weather block.
+* Added - Post List block column and typography option.
+* Added - Icon Controls on News Ticker Block.
+* Added - New Layout option on Banner Posts block.
+* Added - Post content padding option on Featured Posts block.
+* Added - Width option for highlighted post and post blocks in Banner Post Block.
+* Enhancement - Update Icon for Image position control on Post List Block.
+* Enhancement - Update banner image and icon for wordpress.org.
+* Enhancement - Update Sidebar Icons.
+* Enhancement - Pagination border design on Featured Posts Block.
+* Enhancement - Icons updated for meta position on Slider Block.
+* Enhancement - Icons updated for meta position on Featured Categories Block.
+
 = 1.3.30 - 25/03/2025 =
 * Fix - Top Bottom Separator on Section Block.
 * Fix - Wrap Columns in frontend.

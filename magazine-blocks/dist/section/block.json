@@ -205,8 +205,7 @@
     "topSeparator": {
       "type": "object",
       "default": {
-        "topSeparator": 1,
-        "topSeparatorIcon": "top_separator_1"
+        "topSeparator": 1
       },
       "style": [
         {
@@ -217,8 +216,7 @@
     "bottomSeparator": {
       "type": "object",
       "default": {
-        "bottomSeparator": 1,
-        "bottomSeparatorIcon": "bottom_separator_1"
+        "bottomSeparator": 1
       },
       "style": [
         {

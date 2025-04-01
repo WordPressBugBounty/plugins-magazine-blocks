@@ -24,11 +24,32 @@
       "default": "Breaking News"
     },
     "icon": {
+      "type": "string",
+      "default": "flash"
+    },
+    "iconSize": {
       "type": "object",
-      "default": {
-        "enable": true,
-        "icon": "flash"
-      }
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-weather svg { height: {{VALUE}}; width: {{VALUE}}; }"
+        }
+      ]
+    },
+    "iconGap": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-weather { margin-right: {{VALUE}}; }"
+        }
+      ]
+    },
+    "iconColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-weather svg { fill: {{VALUE}}; }"
+        }
+      ]
     },
     "enableArrows": {
       "type": "boolean",

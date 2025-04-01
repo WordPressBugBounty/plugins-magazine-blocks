@@ -115,6 +115,14 @@
         }
       ]
     },
+    "postBoxWidth": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post, {{WRAPPER}} .mzb-posts.mzb-layout-2 .mzb-post:nth-child(3) { width: {{VALUE}} }"
+        }
+      ]
+    },
     "postBoxBorderRadius": {
       "type": "object",
       "default": {
@@ -138,6 +146,14 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-post:first-child .mzb-post-title a"
+        }
+      ]
+    },
+    "highlightedPostWidth": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post:first-child { width: {{VALUE}} }"
         }
       ]
     },

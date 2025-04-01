@@ -7,9 +7,10 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use WP_Query;
+
 use function MagazineBlocks\mzb_numbered_pagination;
 
-use WP_Query;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -37,6 +38,8 @@ class FeaturedPosts extends AbstractBlock {
 		$layout                  = magazine_blocks_array_get( $attributes, 'layout', '' );
 		$layout_1_advanced_style = magazine_blocks_array_get( $attributes, 'layout1AdvancedStyle', '' );
 		$layout_2_advanced_style = magazine_blocks_array_get( $attributes, 'layout2AdvancedStyle', '' );
+		$layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'layout3AdvancedStyle', '' );
+		$layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'layout4AdvancedStyle', '' );
 		$column                  = magazine_blocks_array_get( $attributes, 'column', '' );
 
 		// Query.
@@ -89,6 +92,12 @@ class FeaturedPosts extends AbstractBlock {
 		// Pagination
 		$enable_pagination = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
 
+		//View All
+		$enable_view_more     = magazine_blocks_array_get( $attributes, 'enableViewMore', '' );
+		$view_more_text       = magazine_blocks_array_get( $attributes, 'viewMoreText', '' );
+		$view_button_position = magazine_blocks_array_get( $attributes, 'viewButtonPosition', '' );
+		$view_more_icon       = magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' );
+
 		// Define the custom excerpt length function as an anonymous function
 		$custom_excerpt_length = function ( $length ) use ( $excerpt_limit ) {
 			return $excerpt_limit; // Change this number to your desired word limit
@@ -109,6 +118,10 @@ class FeaturedPosts extends AbstractBlock {
 			$advanced_style = $layout_1_advanced_style;
 		} elseif ( 'layout-2' === $layout ) {
 			$advanced_style = $layout_2_advanced_style;
+		} elseif ( 'layout-3' === $layout ) {
+			$advanced_style = $layout_3_advanced_style;
+		} elseif ( 'layout-4' === $layout ) {
+			$advanced_style = $layout_4_advanced_style;
 		}
 		// Pagination.
 		$paged         = isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1;
@@ -139,7 +152,18 @@ class FeaturedPosts extends AbstractBlock {
 		if ( $query->have_posts() ) {
 
 			$html .= '<div class="mzb-featured-posts mzb-featured-posts-' . $client_id . ' ' . $class_name . '">';
+			$html .= '<div class="mzb-top-wrapper">';
 			$html .= $enable_heading ? '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '"> <h2>' . esc_html( $label ) . '</h2></div>' : '';
+			if ( $enable_view_more && 'top' === $view_button_position ) {
+				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<p>' . $view_more_text . '</p>';
+				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
+					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				}
+				$html .= '</a></div>';
+			}
+			$html .= '</div>';
+
 			$html .= '<div class="mzb-posts mzb-post-col--' . $column . ' mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-' . $post_box_style . '">';
 
 			$index = 1;
@@ -164,7 +188,7 @@ class FeaturedPosts extends AbstractBlock {
 				<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
 				</svg>
 				<span>' .
-				self::calculate_read_time( $id ) . ' 
+				self::calculate_read_time( $id ) . '
 				min
 				read
 				</span>
@@ -228,6 +252,15 @@ class FeaturedPosts extends AbstractBlock {
 				++$index;
 			}
 			$html .= '</div>';
+
+			if ( $enable_view_more && 'bottom' === $view_button_position ) {
+				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<p>' . $view_more_text . '</p>';
+				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
+					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				}
+				$html .= '</a></div>';
+			}
 
 			// Custom pagination function.
 			if ( $enable_pagination ) {

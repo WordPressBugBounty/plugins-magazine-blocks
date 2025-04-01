@@ -99,6 +99,29 @@
       "type": "string",
       "default": "boxed"
     },
+    "postBoxPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-1.mzb-none .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-1.mzb-border .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-1.mzb-boxed .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-2.mzb-none .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-2.mzb-border .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-2.mzb-boxed .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-3.mzb-none .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-3.mzb-border .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-3.mzb-boxed .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-4.mzb-none .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-4.mzb-border .mzb-post .mzb-post-content { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-4.mzb-boxed .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
+        }
+      ]
+    },
     "postBoxBackground": {
       "type": "object",
       "default": {
@@ -188,7 +211,10 @@
       ]
     },
     "headingBackground": {
-      "type": "string",
+      "type": "object",
+      "default": {
+        "background": 1
+      },
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 h2"
@@ -270,6 +296,9 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-post:not(:first-child) .mzb-post-title a"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-4-style-1 .mzb-post .mzb-post-title a"
         }
       ]
     },
@@ -445,7 +474,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-date svg {fill: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-date svg {fill: {{VALUE}} !important; }"
         }
       ]
     },

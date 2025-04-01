@@ -162,11 +162,10 @@ class BlockStyles {
 
 		array_walk(
 			$this->fonts,
-			function( &$value, $key ) {
+			function ( &$value, $key ) {
 				$value = trim( $key ) . ':' . trim( rawurlencode( implode( ',', array_unique( $value ) ) ) );
 			}
 		);
-
 
 		$google_fonts_url = add_query_arg(
 			array(
@@ -408,11 +407,11 @@ class BlockStyles {
 			$callback = array( $this, 'dimension' );
 		} elseif ( isset( $value['boxShadow'] ) ) {
 			unset( $value['boxShadow'] );
-			$callback = [ $this, 'box_shadow' ];
+			$callback = array( $this, 'box_shadow' );
 		} elseif ( isset( $value['topSeparator'] ) || isset( $value['bottomSeparator'] ) ) {
 			unset( $value['topSeparator'] );
 			unset( $value['bottomSeparator'] );
-			$callback = [ $this, 'separator' ];
+			$callback = array( $this, 'separator' );
 		} else {
 			$callback = array( $this, 'general' );
 		}
@@ -709,7 +708,7 @@ class BlockStyles {
 			$position     = magazine_blocks_array_get( $value, 'position', 'outline' );
 			$horizontal_x = magazine_blocks_array_get( $value, 'horizontalX', '0' );
 			$vertical_y   = magazine_blocks_array_get( $value, 'verticalY', '0' );
-			$blur         = magazine_blocks_array_get( $value, 'blur', '0' );
+			$blur         = magazine_blocks_array_get( $value, 'blur', '10' );
 			$spread       = magazine_blocks_array_get( $value, 'spread', '0' );
 			$color        = magazine_blocks_array_get( $value, 'color', 'rgba(0,0,0, 0.5)' );
 
@@ -738,7 +737,7 @@ class BlockStyles {
 	 * @return void
 	 */
 	private function separator( $value, $styles_def, $attrs, $attrs_def, $wrapper_class ) {
-		$css = [];
+		$css = array();
 
 		if ( ! isset( $value['enable'] ) || ! $value['enable'] ) {
 			return $css;
@@ -909,14 +908,14 @@ class BlockStyles {
 	 * @return array
 	 */
 	private function list_gap( $value, $styles_def, $attrs, $attrs_def, $wrapper_class ) {
-		$css = [];
+		$css = array();
 
 		if ( ! isset( $value['enable'] ) || ! $value['enable'] ) {
 			return $css;
 		}
 
 		foreach ( $styles_def as $style_def ) {
-			if ( ! $this->check_condition( $style_def['condition'] ?? [], $attrs, $attrs_def ) ) {
+			if ( ! $this->check_condition( $style_def['condition'] ?? array(), $attrs, $attrs_def ) ) {
 				continue;
 			}
 			if ( ! isset( $style_def['selector'] ) ) {
@@ -932,7 +931,7 @@ class BlockStyles {
 			$padding_value = $slider_value / 2;
 
 			// Generate CSS rules for padding for the selector
-			$css['desktop'][ $selector ]['padding-top'] = $padding_value . 'px';
+			$css['desktop'][ $selector ]['padding-top']    = $padding_value . 'px';
 			$css['desktop'][ $selector ]['padding-bottom'] = $padding_value . 'px';
 		}
 
@@ -1131,7 +1130,7 @@ class BlockStyles {
 	private function get_saved_styles() {
 		return is_int( $this->id ) ?
 			get_post_meta( $this->id, '_magazine_blocks_blocks_css', true ) :
-			get_option( '_magazine_blocks_blocks_css', array() )[ $this->id ] ?? [];
+			get_option( '_magazine_blocks_blocks_css', array() )[ $this->id ] ?? array();
 	}
 
 	/**

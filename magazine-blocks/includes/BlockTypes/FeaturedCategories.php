@@ -71,6 +71,12 @@ class FeaturedCategories extends AbstractBlock {
 		$enable_readmore = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
 		$read_more_text  = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
 
+		//View All
+		$enable_view_more     = magazine_blocks_array_get( $attributes, 'enableViewMore', '' );
+		$view_more_text       = magazine_blocks_array_get( $attributes, 'viewMoreText', '' );
+		$view_button_position = magazine_blocks_array_get( $attributes, 'viewButtonPosition', '' );
+		$view_more_icon       = magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' );
+
 		if ( 'heading-layout-1' === $heading_layout ) {
 			$heading_style = $heading_layout_1_advanced_style;
 		} elseif ( 'heading-layout-2' === $heading_layout ) {
@@ -125,8 +131,17 @@ class FeaturedCategories extends AbstractBlock {
 			$html .= '<div class="mzb-featured-categories mzb-featured-categories-' . $client_id . '">';
 			$html .= '<div class="mzb-category-posts">';
 			$html .= '<div class="mzb-category-1-posts mzb-' . $post_box_style . '">';
+			$html .= '<div class="mzb-top-wrapper">';
 			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '"> ' . ( $enable_heading ? '<h2>' . esc_html( $label ) . '</h2>' : '' ) . '</div>';
-
+			if ( $enable_view_more && 'top' === $view_button_position ) {
+				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<p>' . $view_more_text . '</p>';
+				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
+					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				}
+				$html .= '</a></div>';
+			}
+			$html .= '</div>';
 			while ( $query->have_posts() ) {
 				$query->the_post();
 				$id       = get_post_thumbnail_id();
@@ -177,11 +192,28 @@ class FeaturedCategories extends AbstractBlock {
 				$html .= '</div>';
 				$html .= '</div>';
 			}
+			if ( $enable_view_more && 'bottom' === $view_button_position ) {
+				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<p>' . $view_more_text . '</p>';
+				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
+					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				}
+				$html .= '</a></div>';
+			}
 			$html .= '</div>';
 
 			$html .= '<div class="mzb-category-2-posts mzb-' . $post_box_style . '">';
+			$html .= '<div class="mzb-top-wrapper">';
 			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">' . ( $enable_heading ? '<h2>' . esc_html( $label2 ) . '</h2>' : '' ) . '</div>';
-
+			if ( $enable_view_more && 'top' === $view_button_position ) {
+				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<p>' . $view_more_text . '</p>';
+				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
+					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				}
+				$html .= '</a></div>';
+			}
+			$html .= '</div>';
 			while ( $query_2->have_posts() ) {
 				$query_2->the_post();
 				$id       = get_post_thumbnail_id();
@@ -232,6 +264,14 @@ class FeaturedCategories extends AbstractBlock {
 				}
 				$html .= '</div>';
 				$html .= '</div>';
+			}
+			if ( $enable_view_more && 'bottom' === $view_button_position ) {
+				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<p>' . $view_more_text . '</p>';
+				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
+					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				}
+				$html .= '</a></div>';
 			}
 			$html .= '</div>';
 			$html .= '</div>';

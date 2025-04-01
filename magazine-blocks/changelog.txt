@@ -1,4 +1,31 @@
 == Changelog ==
+= 1.3.31 - 01/04/2025 =
+* Fix - Post Title Markup issue on Slider Block.
+* Fix - Meta position issue in frontend of Slider Block.
+* Fix - Slider height issue in all slider styles of Slider Block.
+* Fix - Content alignment issue on Slider Block
+* Fix - Card border radius issue in all slider styles of Slider Block.
+* Fix - Remove padding in arrows of Slider Block.
+* Fix - View all option not displayed in frontend on Featured Posts Block.
+* Fix - Meta link hover color issue in editor on Featured Posts Block.
+* Fix -  Post box shadow issue in frontend on Featured Posts Block.
+* Fix - Heading layout 2 background issue on Featured Posts Block.
+* Fix - View all option not displayed in frontend on Featured Categories Block.
+* Fix - Update frontend structure of Post List block on frontend.
+* Added - Template Library.
+* Added - Icon Controls on Date & Weather block.
+* Added - Post List block column and typography option.
+* Added - Icon Controls on News Ticker Block.
+* Added - New Layout option on Banner Posts block.
+* Added - Post content padding option on Featured Posts block.
+* Added - Width option for highlighted post and post blocks in Banner Post Block.
+* Enhancement - Update Icon for Image position control on Post List Block.
+* Enhancement - Update banner image and icon for wordpress.org.
+* Enhancement - Update Sidebar Icons.
+* Enhancement - Pagination border design on Featured Posts Block.
+* Enhancement - Icons updated for meta position on Slider Block.
+* Enhancement - Icons updated for meta position on Featured Categories Block.
+
 = 1.3.30 - 25/03/2025 =
 * Fix - Top Bottom Separator on Section Block.
 * Fix - Wrap Columns in frontend.

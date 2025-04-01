@@ -8,8 +8,8 @@
 
 namespace MagazineBlocks\BlockTypes;
 
-use function MagazineBlocks\mzb_numbered_pagination;
 use WP_Query;
+use function MagazineBlocks\mzb_numbered_pagination;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -78,6 +78,11 @@ class GridModule extends AbstractBlock {
 		// Pagination
 		$enable_pagination = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
 
+		//hide on desktop
+		$hide_on_desktop = magazine_blocks_array_get( $attributes, 'hideOnDesktop', '' );
+
+		$size = magazine_blocks_array_get( $attributes, 'size', '' );
+
 		// Define the custom excerpt length function as an anonymous function
 		$custom_excerpt_length = function ( $length ) use ( $excerpt_limit ) {
 			return $excerpt_limit; // Change this number to your desired word limit
@@ -89,6 +94,15 @@ class GridModule extends AbstractBlock {
 		// Pagination.
 		$paged         = isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1;
 		$args['paged'] = $paged;
+
+		$class_names =
+			'mzb-grid-module mzb-grid-module-' . $client_id .
+		( $size ? ' is-' . $size : '' ) .
+		' ' . $class_name .
+		( $hide_on_desktop ? ' magazine-blocks-hide-on-desktop' : '' ) .
+		' mzb-' . $layout .
+		( 'layout-1' === $layout ? ' mzb-' . $layout_1_advanced_style : '' ) .
+		( 'layout-2' === $layout ? ' mzb-' . $layout_2_advanced_style : '' );
 
 		if ( 'heading-layout-1' === $heading_layout ) {
 			$heading_style = $heading_layout_1_advanced_style;
@@ -123,7 +137,7 @@ class GridModule extends AbstractBlock {
 		$html = '';
 
 		if ( $query->have_posts() ) {
-			$html .= '<div class="mzb-grid-module mzb-grid-module-' . $client_id . ' ' . $class_name . '">';
+			$html .= '<div class="mzb-grid-module mzb-grid-module-' . $client_id . ' ' . $class_names . '">';
 			$html .= $enable_heading ? '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '"> <h2>' . esc_html( $label ) . '</h2></div>' : '';
 			$html .= '<div class="mzb-posts mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-post-col--' . $column . '">';
 

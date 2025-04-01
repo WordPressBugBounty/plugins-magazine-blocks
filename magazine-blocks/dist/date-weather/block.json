@@ -34,6 +34,46 @@
         }
       ]
     },
+    "icon": {
+      "type": "string",
+      "default": "weather"
+    },
+    "iconColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-weather-icon svg { fill: {{VALUE}}; }"
+        }
+      ]
+    },
+    "iconSize": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-weather-icon svg { height: {{VALUE}}; width: {{VALUE}}; }"
+        }
+      ]
+    },
+    "iconGap": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-weather-icon { margin-right: {{VALUE}}; }"
+        }
+      ]
+    },
+    "dateTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-weather-date"
+        }
+      ]
+    },
     "color": {
       "type": "string",
       "style": [

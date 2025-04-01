@@ -25,6 +25,10 @@
       "type": "string",
       "default": "Latest"
     },
+    "column": {
+      "type": "string",
+      "default": "4"
+    },
     "layout": {
       "type": "string",
       "default": "layout-1"
@@ -340,6 +344,18 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p { margin: {{VALUE}}; }"
+        }
+      ]
+    },
+    "excerptTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p"
         }
       ]
     },

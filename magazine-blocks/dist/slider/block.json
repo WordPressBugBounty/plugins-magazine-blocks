@@ -69,7 +69,13 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .swiper .swiper-slider { height: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .swiper .swiper-slide, {{WRAPPER}} .swiper .swiper-slide .mzb-featured-image img { height: {{VALUE}} }"
+        },
+        {
+          "selector": "{{WRAPPER}} .swiper .swiper-slide.style3, {{WRAPPER}} .swiper .swiper-slide.style3 .mzb-featured-image img { height: {{VALUE}} !important;}"
+        },
+        {
+          "selector": "{{WRAPPER}} .swiper .swiper-slide.style4, {{WRAPPER}} .swiper .swiper-slide.style4 .mzb-featured-image img { height: {{VALUE}} !important;}"
         }
       ]
     },
@@ -83,7 +89,10 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .style3.swiper-slide { border-radius: {{VALUE}}; overflow: hidden; }"
+          "selector": "{{WRAPPER}} .swiper-slide { border-radius: {{VALUE}}; overflow: hidden; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .style3.swiper-slide .mzb-featured-image,{{WRAPPER}} .style3.swiper-slide .mzb-featured-image img { border-radius: {{VALUE}}; overflow: hidden; }"
         }
       ]
     },
@@ -110,7 +119,7 @@
     "arrowHeight": {
       "type": "object",
       "default": {
-        "value": "",
+        "value": 40,
         "unit": "px"
       },
       "style": [
@@ -122,7 +131,7 @@
     "arrowWidth": {
       "type": "object",
       "default": {
-        "value": "",
+        "value": 40,
         "unit": "px"
       },
       "style": [
@@ -134,7 +143,7 @@
     "arrowSize": {
       "type": "object",
       "default": {
-        "value": "",
+        "value": 14,
         "unit": "px"
       },
       "style": [
