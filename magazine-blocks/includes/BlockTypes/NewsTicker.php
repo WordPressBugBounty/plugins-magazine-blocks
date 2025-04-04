@@ -7,7 +7,6 @@
 
 namespace MagazineBlocks\BlockTypes;
 
-use function MagazineBlocks\custom_pagination_numbers;
 use WP_Query;
 
 defined( 'ABSPATH' ) || exit;
@@ -34,7 +33,9 @@ class NewsTicker extends AbstractBlock {
 		$label      = magazine_blocks_array_get( $attributes, 'label', '' );
 		$icon       = magazine_blocks_array_get( $attributes, 'icon', '' );
 		$arrows     = magazine_blocks_array_get( $attributes, 'enableArrows', false );
-		$get_icon   = magazine_blocks_get_icon( $icon['icon'], false );
+		$get_icon   = magazine_blocks_get_icon( $icon, false );
+
+		$category = 'all' === $category ? null : (int) $category;
 
 		$args = array(
 			'posts_per_page' => $post_count,

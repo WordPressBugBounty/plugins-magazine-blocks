@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.7
 Requires PHP: 7.0
-Stable tag: 1.3.31
+Stable tag: 1.3.32
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,12 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.3.32 - 04/04/2025 =
+* Fix - Post query based on categories in News Ticker block.
+* Fix - Icon type in News Ticker block frontend.
+* Added - Ticker label and body color on News Ticker block.
+* Enhancement - Z-index property for popover drawer.
+
 = 1.3.31 - 01/04/2025 =
 * Fix - Post Title Markup issue on Slider Block.
 * Fix - Meta position issue in frontend of Slider Block.

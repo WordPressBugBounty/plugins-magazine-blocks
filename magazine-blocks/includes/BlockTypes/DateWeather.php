@@ -26,7 +26,7 @@ class DateWeather extends AbstractBlock {
 	public function render( $attributes, $content, $block ) {
 		$client_id = magazine_blocks_array_get( $attributes, 'clientId', '' );
 		$icon      = magazine_blocks_array_get( $attributes, 'icon', '' );
-		$get_icon  = magazine_blocks_get_icon( $icon['icon'], false );
+		$get_icon  = magazine_blocks_get_icon( $icon, false );
 
 		# The Loop.
 		$html = '';

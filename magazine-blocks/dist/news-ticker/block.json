@@ -19,6 +19,10 @@
     "clientId": {
       "type": "string"
     },
+    "category": {
+      "type": "string",
+      "default": "all"
+    },
     "label": {
       "type": "string",
       "default": "Breaking News"
@@ -48,6 +52,38 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-weather svg { fill: {{VALUE}}; }"
+        }
+      ]
+    },
+    "color": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-heading { color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "colorHover": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-heading:hover { color: {{VALUE}}; "
+        }
+      ]
+    },
+    "textColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-news-ticker-box .mzb-news-ticker-list li a { color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "textColorHover": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-news-ticker-box .mzb-news-ticker-list li a:hover { color: {{VALUE}}; }"
         }
       ]
     },

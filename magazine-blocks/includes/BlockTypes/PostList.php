@@ -106,6 +106,7 @@ class PostList extends AbstractBlock {
 			$advanced_style = $layout_2_advanced_style;
 		}
 
+		$column_style = $column;
 		if ( 'layout-1-style-2' === $layout_1_advanced_style ) {
 			$column_style = $column;
 		}
