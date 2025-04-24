@@ -30,7 +30,7 @@ class PostVideo extends AbstractBlock {
 		$category          = magazine_blocks_array_get( $attributes, 'category', '' );
 		$no_of_posts       = magazine_blocks_array_get( $attributes, 'postCount', '' );
 		$column            = magazine_blocks_array_get( $attributes, 'column', '' );
-		$presets           = magazine_blocks_array_get( $attributes, 'presets', 'style-1' );
+		$presets           = magazine_blocks_array_get( $attributes, 'presets', '' );
 		$enable_title      = magazine_blocks_array_get( $attributes, 'enableTitle', false );
 		$post_title_markup = magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' );
 		$enable_date       = magazine_blocks_array_get( $attributes, 'enableDate', false );
@@ -40,6 +40,8 @@ class PostVideo extends AbstractBlock {
 		$read_more_text    = magazine_blocks_array_get( $attributes, 'readMoreText', 'Read More' );
 		$enable_category   = magazine_blocks_array_get( $attributes, 'enableCategory', false );
 		$enable_author     = magazine_blocks_array_get( $attributes, 'enableAuthor', false );
+		$offset            = magazine_blocks_array_get( $attributes, 'offset', 0 );
+		$meta_separator    = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
 
 		$args = array(
 			'posts_per_page'      => $no_of_posts,
@@ -53,6 +55,7 @@ class PostVideo extends AbstractBlock {
 					'terms'    => array( 'post-format-video' ),
 				),
 			),
+			'offset'              => $offset,
 		);
 
 		$query = new WP_Query( $args );
@@ -62,7 +65,7 @@ class PostVideo extends AbstractBlock {
 
 			$index = 1;
 		if ( $query->have_posts() ) {
-			$html .= '<div class="mzb-post-video mzb-post-video-' . $client_id . ' ' . ( $presets ? 'mzb-' . $presets : '' ) . '">';
+			$html .= '<div class="mzb-post-video mzb-post-video-' . $client_id . ' ' . ( $presets ? 'mzb-preset-' . $presets : '' ) . '">';
 			$html .= '<div class="mzb-posts mzb-post-col--' . $column . '">';
 
 			while ( $query->have_posts() ) {
@@ -98,13 +101,14 @@ class PostVideo extends AbstractBlock {
 							</div>';
 				$html .= '</a>';
 
+				$html .= '<div class="mzb-post-content">';
 				if ( $enable_category ) {
 					$html .= '<div class="mzb-post-meta">';
 					$html .= $category;
 					$html .= '</div>';
 				}
 				if ( $enable_author || $enable_date ) {
-					$html .= '<div class="mzb-post-entry-meta">';
+					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 					$html .= $enable_author ? $author : '';
 					$html .= '';
 					$html .= $enable_date ? $date : '';
@@ -119,6 +123,7 @@ class PostVideo extends AbstractBlock {
 					$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
 					$html .= '</div>';
 				}
+				$html .= '</div>';
 				$html .= '</div>';
 				++$index;
 			}

@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
 class PostList extends AbstractBlock {
 
 
+
 	/**
 	 * Block name.
 	 *
@@ -58,6 +59,8 @@ class PostList extends AbstractBlock {
 		$heading_layout_1_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout1AdvancedStyle', '' );
 		$heading_layout_2_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout2AdvancedStyle', '' );
 		$heading_layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout3AdvancedStyle', '' );
+		$heading_layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout4AdvancedStyle', '' );
+		$heading_layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout5AdvancedStyle', '' );
 		$label                           = magazine_blocks_array_get( $attributes, 'label', 'Latest' );
 
 		//  Image.
@@ -68,6 +71,7 @@ class PostList extends AbstractBlock {
 		$enable_date      = magazine_blocks_array_get( $attributes, 'enableDate', '' );
 		$enable_readtime  = magazine_blocks_array_get( $attributes, 'enableReadTime', '' );
 		$enable_viewcount = magazine_blocks_array_get( $attributes, 'enableViewCount', '' );
+		$meta_separator   = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
 
 		// Excerpt.
 		$enable_excerpt = magazine_blocks_array_get( $attributes, 'enableExcerpt', '' );
@@ -77,8 +81,20 @@ class PostList extends AbstractBlock {
 		$enable_readmore = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
 		$read_more_text  = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
 
+		//View All
+		$enable_view_more      = magazine_blocks_array_get( $attributes, 'enableViewMore', '' );
+		$view_more_text        = magazine_blocks_array_get( $attributes, 'viewMoreText', '' );
+		$view_button_position  = magazine_blocks_array_get( $attributes, 'viewButtonPosition', '' );
+		$enable_view_more_icon = magazine_blocks_array_get( $attributes, 'enableViewMoreIcon', '' );
+		$view_more_icon        = magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' );
+		$get_icon              = magazine_blocks_get_icon( $view_more_icon, false );
+		$view_more_url         = magazine_blocks_array_get( $attributes, 'viewMoreUrl', '' );
+
 		// Pagination
 		$enable_pagination = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
+
+		//offset
+		$offset = magazine_blocks_array_get( $attributes, 'offset', 0 );
 
 		// Define the custom excerpt length function as an anonymous function
 		$custom_excerpt_length = function ( $length ) use ( $excerpt_limit ) {
@@ -98,6 +114,10 @@ class PostList extends AbstractBlock {
 			$heading_style = $heading_layout_2_advanced_style;
 		} elseif ( 'heading-layout-3' === $heading_layout ) {
 			$heading_style = $heading_layout_3_advanced_style;
+		} elseif ( 'heading-layout-4' === $heading_layout ) {
+			$heading_style = $heading_layout_4_advanced_style;
+		} elseif ( 'heading-layout-5' === $heading_layout ) {
+			$heading_style = $heading_layout_5_advanced_style;
 		}
 
 		if ( 'layout-1' === $layout ) {
@@ -122,6 +142,7 @@ class PostList extends AbstractBlock {
 			'category__not_in'    => $excluded_category,
 			'ignore_sticky_posts' => 1,
 			'paged'               => $paged, // Use the paged parameter.
+			'offset'              => $offset,
 		);
 
 		$cat_name = get_cat_name( $category );
@@ -135,7 +156,19 @@ class PostList extends AbstractBlock {
 
 		if ( $query->have_posts() ) {
 			$html .= '<div id="' . $css_id . '" class="mzb-post-list mzb-post-list-' . $client_id . ' ' . $class_name . '">';
-			$html .= $enable_heading ? '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '"> <h2>' . esc_html( $label ) . '</h2></div>' : '';
+			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
+			if ( $enable_heading ) {
+				$html .= '<h2>' . esc_html( $label ) . '</h2>';
+			}
+			if ( $enable_view_more && 'top' === $view_button_position ) {
+				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
+				$html .= '<p>' . $view_more_text . '</p>';
+				if ( $enable_view_more_icon ) {
+					$html .= $get_icon;
+				}
+				$html .= '</a></div>';
+			}
+			$html .= '</div>';
 			$html .= '<div class="mzb-posts mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-post-col--' . $column_style . '">';
 
 			while ( $query->have_posts() ) {
@@ -156,7 +189,7 @@ class PostList extends AbstractBlock {
 							</svg>
 							<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
 				$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
-				$read_time  = $enable_readtime ? '<span className="mzb-post-read-time">
+				$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 							<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Z" clip-rule="evenodd"/>
 							<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
@@ -167,7 +200,7 @@ class PostList extends AbstractBlock {
 							read
 							</span>
 							</span>' : '';
-				$view_count = $enable_viewcount ? '<span className="mzb-post-view-count">
+				$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 							<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
 							</svg>
@@ -182,7 +215,7 @@ class PostList extends AbstractBlock {
 				if ( 'top' === $meta_position ) {
 					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
 						$html .= '<div class="mzb-post-content">';
-						$html .= '<div class="mzb-post-entry-meta">';
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 						$html .= $enable_date ? $date : '';
 						$html .= $enable_readtime ? $read_time : '';
 						$html .= $enable_viewcount ? $view_count : '';
@@ -200,7 +233,7 @@ class PostList extends AbstractBlock {
 					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
 						$html .= '<div class="mzb-post-content">';
 						$html .= $title;
-						$html .= '<div class="mzb-post-entry-meta">';
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 						$html .= $enable_date ? $date : '';
 						$html .= $enable_readtime ? $read_time : '';
 						$html .= $enable_viewcount ? $view_count : '';

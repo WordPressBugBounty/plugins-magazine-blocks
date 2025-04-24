@@ -119,7 +119,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post, {{WRAPPER}} .mzb-posts.mzb-layout-2 .mzb-post:nth-child(3) { width: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .mzb-post{ width: {{VALUE}} } {{WRAPPER}} .mzb-posts.mzb-layout-2 .mzb-post:nth-child(3) { width: {{VALUE}} }"
         }
       ]
     },
@@ -320,6 +320,14 @@
     "enableDate": {
       "type": "boolean",
       "default": true
+    },
+    "enableMetaSeparator": {
+      "type": "boolean",
+      "default": false
+    },
+    "separatorType": {
+      "type": "string",
+      "default": "none"
     },
     "metaIconColor": {
       "type": "string",

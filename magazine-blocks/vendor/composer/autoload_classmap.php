@@ -171,6 +171,7 @@ return array(
     'MagazineBlocks\\RestApi\\Controllers\\LibraryDataController' => $baseDir . '/includes/RestApi/Controllers/LibraryDataController.php',
     'MagazineBlocks\\RestApi\\Controllers\\RegenCSSController' => $baseDir . '/includes/RestApi/Controllers/RegenCSSController.php',
     'MagazineBlocks\\RestApi\\Controllers\\SettingsController' => $baseDir . '/includes/RestApi/Controllers/SettingsController.php',
+    'MagazineBlocks\\RestApi\\Controllers\\SiteBuilderController' => $baseDir . '/includes/RestApi/Controllers/SiteBuilderController.php',
     'MagazineBlocks\\RestApi\\Controllers\\VersionControlController' => $baseDir . '/includes/RestApi/Controllers/VersionControlController.php',
     'MagazineBlocks\\RestApi\\RestApi' => $baseDir . '/includes/RestApi/RestApi.php',
     'MagazineBlocks\\Review' => $baseDir . '/includes/Review.php',

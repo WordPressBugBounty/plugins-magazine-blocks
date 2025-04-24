@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Featured Posts block.
  *
@@ -25,20 +26,49 @@ class TabPost extends AbstractBlock {
 
 	public function render( $attributes, $content, $block ) {
 
-		$client_id  = magazine_blocks_array_get( $attributes, 'clientId', '' );
-		$class_name = magazine_blocks_array_get( $attributes, 'className', '' );
-		$css_id     = magazine_blocks_array_get( $attributes, 'cssID', '' );
-		$post_count = magazine_blocks_array_get( $attributes, 'postCount', '4' );
+		$client_id         = magazine_blocks_array_get( $attributes, 'clientId', '' );
+		$class_name        = magazine_blocks_array_get( $attributes, 'className', '' );
+		$css_id            = magazine_blocks_array_get( $attributes, 'cssID', '' );
+		$post_count        = magazine_blocks_array_get( $attributes, 'postCount', '4' );
+		$post_title_markup = magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' );
+
+		// Query.
+		$category          = magazine_blocks_array_get( $attributes, 'category', '' );
+		$tag               = magazine_blocks_array_get( $attributes, 'tag', '' );
+		$excluded_category = magazine_blocks_array_get( $attributes, 'excludedCategory', '' );
+		$order_by          = magazine_blocks_array_get( $attributes, 'orderBy', '' );
+		$order_type        = magazine_blocks_array_get( $attributes, 'orderType', '' );
+		$author            = magazine_blocks_array_get( $attributes, 'authorName', '' );
+
+		// Header Meta.
+		$enable_category = magazine_blocks_array_get( $attributes, 'enableCategory', '' );
+
+		// Meta.
+		$meta_position  = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
+		$enable_author  = magazine_blocks_array_get( $attributes, 'enableAuthor', '' );
+		$enable_date    = magazine_blocks_array_get( $attributes, 'enableDate', '' );
+		$meta_separator = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
+
+		// Offset.
+		$offset = magazine_blocks_array_get( $attributes, 'offset', 0 );
 
 		$args = array(
 			'posts_per_page'      => $post_count,
-			'status'              => 'publish',
+			'post_status'         => 'publish', // Changed 'status' to 'post_status'.
+			'cat'                 => $category,
+			'tag_id'              => $tag,
+			'orderby'             => $order_by,
+			'order'               => $order_type,
+			'author'              => $author,
+			'category__not_in'    => $excluded_category,
 			'ignore_sticky_posts' => 1,
+			'offset'              => $offset,
 		);
 
 		$popular = array(
 			'posts_per_page' => $post_count,
 			'orderby'        => 'comment_count',
+			'post_status'    => 'publish', // Added missing post_status parameter.
 		);
 
 		$query = new WP_Query( $args );
@@ -48,7 +78,7 @@ class TabPost extends AbstractBlock {
 		# The Loop.
 		$html = '';
 
-		$html .= '<div id="' . $css_id . '" class="mzb-tab-post mzb-tab-post-' . $client_id . ' ' . $class_name . '" data-active-tab="latest">';
+		$html .= '<div id="' . esc_attr( $css_id ) . '" class="mzb-tab-post mzb-tab-post-' . esc_attr( $client_id ) . ' ' . esc_attr( $class_name ) . '" data-active-tab="latest">';
 		$html .= '<div class="mzb-tab-controls">';
 		$html .= '<div data-tab="latest" class="mzb-tab-title active">' . esc_html__( 'Latest', 'magazine-blocks' ) . '</div>';
 		$html .= '<div data-tab="popular" class="mzb-tab-title">' . esc_html__( 'Popular', 'magazine-blocks' ) . '</div>';
@@ -61,28 +91,46 @@ class TabPost extends AbstractBlock {
 				$id    = get_post_thumbnail_id();
 				$src   = wp_get_attachment_image_src( $id );
 				$src   = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-				$image = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
+				$image = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"><img src="' . esc_url( $src ) . '" alt="' . esc_attr( get_the_title() ) . '"/> </a></div>' : '';
 				if ( ! $src ) {
 					$position_class = 'no-thumbnail';
 				} else {
 					$position_class = '';
 				}
-				$title = '<h3 class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></h3>';
-				$date  = '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+				$title    = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
+				$category = ( true === $enable_category ) ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
+				$author   = ( true === $enable_author ) ? '<span class="mzb-post-author" ><img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . '" alt="' . esc_attr( get_the_author() ) . '" />' . get_the_author_posts_link() . '</span>' : '';
+				$date     = ( true === $enable_date ) ? '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
 							</svg>
-							<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
-				$html .= '<div class="mzb-post ' . $position_class . '">';
-				$html .= '';
-				$html .= $image;
-				$html .= '<div class="mzb-post-content">';
+							<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
+				$html    .= '<div class="mzb-post ' . esc_attr( $position_class ) . '">';
+				$html    .= $image;
+				$html    .= '<div class="mzb-post-content">';
+				if ( $enable_category ) {
+					$html .= '<div class="mzb-post-meta">';
+					$html .= $category;
+					$html .= '</div>';
+				}
+				if ( 'top' === $meta_position ) {
+					if ( $enable_author || $enable_date ) {
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . esc_attr( $meta_separator ) . '">';
+						$html .= $enable_author ? $author : '';
+						$html .= $enable_date ? $date : '';
+						$html .= '</div>';
+					}
+				}
 				$html .= $title;
-				$html .= '<div class="mzb-post-entry-meta">';
-				$html .= $date;
+				if ( 'bottom' === $meta_position ) {
+					if ( $enable_author || $enable_date ) {
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . esc_attr( $meta_separator ) . '">';
+						$html .= $enable_author ? $author : '';
+						$html .= $enable_date ? $date : '';
+						$html .= '</div>';
+					}
+				}
 				$html .= '</div>';
 				$html .= '</div>';
-				$html .= '</div>';
-
 			}
 			$html .= '</div>';
 			wp_reset_postdata();
@@ -94,25 +142,38 @@ class TabPost extends AbstractBlock {
 				$id    = get_post_thumbnail_id();
 				$src   = wp_get_attachment_image_src( $id );
 				$src   = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ) : '';
-				$image = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
+				$image = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"><img src="' . esc_url( $src ) . '" alt="' . esc_attr( get_the_title() ) . '"/> </a></div>' : '';
 				if ( ! $src ) {
 					$position_class = 'no-thumbnail';
 				} else {
 					$position_class = '';
 				}
-				$title = '<h3 class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></h3>';
-				$date  = '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+				$title  = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
+				$author = ( true === $enable_author ) ? '<span class="mzb-post-author" ><img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . '" alt="' . esc_attr( get_the_author() ) . '" />' . get_the_author_posts_link() . '</span>' : '';
+				$date   = ( true === $enable_date ) ? '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
 							</svg>
-							<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
-				$html .= '<div class="mzb-post ' . $position_class . '">';
-				$html .= '';
-				$html .= $image;
-				$html .= '<div class="mzb-post-content">';
+							<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
+				$html  .= '<div class="mzb-post ' . esc_attr( $position_class ) . '">';
+				$html  .= $image;
+				$html  .= '<div class="mzb-post-content">';
+				if ( 'top' === $meta_position ) {
+					if ( $enable_author || $enable_date ) {
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . esc_attr( $meta_separator ) . '">';
+						$html .= $enable_author ? $author : '';
+						$html .= $enable_date ? $date : '';
+						$html .= '</div>';
+					}
+				}
 				$html .= $title;
-				$html .= '<div class="mzb-post-entry-meta">';
-				$html .= $date;
-				$html .= '</div>';
+				if ( 'bottom' === $meta_position ) {
+					if ( $enable_author || $enable_date ) {
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . esc_attr( $meta_separator ) . '">';
+						$html .= $enable_author ? $author : '';
+						$html .= $enable_date ? $date : '';
+						$html .= '</div>';
+					}
+				}
 				$html .= '</div>';
 				$html .= '</div>';
 			}

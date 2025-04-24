@@ -38,6 +38,8 @@ class CategoryList extends AbstractBlock {
 		$heading_layout_1_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout1AdvancedStyle', '' );
 		$heading_layout_2_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout2AdvancedStyle', '' );
 		$heading_layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout3AdvancedStyle', '' );
+		$heading_layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout4AdvancedStyle', '' );
+		$heading_layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout5AdvancedStyle', '' );
 		$label                           = magazine_blocks_array_get( $attributes, 'label', 'Categories' );
 
 		if ( 'layout-1' === $layout ) {
@@ -56,6 +58,10 @@ class CategoryList extends AbstractBlock {
 			$heading_style = $heading_layout_2_advanced_style;
 		} elseif ( 'heading-layout-3' === $heading_layout ) {
 			$heading_style = $heading_layout_3_advanced_style;
+		} elseif ( 'heading-layout-4' === $heading_layout ) {
+			$heading_style = $heading_layout_4_advanced_style;
+		} elseif ( 'heading-layout-5' === $heading_layout ) {
+			$heading_style = $heading_layout_5_advanced_style;
 		}
 
 		$categories = get_categories(

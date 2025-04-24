@@ -217,6 +217,7 @@ class RestApi {
 				'MagazineBlocks\RestApi\Controllers\SettingsController',
 				'MagazineBlocks\RestApi\Controllers\ChangelogController',
 				'MagazineBlocks\RestApi\Controllers\VersionControlController',
+				'MagazineBlocks\RestApi\Controllers\SiteBuilderController',
 			]
 		);
 	}

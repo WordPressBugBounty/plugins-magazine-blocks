@@ -179,6 +179,14 @@
 			"type": "string",
 			"default": "heading-layout-3-style-1"
 		},
+		"headingLayout4AdvancedStyle": {
+			"type": "string",
+			"default": "heading-layout-4-style-1"
+		},
+		"headingLayout5AdvancedStyle": {
+			"type": "string",
+			"default": "heading-layout-5-style-1"
+		},
 		"margin": {
 			"type": "object",
 			"default": {

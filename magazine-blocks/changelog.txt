@@ -1,4 +1,43 @@
 == Changelog ==
+= 1.4.1 - 24/04/2025 =
+* Fix - Frontend rendering of presets in Post Video block.
+* Fix - Gap issue on Grid Module block.
+* Fix - Background color of arrows in Slider block.
+* Fix - Content height issue on preset style3 on Slider block.
+* Added - Highlight post height option on Featured Categories block.
+* Added - Post content padding option on Featured Categories block.
+* Added - Post Box height and width options on Featured Categories block.
+* Added - Border option for arrows in Slider Block.
+* Added - Box Shadow option for arrows in Slider block.
+* Added - Separate color option for active and inactive dots on Slider block.
+* Added - Featured Image border radius option in post blocks.
+* Added - Heading Layout Preset Styles.
+* Added - Border Option for Heading Layouts in post blocks.
+* Added - Width options for posts and highlighted posts in post video block.
+* Added - Meta Style options for Post video block.
+* Added - Category enable/disable option for Highlight Post in Post Video block.
+* Added - Padding option for post content in Grid Module block.
+* Added - Column option for Grid Module block.
+* Added - Offset option on each Post blocks frontend.
+* Added - Meta Separator presets for all post blocks.
+* Added - Query settings for the Tab Post block.
+* Added - Meta and header Meta settings for the Tab Post block.
+* Added - Tab Header preset style on Tab Post Block.
+* Added - Border and Box Shadow option for Tab Header on Tab Post Block.
+* Added - Border and Box Shadow option for Tab Header on Tab Post Block.
+* Added - Icon size, color, padding, and border options for view more icon on all Post Blocks.
+* Added - View More Url option on all Post Blocks.
+* Added - Highlight Post text color option on Post Video Block.
+* Added - Content Padding option on Post Video Block.
+* Added - Post box height and width option on Post Video Block.
+* Added - Styling options for embed play button on Post Video Block.
+* Enhancement - View More Button and Heading Presets on all Post blocks.
+* Enhancement - Inspector Settings of Date and Weather block.
+* Enhancement - Grid Module block content padding Control.
+* Enhancement - Type checking for Get Icon Rendering Method.
+* Enhancement - Compatibility with WordPress version 6.8.
+* Enhancement - Frontend rendering for Latest Posts Block.
+
 = 1.3.32 - 04/04/2025 =
 * Fix - Post query based on categories in News Ticker block.
 * Fix - Icon type in News Ticker block frontend.

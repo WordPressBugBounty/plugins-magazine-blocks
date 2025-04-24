@@ -87,7 +87,7 @@ class LibraryDataController extends \WP_REST_Controller {
 
 		if ( empty( $data ) ) {
 			$response = wp_remote_get(
-				'https://wpblockart.com/wp-json/magazine-blocks-library/v1/all',
+				'https://wpblockart.com/wp-json/mzb-library/v1/all',
 				array(
 					'timeout' => 120,
 				)

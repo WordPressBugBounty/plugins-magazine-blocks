@@ -111,6 +111,10 @@ function magazine_blocks_get_post_types(): array {
  * @return string
  */
 function magazine_blocks_get_icon( $name, $echo = false, $args = array() ) {
+
+	if ( ! is_string( $name ) ) {
+		$name = (string) $name;
+	}
 	$icon = \MagazineBlocks\Icon::init()->get( $name, $args );
 	if ( $echo ) {
 		echo wp_kses( $icon, magazine_blocks_get_allowed_svg_elements() );

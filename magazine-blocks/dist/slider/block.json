@@ -69,13 +69,13 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .swiper .swiper-slide, {{WRAPPER}} .swiper .swiper-slide .mzb-featured-image img { height: {{VALUE}} }"
+          "selector": " {{WRAPPER}} .swiper .swiper-slide .mzb-featured-image img { height: {{VALUE}} }"
         },
         {
-          "selector": "{{WRAPPER}} .swiper .swiper-slide.style3, {{WRAPPER}} .swiper .swiper-slide.style3 .mzb-featured-image img { height: {{VALUE}} !important;}"
+          "selector": " {{WRAPPER}} .swiper .swiper-slide.style3 .mzb-featured-image img { height: {{VALUE}}}"
         },
         {
-          "selector": "{{WRAPPER}} .swiper .swiper-slide.style4, {{WRAPPER}} .swiper .swiper-slide.style4 .mzb-featured-image img { height: {{VALUE}} !important;}"
+          "selector": " {{WRAPPER}} .swiper .swiper-slide.style4 .mzb-featured-image img { height: {{VALUE}} }"
         }
       ]
     },
@@ -111,6 +111,74 @@
     "enableArrow": {
       "type": "boolean",
       "default": false
+    },
+    "enableArrowBorder": {
+      "type": "boolean",
+      "default": false
+    },
+    "arrowBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .swiper .swiper-button-prev, {{WRAPPER}} .swiper .swiper-button-next"
+        }
+      ]
+    },
+    "arrowHoverBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .swiper .swiper-button-prev:hover, {{WRAPPER}} .swiper .swiper-button-next:hover"
+        }
+      ]
+    },
+    "arrowBoxShadow": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .swiper .swiper-button-prev, {{WRAPPER}} .swiper .swiper-button-next"
+        }
+      ]
+    },
+    "arrowBoxShadowHover": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .swiper .swiper-button-prev:hover, {{WRAPPER}} .swiper .swiper-button-next:hover"
+        }
+      ]
     },
     "arrowPosition": {
       "type": "string",
@@ -175,7 +243,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .swiper-button-next::after, .editor-styles-wrapper .swiper .swiper-button-next::after, {{WRAPPER}} .swiper-button-prev::after, .editor-styles-wrapper .swiper .swiper-button-prev::after"
+          "selector": "{{WRAPPER}} .swiper-button-next, .editor-styles-wrapper .swiper .swiper-button-next, {{WRAPPER}} .swiper-button-prev, .editor-styles-wrapper .swiper .swiper-button-prev"
         }
       ]
     },
@@ -186,7 +254,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .swiper-button-next:hover::after, .editor-styles-wrapper .swiper .swiper-button-next::after, {{WRAPPER}} .swiper-button-prev:hover::after, .editor-styles-wrapper .swiper .swiper-button-prev::after"
+          "selector": "{{WRAPPER}} .swiper-button-next:hover, .editor-styles-wrapper .swiper .swiper-button-next:hover, {{WRAPPER}} .swiper-button-prev:hover, .editor-styles-wrapper .swiper .swiper-button-prev:hover"
         }
       ]
     },
@@ -597,10 +665,13 @@
       ]
     },
     "dotBackground": {
-      "type": "string",
+      "type": "object",
+      "default": {
+        "background": 1
+      },
       "style": [
         {
-          "selector": "{{WRAPPER}} .swiper .swiper-pagination .swiper-pagination-bullet { background-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .swiper .swiper-pagination .swiper-pagination-bullet"
         }
       ]
     },

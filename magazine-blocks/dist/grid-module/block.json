@@ -121,6 +121,14 @@
       "type": "string",
       "default": "heading-layout-3-style-1"
     },
+    "headingLayout4AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-4-style-1"
+    },
+    "headingLayout5AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-5-style-1"
+    },
     "enableCategory": {
       "type": "boolean",
       "default": false
@@ -153,17 +161,69 @@
         }
       ]
     },
-    "headingBorderColor": {
+    "headingBorderWidth": {
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading h2::before {background-color: {{VALUE}}; }"
-        },
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 {border-bottom-width: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1 {border-bottom-width: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorderWidthBefore": {
+      "type": "string",
+      "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 {border-bottom-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading h2::before {border-bottom-width: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-width: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorderColor": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
         },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1 {border-bottom-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 {border-bottom-color: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1 {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorderColorBefore": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading h2::before {background-color: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorderBottomInset": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {bottom: {{VALUE}}; }"
         }
       ]
     },
@@ -277,6 +337,20 @@
         }
       ]
     },
+    "featuredImageBorderRadius": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-featured-image img { border-radius: {{VALUE}}; }"
+        }
+      ]
+    },
     "alignment": {
       "type": "object",
       "style": [
@@ -297,6 +371,20 @@
         "desktop": "left"
       }
     },
+    "contentPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-grid-module .mzb-posts .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
+        }
+      ]
+    },
     "enableDate": {
       "type": "boolean",
       "default": true
@@ -304,6 +392,14 @@
     "enableAuthor": {
       "type": "boolean",
       "default": true
+    },
+    "enableMetaSeparator": {
+      "type": "boolean",
+      "default": false
+    },
+    "separatorType": {
+      "type": "string",
+      "default": "none"
     },
     "metaPosition": {
       "type": "string",
@@ -371,16 +467,21 @@
       "type": "string",
       "default": "View All"
     },
+    "viewMoreLink": {
+      "type": "string",
+      "default": ""
+    },
     "viewButtonPosition": {
       "type": "string",
       "default": "top"
     },
+    "enableViewMoreIcon": {
+      "type": "boolean",
+      "default": false
+    },
     "viewMoreIcon": {
-      "type": "object",
-      "default": {
-        "enable": false,
-        "icon": "arrowRight"
-      }
+      "type": "string",
+      "default": "arrowRight"
     },
     "viewMoreColor": {
       "type": "string",

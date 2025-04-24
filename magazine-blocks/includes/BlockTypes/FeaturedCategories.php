@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Featured Posts block.
  *
@@ -15,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Button block class.
  */
 class FeaturedCategories extends AbstractBlock {
+
 
 	/**
 	 * Block name.
@@ -48,8 +50,9 @@ class FeaturedCategories extends AbstractBlock {
 		$enable_comment  = magazine_blocks_array_get( $attributes, 'enableComment', '' );
 
 		// Meta.
-		$meta_position = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
-		$enable_meta   = magazine_blocks_array_get( $attributes, 'enableMeta', '' );
+		$meta_position  = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
+		$enable_meta    = magazine_blocks_array_get( $attributes, 'enableMeta', '' );
+		$meta_separator = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
 
 		// Heading
 		$enable_heading                  = magazine_blocks_array_get( $attributes, 'enableHeading', 'true' );
@@ -57,6 +60,8 @@ class FeaturedCategories extends AbstractBlock {
 		$heading_layout_1_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout1AdvancedStyle', '' );
 		$heading_layout_2_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout2AdvancedStyle', '' );
 		$heading_layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout3AdvancedStyle', '' );
+		$heading_layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout4AdvancedStyle', '' );
+		$heading_layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout5AdvancedStyle', '' );
 		$label                           = magazine_blocks_array_get( $attributes, 'label', 'Latest' );
 		$label2                          = magazine_blocks_array_get( $attributes, 'label2', 'Latest' );
 
@@ -72,10 +77,16 @@ class FeaturedCategories extends AbstractBlock {
 		$read_more_text  = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
 
 		//View All
-		$enable_view_more     = magazine_blocks_array_get( $attributes, 'enableViewMore', '' );
-		$view_more_text       = magazine_blocks_array_get( $attributes, 'viewMoreText', '' );
-		$view_button_position = magazine_blocks_array_get( $attributes, 'viewButtonPosition', '' );
-		$view_more_icon       = magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' );
+		$enable_view_more      = magazine_blocks_array_get( $attributes, 'enableViewMore', '' );
+		$view_more_text        = magazine_blocks_array_get( $attributes, 'viewMoreText', '' );
+		$view_button_position  = magazine_blocks_array_get( $attributes, 'viewButtonPosition', '' );
+		$enable_view_more_icon = magazine_blocks_array_get( $attributes, 'enableViewMoreIcon', '' );
+		$view_more_icon        = magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' );
+		$get_icon              = magazine_blocks_get_icon( $view_more_icon, false );
+		$view_more_url         = magazine_blocks_array_get( $attributes, 'viewMoreUrl', '' );
+
+		//offset
+		$offset = magazine_blocks_array_get( $attributes, 'offset', 0 );
 
 		if ( 'heading-layout-1' === $heading_layout ) {
 			$heading_style = $heading_layout_1_advanced_style;
@@ -83,6 +94,10 @@ class FeaturedCategories extends AbstractBlock {
 			$heading_style = $heading_layout_2_advanced_style;
 		} elseif ( 'heading-layout-3' === $heading_layout ) {
 			$heading_style = $heading_layout_3_advanced_style;
+		} elseif ( 'heading-layout-4' === $heading_layout ) {
+			$heading_style = $heading_layout_4_advanced_style;
+		} elseif ( 'heading-layout-5' === $heading_layout ) {
+			$heading_style = $heading_layout_5_advanced_style;
 		}
 
 		// Define the custom excerpt length function as an anonymous function
@@ -102,6 +117,7 @@ class FeaturedCategories extends AbstractBlock {
 			'tag_id'              => $tag,
 			'ignore_sticky_posts' => 1,
 			'category__not_in'    => $excluded_category,
+			'offset'              => $offset,
 		);
 
 		$cat_2_args = array(
@@ -111,6 +127,7 @@ class FeaturedCategories extends AbstractBlock {
 			'tag_id'              => $tag_2,
 			'ignore_sticky_posts' => 1,
 			'category__not_in'    => $excluded_category_2,
+			'offset'              => $offset,
 		);
 
 		$cat_name = get_cat_name( $category );
@@ -131,13 +148,15 @@ class FeaturedCategories extends AbstractBlock {
 			$html .= '<div class="mzb-featured-categories mzb-featured-categories-' . $client_id . '">';
 			$html .= '<div class="mzb-category-posts">';
 			$html .= '<div class="mzb-category-1-posts mzb-' . $post_box_style . '">';
-			$html .= '<div class="mzb-top-wrapper">';
-			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '"> ' . ( $enable_heading ? '<h2>' . esc_html( $label ) . '</h2>' : '' ) . '</div>';
+			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
+			if ( $enable_heading ) {
+				$html .= '<h2>' . esc_html( $label ) . '</h2>';
+			}
 			if ( $enable_view_more && 'top' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
 				$html .= '<p>' . $view_more_text . '</p>';
-				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
-					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				if ( $enable_view_more_icon ) {
+					$html .= $get_icon;
 				}
 				$html .= '</a></div>';
 			}
@@ -173,13 +192,13 @@ class FeaturedCategories extends AbstractBlock {
 					$html .= '</div>';
 				}
 				if ( $enable_meta && 'top' === $meta_position ) {
-					$html .= '<div class="mzb-post-entry-meta">';
+					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 					$html .= $date;
 					$html .= '</div>';
 				}
 				$html .= $title;
 				if ( $enable_meta && 'bottom' === $meta_position ) {
-					$html .= '<div class="mzb-post-entry-meta">';
+					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 					$html .= $date;
 					$html .= '</div>';
 				}
@@ -193,23 +212,25 @@ class FeaturedCategories extends AbstractBlock {
 				$html .= '</div>';
 			}
 			if ( $enable_view_more && 'bottom' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
 				$html .= '<p>' . $view_more_text . '</p>';
-				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
-					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				if ( $enable_view_more_icon ) {
+					$html .= $get_icon;
 				}
 				$html .= '</a></div>';
 			}
 			$html .= '</div>';
 
 			$html .= '<div class="mzb-category-2-posts mzb-' . $post_box_style . '">';
-			$html .= '<div class="mzb-top-wrapper">';
-			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">' . ( $enable_heading ? '<h2>' . esc_html( $label2 ) . '</h2>' : '' ) . '</div>';
+			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
+			if ( $enable_heading ) {
+				$html .= '<h2>' . esc_html( $label ) . '</h2>';
+			}
 			if ( $enable_view_more && 'top' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
 				$html .= '<p>' . $view_more_text . '</p>';
-				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
-					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				if ( $enable_view_more_icon ) {
+					$html .= $get_icon;
 				}
 				$html .= '</a></div>';
 			}
@@ -245,13 +266,13 @@ class FeaturedCategories extends AbstractBlock {
 					$html .= '</div>';
 				}
 				if ( $enable_meta && 'top' === $meta_position ) {
-					$html .= '<div class="mzb-post-entry-meta">';
+					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 					$html .= $date;
 					$html .= '</div>';
 				}
 				$html .= $title;
 				if ( $enable_meta && 'bottom' === $meta_position ) {
-					$html .= '<div class="mzb-post-entry-meta">';
+					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 					$html .= '';
 					$html .= $date;
 					$html .= '</div>';
@@ -266,10 +287,10 @@ class FeaturedCategories extends AbstractBlock {
 				$html .= '</div>';
 			}
 			if ( $enable_view_more && 'bottom' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href="#">';
+				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
 				$html .= '<p>' . $view_more_text . '</p>';
-				if ( isset( $view_more_icon['enable'] ) && $view_more_icon['enable'] ) {
-					$html .= magazine_blocks_get_icon( $view_more_icon['icon'], false );
+				if ( $enable_view_more_icon ) {
+					$html .= $get_icon;
 				}
 				$html .= '</a></div>';
 			}
