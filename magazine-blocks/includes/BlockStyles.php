@@ -609,6 +609,8 @@ class BlockStyles {
 			return $css;
 		}
 
+		$type = magazine_blocks_array_get( $value, 'type', 'color' );
+
 		foreach ( $styles_def as $style_def ) {
 			if ( ! $this->check_condition( $style_def['condition'] ?? array(), $attrs, $attrs_def ) ) {
 				continue;
@@ -617,6 +619,11 @@ class BlockStyles {
 				continue;
 			}
 			$selector = str_replace( '{{WRAPPER}}', $wrapper_class, $style_def['selector'] );
+
+			if ( 'gradient' === $type && isset( $value['gradient'] ) ) {
+				$css['desktop'][ $selector ]['background'] = $value['gradient'];
+				continue;
+			}
 
 			if ( isset( $value['color'] ) ) {
 				$css['desktop'][ $selector ]['background-color'] = $value['color'];

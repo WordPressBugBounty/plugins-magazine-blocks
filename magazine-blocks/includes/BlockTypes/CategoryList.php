@@ -76,7 +76,7 @@ class CategoryList extends AbstractBlock {
 		$html = '';
 
 		$html .= '<div class="mzb-category-list mzb-category-list-' . esc_attr( $client_id ) . '">';
-		$html .= $enable_heading ? '<div class="mzb-post-heading mzb-' . esc_attr( $heading_layout ) . ' mzb-' . esc_attr( $heading_style ) . '"><h2>' . esc_html( $label ) . '</h2></div>' : '';
+		$html .= $enable_heading ? '<div class="mzb-post-heading mzb-' . esc_attr( $heading_layout ) . ' mzb-' . esc_attr( $heading_style ) . '"><h2 class="mzb-heading-text">' . esc_html( $label ) . '</h2></div>' : '';
 
 		if ( '' !== $advanced_style ) {
 			$advanced_style_class = $advanced_style;

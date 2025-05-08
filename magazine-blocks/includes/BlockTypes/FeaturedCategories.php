@@ -53,6 +53,7 @@ class FeaturedCategories extends AbstractBlock {
 		$meta_position  = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
 		$enable_meta    = magazine_blocks_array_get( $attributes, 'enableMeta', '' );
 		$meta_separator = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
+		$enable_icon    = magazine_blocks_array_get( $attributes, 'enableIcon', '' );
 
 		// Heading
 		$enable_heading                  = magazine_blocks_array_get( $attributes, 'enableHeading', 'true' );
@@ -83,7 +84,11 @@ class FeaturedCategories extends AbstractBlock {
 		$enable_view_more_icon = magazine_blocks_array_get( $attributes, 'enableViewMoreIcon', '' );
 		$view_more_icon        = magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' );
 		$get_icon              = magazine_blocks_get_icon( $view_more_icon, false );
-		$view_more_url         = magazine_blocks_array_get( $attributes, 'viewMoreUrl', '' );
+		$view_more_url         = magazine_blocks_array_get( $attributes, 'viewMoreLink', array() );
+
+		$href   = isset( $view_more_url['url'] ) ? esc_url( $view_more_url['url'] ) : '';
+		$target = ! empty( $view_more_url['newTab'] ) ? ' target="_blank"' : '';
+		$rel    = ! empty( $view_more_url['noFollow'] ) ? ' rel="nofollow"' : '';
 
 		//offset
 		$offset = magazine_blocks_array_get( $attributes, 'offset', 0 );
@@ -150,10 +155,10 @@ class FeaturedCategories extends AbstractBlock {
 			$html .= '<div class="mzb-category-1-posts mzb-' . $post_box_style . '">';
 			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
 			if ( $enable_heading ) {
-				$html .= '<h2>' . esc_html( $label ) . '</h2>';
+				$html .= '<h2 class="mzb-heading-text">' . esc_html( $label ) . '</h2>';
 			}
 			if ( $enable_view_more && 'top' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
+				$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';
 				$html .= '<p>' . $view_more_text . '</p>';
 				if ( $enable_view_more_icon ) {
 					$html .= $get_icon;
@@ -170,10 +175,10 @@ class FeaturedCategories extends AbstractBlock {
 				$title    = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
 				$category = $enable_category ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
 				$comment  = '<a href="' . get_comments_link() . '">' . get_comments_number() . '</a>';
-				$date     = '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+				$date     = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-							</svg>
-							<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
+							</svg>' : '' ) .
+							'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
 				$html    .= '<div class="mzb-post">';
 				$html    .= '';
 				$html    .= $image;
@@ -212,7 +217,7 @@ class FeaturedCategories extends AbstractBlock {
 				$html .= '</div>';
 			}
 			if ( $enable_view_more && 'bottom' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
+				$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';
 				$html .= '<p>' . $view_more_text . '</p>';
 				if ( $enable_view_more_icon ) {
 					$html .= $get_icon;
@@ -224,10 +229,10 @@ class FeaturedCategories extends AbstractBlock {
 			$html .= '<div class="mzb-category-2-posts mzb-' . $post_box_style . '">';
 			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
 			if ( $enable_heading ) {
-				$html .= '<h2>' . esc_html( $label ) . '</h2>';
+				$html .= '<h2 class="mzb-heading-text">' . esc_html( $label2 ) . '</h2>';
 			}
 			if ( $enable_view_more && 'top' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
+				$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';
 				$html .= '<p>' . $view_more_text . '</p>';
 				if ( $enable_view_more_icon ) {
 					$html .= $get_icon;
@@ -244,10 +249,10 @@ class FeaturedCategories extends AbstractBlock {
 				$title    = '<h3 class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></h3>';
 				$category = $enable_category ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
 				$comment  = '<a href="' . get_comments_link() . '">' . get_comments_number() . '</a>';
-				$date     = '<span class ="mzb-post-date"><svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+				$date     = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-							</svg>
-							<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
+							</svg>' : '' ) .
+							'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
 				$html    .= '<div class="mzb-post">';
 				$html    .= '';
 				$html    .= $image;
@@ -287,7 +292,7 @@ class FeaturedCategories extends AbstractBlock {
 				$html .= '</div>';
 			}
 			if ( $enable_view_more && 'bottom' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href=" ' . $view_more_url . '">';
+				$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';
 				$html .= '<p>' . $view_more_text . '</p>';
 				if ( $enable_view_more_icon ) {
 					$html .= $get_icon;

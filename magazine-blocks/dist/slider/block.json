@@ -418,6 +418,10 @@
       "type": "boolean",
       "default": true
     },
+    "enableIcon": {
+      "type": "boolean",
+      "default": true
+    },
     "metaPosition": {
       "type": "string",
       "default": "top"
@@ -443,6 +447,18 @@
       "style": [
         {
           "selector": ".mzb-slider{{WRAPPER}} .swiper .mzb-post-date a:hover {color: {{VALUE}}; } .mzb-slider{{WRAPPER}} .swiper .mzb-post-author a:hover {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "metaTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 400
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-content .mzb-post-entry-meta .mzb-post-author a, {{WRAPPER}} .mzb-post-content .mzb-post-entry-meta .mzb-post-date a, {{WRAPPER}} .mzb-post-content .mzb-post-entry-meta .mzb-post-read-time span, {{WRAPPER}} .mzb-post-content .mzb-post-entry-meta .mzb-post-view-count span"
         }
       ]
     },
@@ -750,6 +766,31 @@
     "slidesPerView": {
       "type": "number",
       "default": 4
+    },
+    "sliderCardBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .swiper-wrapper .style3.swiper-slide .mzb-post-content"
+        }
+      ]
+    },
+    "contentPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .swiper-wrapper .style3.swiper-slide .mzb-post-content { padding: {{VALUE}}; }"
+        }
+      ]
     },
     "blockMargin": {
       "type": "object",

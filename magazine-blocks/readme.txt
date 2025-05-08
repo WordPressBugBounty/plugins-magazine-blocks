@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,36 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.4.3 - 08/05/2025 =
+* Fix - Post title markup line height issue in slider block.
+* Fix - Meta link color issue on Grid module block preset layout 2.
+* Fix - Heading Typography option not working issue in heading block.
+* Fix - Query settings frontend rendering issue in slider block.
+* Fix - Dots pagination on Slider block.
+* Fix - Highlight Post and Post Box category toggle on Post Video block.
+* Fix - Background gradient color not working issue.
+* Fix - Heading block border bottom issue in the editor on tablet and mobile view.
+* Fix - Responsive issue in the slider block on mobile view.
+* Added - New Preset design for Post List block.
+* Added - Options for Number List on Post List block.
+* Added - Posts Separator option on Post List block.
+* Added - View All Button Icon spacing settings.
+* Added - Background color and padding option in slider block for style3 preset.
+* Added - Icon enable/disable option for meta in all posts block.
+* Added - Typography option for meta in all posts block.
+* Added - Meta separator color option in all posts block.
+* Added - Heading Layout 6 preset in heading block.
+* Added - Free Vs Pro menu on Dashboard.
+* Added - Content Padding option on Post List Block.
+* Enhancement - Decimal value option on steps of Slider Control.
+* Enhancement - Video Preview option on Media Control.
+* Enhancement - Mobile Responsiveness on Grid Module Layout2.
+* Enhancement - Width control and image overlay structure in Post Video block.
+* Enhancement - View All Button Link options.
+* Enhancement - Embed button visibility on highlight post of Post Video block.
+* Enhancement - Content overlay visibility of post content on highlight post of Post Video block.
+* Enhancement - Display meta fields only on highlighted post for Preset2 Style3 on Banner Posts block.
+
 = 1.4.2 - 25/04/2025 =
 * Enhancement - Revert Site Builder due to some issues.
 
@@ -170,6 +200,7 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 * Added - Highlight post height option on Featured Categories block.
 * Added - Post content padding option on Featured Categories block.
 * Added - Post Box height and width options on Featured Categories block.
+
 * Added - Border option for arrows in Slider Block.
 * Added - Box Shadow option for arrows in Slider block.
 * Added - Separate color option for active and inactive dots on Slider block.

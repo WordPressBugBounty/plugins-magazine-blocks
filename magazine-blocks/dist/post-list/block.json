@@ -49,6 +49,20 @@
         }
       ]
     },
+    "contentPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-posts .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
+        }
+      ]
+    },
     "alignment": {
       "type": "object",
       "style": [
@@ -181,7 +195,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading h2, {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 h2 {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text, {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 .mzb-heading-text {color: {{VALUE}}; }"
         }
       ]
     },
@@ -189,7 +203,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading h2:hover {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text:hover {color: {{VALUE}}; }"
         }
       ]
     },
@@ -231,7 +245,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading h2::before {background-color: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text::before {background-color: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
         }
       ]
     },
@@ -247,7 +261,64 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 h2 {background-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 .mzb-heading-text {background-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorderWidth": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 {border-bottom-width: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1 {border-bottom-width: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-4-style-1 {border-bottom-width: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-5-style-1 {border-bottom-width: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorderWidthBefore": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text::before {border-bottom-width: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-width: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-width: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {width: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text"
+        }
+      ]
+    },
+    "dotColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-4-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-5-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
         }
       ]
     },
@@ -348,6 +419,10 @@
       "type": "string",
       "default": "none"
     },
+    "enableIcon": {
+      "type": "boolean",
+      "default": true
+    },
     "metaIconColor": {
       "type": "string",
       "style": [
@@ -371,6 +446,268 @@
           "selector": "{{WRAPPER}} .mzb-post-date a:hover {color: {{VALUE}}; }"
         }
       ]
+    },
+    "metaTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 400
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-author a, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-date a, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-read-time span, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-view-count span"
+        }
+      ]
+    },
+    "metaSeparatorColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta span:nth-child(odd):not(:last-child)::after {color: {{VALUE}}; } "
+        }
+      ]
+    },
+    "enableNumberList": {
+      "type": "boolean",
+      "default": false
+    },
+    "numberLayout": {
+      "type": "string",
+      "default": "default"
+    },
+    "numberPosition": {
+      "type": "string",
+      "default": "with-image"
+    },
+    "numberListTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        }
+      ]
+    },
+    "numberColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post::before {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post::before {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post::before {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post::before {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before {color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "numberLeftGap": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post::before {left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before {left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post::before {left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before {left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post::before {left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before {left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post::before {left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before {left: {{VALUE}}; }"
+        }
+      ]
+    },
+    "numberTopGap": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post::before {top: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before {top: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post::before {top: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before {top: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post::before {top: {{VALUE}}; }"
+        },
+        {
+          "selector": "{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before {top: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post::before {top: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before {top: {{VALUE}}; }"
+        }
+      ]
+    },
+    "numberBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        }
+      ]
+    },
+    "numberBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        }
+      ]
+    },
+    "numberBoxShadow": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+        }
+      ]
+    },
+    "enablePostsSeparator": {
+      "type": "boolean",
+      "default": false
     },
     "enableExcerpt": {
       "type": "boolean",
@@ -423,8 +760,7 @@
       "default": "View All"
     },
     "viewMoreLink": {
-      "type": "string",
-      "default": ""
+      "type": "object"
     },
     "viewButtonPosition": {
       "type": "string",
@@ -481,6 +817,14 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-view-more a { gap: {{VALUE}} }"
+        }
+      ]
+    },
+    "iconSize": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-view-more a svg { height: {{VALUE}}; width: {{VALUE}}; }"
         }
       ]
     },

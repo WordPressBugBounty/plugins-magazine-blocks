@@ -91,12 +91,12 @@ class Admin {
 	 */
 	private function get_submenus() {
 		$submenus = [
-			'dashboard' => [
+			'dashboard'   => [
 				'page_title' => __( 'Dashboard', 'magazine-blocks' ),
 				'menu_title' => __( 'Dashboard', 'magazine-blocks' ),
 				'position'   => 10,
 			],
-			'blocks'    => [
+			'blocks'      => [
 				'page_title' => __( 'Blocks', 'magazine-blocks' ),
 				'menu_title' => __( 'Blocks', 'magazine-blocks' ),
 				'position'   => 20,
@@ -106,17 +106,22 @@ class Admin {
 			//  'menu_title' => __( 'Site Builder', 'magazine-blocks' ),
 			//  'position'   => 21,
 			// ],
-			'products'  => [
+			'products'    => [
 				'page_title' => __( 'Products', 'magazine-blocks' ),
 				'menu_title' => __( 'Products', 'magazine-blocks' ),
 				'position'   => 30,
 			],
-			'settings'  => [
+			'settings'    => [
 				'page_title' => __( 'Settings', 'magazine-blocks' ),
 				'menu_title' => __( 'Settings', 'magazine-blocks' ),
 				'position'   => 40,
 			],
-			'help'      => [
+			'free-vs-pro' => [
+				'page_title' => __( 'Free Vs pro', 'magazine-blocks' ),
+				'menu_title' => __( 'Free Vs pro', 'magazine-blocks' ),
+				'position'   => 45,
+			],
+			'help'        => [
 				'page_title' => __( 'Help', 'magazine-blocks' ),
 				'menu_title' => __( 'Help', 'magazine-blocks' ),
 				'position'   => 50,
