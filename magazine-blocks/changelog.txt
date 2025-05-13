@@ -1,4 +1,17 @@
 == Changelog ==
+= 1.5.0 - 13/05/2025 =
+* Added - Highlighted post height option on post video block.
+* Added - New Heading Presets and controls on Heading block and all post blocks heading.
+* Added - Color and hover color options for icon in Social Icon block.
+* Added - Background color and hover background color for icon in Social Icon block.
+* Added - Header Meta Typography option on Featured Categories block.
+* Added - Post box padding option on Featured Categories block.
+* Added - View All Typography option on Featured Categories block.
+* Added - Enable/disable option for author and date on Featured Categories block.
+* Enhancement - Mobile Responsiveness on Post List Layout 1 Style 1 preset.
+* Enhancement - Responsiveness on featured categories block for tablet and mobile view.
+* Enhancement - Tablet and Mobile Responsiveness on post video style 1 preset for.
+
 = 1.4.3 - 08/05/2025 =
 * Fix - Post title markup line height issue in slider block.
 * Fix - Meta link color issue on Grid module block preset layout 2.

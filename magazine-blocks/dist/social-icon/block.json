@@ -3,8 +3,13 @@
   "name": "magazine-blocks/social-icon",
   "title": "Social Icon",
   "description": "An advanced single social icon within section block.",
-  "parent": [ "magazine-blocks/social-icons" ],
-  "keywords": [ "social-icon", "icon" ],
+  "parent": [
+    "magazine-blocks/social-icons"
+  ],
+  "keywords": [
+    "social-icon",
+    "icon"
+  ],
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -38,6 +43,44 @@
       "style": [
         {
           "selector": "{{WRAPPER}} svg { width: {{VALUE}}; height: {{VALUE}}; }"
+        }
+      ]
+    },
+    "iconColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} svg { fill: {{VALUE}}; }"
+        }
+      ]
+    },
+    "iconHoverColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} a:hover svg {fill: {{VALUE}}; }"
+        }
+      ]
+    },
+    "iconBgColor": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} a"
+        }
+      ]
+    },
+    "iconBgHoverColor": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}:hover a"
         }
       ]
     },
@@ -115,9 +158,8 @@
       "type": "string"
     }
   },
-"style": "magazine-blocks-blocks",
-"editorScript": "magazine-blocks-blocks",
-"editorStyle": "magazine-blocks-blocks-editor",
-"script": "magazine-blocks-frontend"
+  "style": "magazine-blocks-blocks",
+  "editorScript": "magazine-blocks-blocks",
+  "editorStyle": "magazine-blocks-blocks-editor",
+  "script": "magazine-blocks-frontend"
 }
-

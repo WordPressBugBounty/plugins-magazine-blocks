@@ -182,6 +182,14 @@
         }
       ]
     },
+    "highlightedPostHeight": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post:first-child { height: {{VALUE}} }"
+        }
+      ]
+    },
     "postBoxWidth": {
       "type": "object",
       "style": [

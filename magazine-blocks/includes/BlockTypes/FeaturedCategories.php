@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
 class FeaturedCategories extends AbstractBlock {
 
 
+
 	/**
 	 * Block name.
 	 *
@@ -51,7 +52,8 @@ class FeaturedCategories extends AbstractBlock {
 
 		// Meta.
 		$meta_position  = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
-		$enable_meta    = magazine_blocks_array_get( $attributes, 'enableMeta', '' );
+		$enable_author  = magazine_blocks_array_get( $attributes, 'enableAuthor', '' );
+		$enable_date    = magazine_blocks_array_get( $attributes, 'enableDate', '' );
 		$meta_separator = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
 		$enable_icon    = magazine_blocks_array_get( $attributes, 'enableIcon', '' );
 
@@ -63,6 +65,9 @@ class FeaturedCategories extends AbstractBlock {
 		$heading_layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout3AdvancedStyle', '' );
 		$heading_layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout4AdvancedStyle', '' );
 		$heading_layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout5AdvancedStyle', '' );
+		$heading_layout_7_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout7AdvancedStyle', '' );
+		$heading_layout_8_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout8AdvancedStyle', '' );
+		$heading_layout_9_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout9AdvancedStyle', '' );
 		$label                           = magazine_blocks_array_get( $attributes, 'label', 'Latest' );
 		$label2                          = magazine_blocks_array_get( $attributes, 'label2', 'Latest' );
 
@@ -103,6 +108,12 @@ class FeaturedCategories extends AbstractBlock {
 			$heading_style = $heading_layout_4_advanced_style;
 		} elseif ( 'heading-layout-5' === $heading_layout ) {
 			$heading_style = $heading_layout_5_advanced_style;
+		} elseif ( 'heading-layout-7' === $heading_layout ) {
+			$heading_style = $heading_layout_7_advanced_style;
+		} elseif ( 'heading-layout-8' === $heading_layout ) {
+			$heading_style = $heading_layout_8_advanced_style;
+		} elseif ( 'heading-layout-9' === $heading_layout ) {
+			$heading_style = $heading_layout_9_advanced_style;
 		}
 
 		// Define the custom excerpt length function as an anonymous function
@@ -178,7 +189,8 @@ class FeaturedCategories extends AbstractBlock {
 				$date     = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
 							</svg>' : '' ) .
-							'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
+					'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
+				$author   = ( true === $enable_author ) ? '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' : '' ) . get_the_author_posts_link() . '</span>' : '';
 				$html    .= '<div class="mzb-post">';
 				$html    .= '';
 				$html    .= $image;
@@ -196,15 +208,17 @@ class FeaturedCategories extends AbstractBlock {
 					}
 					$html .= '</div>';
 				}
-				if ( $enable_meta && 'top' === $meta_position ) {
+				if ( ( $enable_author || $enable_date ) && 'top' === $meta_position ) {
 					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-					$html .= $date;
+					$html .= $enable_author ? $author : '';
+					$html .= $enable_date ? $date : '';
 					$html .= '</div>';
 				}
 				$html .= $title;
-				if ( $enable_meta && 'bottom' === $meta_position ) {
+				if ( ( $enable_author || $enable_date ) && 'bottom' === $meta_position ) {
 					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-					$html .= $date;
+					$html .= $enable_author ? $author : '';
+					$html .= $enable_date ? $date : '';
 					$html .= '</div>';
 				}
 				if ( $enable_excerpt || $enable_readmore ) {
@@ -252,7 +266,7 @@ class FeaturedCategories extends AbstractBlock {
 				$date     = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
 							</svg>' : '' ) .
-							'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
+					'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
 				$html    .= '<div class="mzb-post">';
 				$html    .= '';
 				$html    .= $image;
@@ -270,16 +284,16 @@ class FeaturedCategories extends AbstractBlock {
 					}
 					$html .= '</div>';
 				}
-				if ( $enable_meta && 'top' === $meta_position ) {
+				if ( $enable_date && 'top' === $meta_position ) {
 					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-					$html .= $date;
+					$html .= $enable_date ? $date : '';
 					$html .= '</div>';
 				}
 				$html .= $title;
-				if ( $enable_meta && 'bottom' === $meta_position ) {
+				if ( $enable_date && 'bottom' === $meta_position ) {
 					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 					$html .= '';
-					$html .= $date;
+					$html .= $enable_date ? $date : '';
 					$html .= '</div>';
 				}
 				if ( $enable_excerpt || $enable_readmore ) {

@@ -150,6 +150,20 @@
         }
       ]
     },
+    "postBoxPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-border .mzb-post:not(:last-child), {{WRAPPER}}  .mzb-category-1-posts.mzb-border .mzb-post:not(:last-child), {{WRAPPER}} .mzb-category-2-posts.mzb-border .mzb-post:not(:last-child) { padding: {{VALUE}}; }"
+        }
+      ]
+    },
     "postBoxedBoxShadow": {
       "type": "object",
       "default": {
@@ -233,90 +247,6 @@
         }
       ]
     },
-    "headingBorderColor": {
-      "type": "object",
-      "default": {
-        "border": 1,
-        "radius": {
-          "desktop": {
-            "lock": true
-          }
-        },
-        "size": {
-          "desktop": {
-            "lock": true
-          }
-        }
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 {border-bottom-color: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1 {border-bottom-color: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderColorBefore": {
-      "type": "object",
-      "default": {
-        "border": 1,
-        "radius": {
-          "desktop": {
-            "lock": true
-          }
-        },
-        "size": {
-          "desktop": {
-            "lock": true
-          }
-        }
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text::before {background-color: {{VALUE}}; } {{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderBottomInset": {
-      "type": "string",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {bottom: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderWidth": {
-      "type": "string",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1 {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-4-style-1 {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-5-style-1 {border-bottom-width: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderWidthBefore": {
-      "type": "string",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text::before {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {width: {{VALUE}}; }"
-        }
-      ]
-    },
     "headingBackground": {
       "type": "string",
       "style": [
@@ -334,6 +264,100 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text"
+        }
+      ]
+    },
+    "headingLayout6Padding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-6-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-7-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-4-style-1"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-5-style-1"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-6-style-1::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-6-style-1::after"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-7-style-1::after"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-9-style-1"
+        }
+      ]
+    },
+    "headingBorderBefore": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-8-style-1::before"
+        }
+      ]
+    },
+    "headingBorderBottomInset": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1::before {bottom: {{VALUE}}; }"
         }
       ]
     },
@@ -542,6 +566,18 @@
         }
       ]
     },
+    "headerMetaTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 400
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-categories a"
+        }
+      ]
+    },
     "enableComment": {
       "type": "boolean",
       "default": true
@@ -550,7 +586,11 @@
       "type": "string",
       "default": "bottom"
     },
-    "enableMeta": {
+    "enableAuthor": {
+      "type": "boolean",
+      "default": true
+    },
+    "enableDate": {
       "type": "boolean",
       "default": true
     },
@@ -633,6 +673,18 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p { margin: {{VALUE}}; }"
+        }
+      ]
+    },
+    "excerptTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 400
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p"
         }
       ]
     },
@@ -788,6 +840,18 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-view-more a:hover"
+        }
+      ]
+    },
+    "viewAllTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-view-more a p"
         }
       ]
     },

@@ -191,6 +191,18 @@
       "type": "string",
       "default": "heading-layout-6-style-1"
     },
+    "headingLayout7AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-7-style-1"
+    },
+    "headingLayout8AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-8-style-1"
+    },
+    "headingLayout9AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-9-style-1"
+    },
     "dotColor": {
       "type": "string",
       "style": [
@@ -276,88 +288,6 @@
         }
       ]
     },
-    "headingBorderColor": {
-      "type": "string",
-      "style": [
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-post-heading {border-bottom-color: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1 {border-bottom-color: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-4-style-1 {border-bottom-color: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1 {border-bottom-color: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::before {border-bottom-color: {{VALUE}}; }{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::after {border-bottom-color: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderColorBefore": {
-      "type": "string",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text::before {background-color: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-post-heading .mzb-heading-text::before {background-color: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderWidth": {
-      "type": "object",
-      "style": [
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-post-heading {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1 {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-4-style-1 {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1 {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::before {border-width: {{VALUE}}; }{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::after {border-width: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderWidthBefore": {
-      "type": "object",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text::before {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before {border-bottom-width: {{VALUE}}; }"
-        },
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-post-heading .mzb-heading-text::before {width: {{VALUE}}; }"
-        }
-      ]
-    },
-    "headingBorderBottomInset": {
-      "type": "object",
-      "style": [
-        {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before {bottom: {{VALUE}}; }"
-        }
-      ]
-    },
     "headingLayout6Padding": {
       "type": "object",
       "default": {
@@ -369,6 +299,86 @@
       "style": [
         {
           "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-7-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-post-heading"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-4-style-1"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::before"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::after"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-7-style-1 .mzb-post-heading::after"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-9-style-1"
+        }
+      ]
+    },
+    "headingBorderBefore": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-post-heading .mzb-heading-text::before"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-8-style-1::before"
+        }
+      ]
+    },
+    "headingBorderBottomInset": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before {bottom: {{VALUE}}; }"
         }
       ]
     },
