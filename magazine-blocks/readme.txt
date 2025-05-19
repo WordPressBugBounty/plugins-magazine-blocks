@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -159,6 +159,14 @@ Yes! Magazine Blocks is fully compatible with other block plugins.
 Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hence, it does not go well with classic editor or other page builder plugins.
 
 == Changelog ==
+= 1.6.0 - 19/05/2025 =
+* Added - Post Type select control on Slider block.
+* Added - View All text Typography controls on Featured Posts Block.
+* Added - View All text Typography controls on Grid Module Block.
+* Added - View All text Typography controls on Post Lists Block.
+* Added - Heading layout 6 preset in all posts blocks heading.
+* Added - Option to change orientation, justification, alignment and row gap in section block.
+
 = 1.5.0 - 13/05/2025 =
 * Added - Highlighted post height option on post video block.
 * Added - New Heading Presets and controls on Heading block and all post blocks heading.

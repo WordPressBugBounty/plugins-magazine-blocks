@@ -62,6 +62,7 @@ class FeaturedPosts extends AbstractBlock {
 		$heading_layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout3AdvancedStyle', '' );
 		$heading_layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout4AdvancedStyle', '' );
 		$heading_layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout5AdvancedStyle', '' );
+		$heading_layout_6_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout6AdvancedStyle', '' );
 		$heading_layout_7_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout7AdvancedStyle', '' );
 		$heading_layout_8_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout8AdvancedStyle', '' );
 		$heading_layout_9_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout9AdvancedStyle', '' );
@@ -138,6 +139,8 @@ class FeaturedPosts extends AbstractBlock {
 			$heading_style = $heading_layout_4_advanced_style;
 		} elseif ( 'heading-layout-5' === $heading_layout ) {
 			$heading_style = $heading_layout_5_advanced_style;
+		} elseif ( 'heading-layout-6' === $heading_layout ) {
+			$heading_style = $heading_layout_6_advanced_style;
 		} elseif ( 'heading-layout-7' === $heading_layout ) {
 			$heading_style = $heading_layout_7_advanced_style;
 		} elseif ( 'heading-layout-8' === $heading_layout ) {

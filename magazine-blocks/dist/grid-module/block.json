@@ -3,11 +3,7 @@
   "name": "magazine-blocks/grid-module",
   "title": "Grid Module",
   "description": "Full-width block to showcase highlighted posts",
-  "keywords": [
-    "grid",
-    "module",
-    "grid-module"
-  ],
+  "keywords": ["grid", "module", "grid-module"],
   "category": "magazine-blocks",
   "textdomain": "magazine-blocks",
   "supports": {
@@ -129,6 +125,22 @@
       "type": "string",
       "default": "heading-layout-5-style-1"
     },
+    "headingLayout6AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-6-style-1"
+    },
+    "headingLayout7AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-7-style-1"
+    },
+    "headingLayout8AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-8-style-1"
+    },
+    "headingLayout9AdvancedStyle": {
+      "type": "string",
+      "default": "heading-layout-9-style-1"
+    },
     "enableCategory": {
       "type": "boolean",
       "default": false
@@ -144,6 +156,9 @@
         },
         {
           "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-3-style-1 .mzb-heading-text {color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-6-style-1 .mzb-heading-text {color: {{VALUE}}; }"
         }
       ]
     },
@@ -173,7 +188,7 @@
         }
       ]
     },
-    "headingLayout6Padding": {
+    "headingPadding": {
       "type": "object",
       "default": {
         "dimension": 1,
@@ -183,7 +198,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-6-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-6-style-1 .mzb-heading-text { padding: {{VALUE}}; }"
         },
         {
           "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-7-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
@@ -600,6 +615,18 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-view-more a { gap: {{VALUE}} }"
+        }
+      ]
+    },
+    "viewAllTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-view-more a p"
         }
       ]
     },

@@ -40,6 +40,10 @@
       "type": "string",
       "default": ""
     },
+    "postType": {
+      "type": "string",
+      "default": ""
+    },
     "excludedCategory": {
       "type": "array"
     },

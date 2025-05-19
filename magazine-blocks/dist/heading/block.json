@@ -232,7 +232,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-heading-text {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-heading-text, {{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-text {color: {{VALUE}}; }"
         }
       ]
     },

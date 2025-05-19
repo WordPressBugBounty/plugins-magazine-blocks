@@ -30,6 +30,15 @@
     "clientId": {
       "type": "string"
     },
+    "orientation": {
+      "type": "object"
+    },
+    "justification": {
+      "type": "object"
+    },
+    "alignment": {
+      "type": "object"
+    },
     "hasModal": {
       "type": "boolean",
       "default": false
@@ -109,13 +118,13 @@
       "type": "object",
       "default": {
         "desktop": {
-          "value": 30,
+          "value": 8,
           "unit": "px"
         }
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} > [class*=\"mzb-container\"] > .mzb-section-inner { row-gap: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-section-inner { row-gap: {{VALUE}}; }"
         }
       ]
     },
