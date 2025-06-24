@@ -1,4 +1,46 @@
 == Changelog ==
+= 1.7.0 - 24/06/2025 =
+* Fix - Image hover animation issue in frontend of banner posts block.
+* Fix - Heading Border option not working properly for all presets in heading block.
+* Fix - Style option in typography default not working issue.
+* Added - New Site Builder Feature.
+* Added - Template Library implementation.
+* Added - New Breadcrumbs Block.
+* Added - Typography option for excerpt in grid module block.
+* Added - Enable/disable comment and meta position option for header meta in grid module block.
+* Added - Number list option along with its presets in grid module block.
+* Added - Post card background, padding and border options in featured posts block.
+* Added - Separate style options for highlighted post and post box header meta in featured posts block.
+* Added - Featured Posts Layout 6 preset in featured posts block.
+* Added - Layout 4 Style 1 and Style 2 preset in banner posts block.
+* Added - Layout 5 Style 1 and Style 2 preset in banner posts block.
+* Added - Excerpt position option in banner posts block.
+* Added - Post content alignment, padding and overlay option in highlighted post and overlay option in post box for Layout 5 Style 2 preset in banner posts block.
+* Added - Post box wrapper style section with background, padding, margin and border option for Layout 5 Style 2 preset in banner posts block.
+* Added - Post box padding option in banner posts block.
+* Added - Preset 3 in post video block.
+* Added - Meta position option in post video block.
+* Added - Overlay option for highlighted post and post box in post video block.
+* Added - Highlighted post content padding option for preset 3 in post video block.
+* Added - Separate header meta controls for highlighted and post box in featured posts block.
+* Added - Header meta position and margin option in featured posts block.
+* Added - Column 3 option for layout 1 preset 1 in featured posts block.
+* Added - Icon option in the Read More section of the Featured Posts block, including options for icon color, spacing, and size.
+* Added - Featured Posts Layout 6 preset in featured posts block.
+* Added - Highlighted post height option in banner posts block.
+* Added - Container option for layout 5 style 2 preset in banner posts block.
+* Added - Justification and Padding option for meta in grid module block.
+* Added - Post box controls (background and border option) for layout 2 style 1 preset in grid module block.
+* Added - Post title padding and border option in grid module block.
+* Added - Time customization option on DateTimePicker component.
+* Added - Heading Border after option for layout 6 and layout 7 preset in heading block.
+* Added - Heading padding option for all presets in heading block.
+* Added - Heading margin option in heading block.
+* Added - Typography option for sub heading in heading block.
+* Enhancement - Advertisement Block.
+* Enhancement - Grid Module Block.
+* Enhancement - Update the Facebook Community link on Join Our Community section dashboard.
+
 = 1.6.0 - 19/05/2025 =
 * Added - Post Type select control on Slider block.
 * Added - View All text Typography controls on Featured Posts Block.

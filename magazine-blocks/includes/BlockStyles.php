@@ -95,6 +95,11 @@ class BlockStyles {
 	 */
 	public function __construct( array &$blocks, $id = null, bool $force_generate = false ) {
 		$this->id             = $id ?? magazine_blocks_get_the_id();
+		$this->id             = apply_filters(
+			'magazine_blocks_block_styles_id',
+			$this->id,
+			$blocks
+		);
 		$this->force_generate = $force_generate;
 		$this->blocks         = &$blocks;
 
@@ -126,7 +131,7 @@ class BlockStyles {
 
 		if ( ! $inline ) {
 			wp_enqueue_style(
-				"magazine-blocks-blocks-css-$this->id",
+				$this->get_style_enqueue_handle(),
 				MAGAZINE_BLOCKS_UPLOAD_DIR_URL . "/$this->filename",
 				array( 'magazine-blocks-blocks' ),
 				$version // Version is always false, on every build filename is different.
@@ -134,8 +139,18 @@ class BlockStyles {
 			return;
 		}
 
-		wp_add_inline_style( 'magazine-blocks-blocks', $this->styles );
+		wp_register_style( $this->get_style_enqueue_handle(), false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+		wp_enqueue_style( $this->get_style_enqueue_handle() );
+		wp_add_inline_style( $this->get_style_enqueue_handle(), $this->styles );
 		unset( $this->styles );
+	}
+
+	protected function get_style_enqueue_handle() {
+		return "magazine-blocks-blocks-css-$this->id";
+	}
+
+	protected function get_font_enqueue_handle() {
+		return "magazine-blocks-fonts-css-$this->id";
 	}
 
 	/**
@@ -180,7 +195,7 @@ class BlockStyles {
 		}
 
 		wp_enqueue_style(
-			'magazine-blocks-google-fonts',
+			$this->get_font_enqueue_handle(),
 			add_query_arg( 'display', 'swap', $google_fonts_url ),
 			array(),
 			MAGAZINE_BLOCKS_VERSION
@@ -806,6 +821,7 @@ class BlockStyles {
 			$weight     = magazine_blocks_array_get( $value, 'weight' );
 			$transform  = magazine_blocks_array_get( $value, 'transform', 'default' );
 			$decoration = magazine_blocks_array_get( $value, 'decoration', 'default' );
+			$style      = magazine_blocks_array_get( $value, 'fontStyle', 'default' );
 
 			if ( 'default' !== strtolower( $family ) ) {
 				$css['desktop'][ $selector ]['font-family'] = $family;
@@ -818,6 +834,9 @@ class BlockStyles {
 			}
 			if ( 'default' !== strtolower( $decoration ) ) {
 				$css['desktop'][ $selector ]['text-decoration'] = $decoration;
+			}
+			if ( 'default' !== strtolower( $style ) ) {
+				$css['desktop'][ $selector ]['font-style'] = $style;
 			}
 
 			$this->process_responsive_typography_styles( $value, $selector, $css );

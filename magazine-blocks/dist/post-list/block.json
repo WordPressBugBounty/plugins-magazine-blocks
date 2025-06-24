@@ -3,7 +3,11 @@
   "name": "magazine-blocks/post-list",
   "title": "Post List",
   "description": "Display posts in small list design",
-  "keywords": ["post-list", "post", "list"],
+  "keywords": [
+    "post-list",
+    "post",
+    "list"
+  ],
   "category": "magazine-blocks",
   "textdomain": "magazine-blocks",
   "supports": {
@@ -55,7 +59,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}}.mzb-post-list .mzb-posts .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-posts .mzb-post { padding: {{VALUE}}; }"
         }
       ]
     },
@@ -117,6 +121,10 @@
     },
     "excludedCategory": {
       "type": "array"
+    },
+    "postType": {
+      "type": "string",
+      "default": "post"
     },
     "postCount": {
       "type": "number",
@@ -413,7 +421,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-title a:hover {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post-title a:hover {color: {{VALUE}}; }"
         }
       ]
     },
@@ -770,6 +778,18 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p"
+        }
+      ]
+    },
+    "readMoreTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-entry-content .mzb-read-more a"
         }
       ]
     },

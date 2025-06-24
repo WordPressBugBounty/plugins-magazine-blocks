@@ -34,9 +34,47 @@
         }
       ]
     },
+    "spacing": {
+      "type": "object",
+      "default": {
+        "desktop": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-1-style-3 .mzb-post-categories a {margin-left: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-1-style-3 .mzb-post-count-wrapper {right: {{VALUE}}; }"
+        }
+      ]
+    },
+    "height": {
+      "type": "object",
+      "default": {
+        "desktop": {
+          "value": 90,
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-layout-1-style-3 .mzb-post {height: {{VALUE}}; }"
+        }
+      ]
+    },
     "label": {
       "type": "string",
       "default": "Categories"
+    },
+    "listIcon": {
+      "type": "object",
+      "default": {
+        "enable": false,
+        "icon": "arrowRight"
+      }
     },
     "layout": {
       "type": "string",
@@ -55,7 +93,7 @@
       "default": "layout-3-style-1"
     },
     "postBoxStyle": {
-      "type": "string",
+      "type": "boolean",
       "default": true
     },
     "categoryCount": {

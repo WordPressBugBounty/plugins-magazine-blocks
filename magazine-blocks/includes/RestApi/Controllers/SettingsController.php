@@ -163,6 +163,10 @@ class SettingsController extends \WP_REST_Controller {
 							'description' => __( 'Banner Posts block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
+						'breadcrumbs'         => array(
+							'description' => __( 'Breadcrumbs block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
 						'grid-module'         => array(
 							'description' => __( 'Grid Module block', 'magazine-blocks' ),
 							'type'        => 'boolean',

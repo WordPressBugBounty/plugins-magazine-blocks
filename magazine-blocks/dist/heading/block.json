@@ -70,6 +70,18 @@
         }
       ]
     },
+    "subHeadingTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 400
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-sub-heading p"
+        }
+      ]
+    },
     "subHeadingPadding": {
       "type": "object",
       "default": {
@@ -224,7 +236,34 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} { margin: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-2 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-4-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-7-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-8-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-9-style-1 .mzb-heading-inner { margin: {{VALUE}}; }"
         }
       ]
     },
@@ -232,7 +271,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-heading-text, {{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-text {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-heading-text, {{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-heading-text, {{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-text {color: {{VALUE}}; }"
         }
       ]
     },
@@ -248,7 +287,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-heading-text::before, .mzb-heading-layout-2-style-1 .mzb-heading-text{background-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-heading-text::before, {{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-heading-text {background-color: {{VALUE}}; }"
         }
       ]
     },
@@ -288,7 +327,7 @@
         }
       ]
     },
-    "headingLayout6Padding": {
+    "headingPadding": {
       "type": "object",
       "default": {
         "dimension": 1,
@@ -298,10 +337,34 @@
       },
       "style": [
         {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-heading-inner { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-2 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-4-style-1 .mzb-heading-inner { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1 .mzb-heading-inner { padding: {{VALUE}}; }"
+        },
+        {
           "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
         },
         {
           "selector": "{{WRAPPER}}.mzb-heading-layout-7-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-8-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-9-style-1 .mzb-heading-inner .mzb-heading-text { padding: {{VALUE}}; }"
         }
       ]
     },
@@ -322,28 +385,34 @@
       },
       "style": [
         {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-post-heading"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-2 .mzb-post-heading"
+        },
+        {
           "selector": "{{WRAPPER}}.mzb-heading-layout-2-style-1 .mzb-post-heading"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1 .mzb-post-heading"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-4-style-1"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-4-style-1 .mzb-post-heading"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1 .mzb-post-heading"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::before"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-post-heading"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::after"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-7-style-1 .mzb-post-heading"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-7-style-1 .mzb-post-heading::after"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-8-style-1 .mzb-post-heading"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-9-style-1"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-9-style-1 .mzb-post-heading"
         }
       ]
     },
@@ -367,10 +436,37 @@
           "selector": "{{WRAPPER}}.mzb-heading-layout-1-style-1 .mzb-post-heading .mzb-heading-text::before"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1 .mzb-heading-inner::before"
         },
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-8-style-1::before"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::before"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-8-style-1 .mzb-heading-inner::before"
+        }
+      ]
+    },
+    "headingBorderAfter": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-6-style-1 .mzb-heading-inner::after"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading-layout-7-style-1 .mzb-heading-inner::after"
         }
       ]
     },
@@ -378,7 +474,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1::before {bottom: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}.mzb-heading-layout-3-style-1 .mzb-heading-inner::before {bottom: {{VALUE}}; }"
         }
       ]
     },

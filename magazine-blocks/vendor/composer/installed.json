@@ -155,21 +155,21 @@
         },
         {
             "name": "halaxa/json-machine",
-            "version": "1.1.4",
-            "version_normalized": "1.1.4.0",
+            "version": "1.2.4",
+            "version_normalized": "1.2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/halaxa/json-machine.git",
-                "reference": "5147f38f74d7ab3e27733e3f3bdabbd2fd28e3fa"
+                "reference": "ca1e2fc61d3596655e5480e192ef30ad67478ad4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/5147f38f74d7ab3e27733e3f3bdabbd2fd28e3fa",
-                "reference": "5147f38f74d7ab3e27733e3f3bdabbd2fd28e3fa",
+                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/ca1e2fc61d3596655e5480e192ef30ad67478ad4",
+                "reference": "ca1e2fc61d3596655e5480e192ef30ad67478ad4",
                 "shasum": ""
             },
             "require": {
-                "php": "7.0 - 8.3"
+                "php": "7.2 - 8.4"
             },
             "require-dev": {
                 "ext-json": "*",
@@ -181,10 +181,13 @@
                 "ext-json": "To run JSON Machine out of the box without custom decoders.",
                 "guzzlehttp/guzzle": "To run example with GuzzleHttp"
             },
-            "time": "2023-11-28T21:12:40+00:00",
+            "time": "2025-06-16T07:42:34+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
                 "psr-4": {
                     "JsonMachine\\": "src/"
                 },
@@ -205,7 +208,7 @@
             "description": "Efficient, easy-to-use and fast JSON pull parser",
             "support": {
                 "issues": "https://github.com/halaxa/json-machine/issues",
-                "source": "https://github.com/halaxa/json-machine/tree/1.1.4"
+                "source": "https://github.com/halaxa/json-machine/tree/1.2.4"
             },
             "funding": [
                 {

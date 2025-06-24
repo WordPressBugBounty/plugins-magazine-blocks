@@ -46,7 +46,12 @@ class GridModule extends AbstractBlock {
 		$order_type        = magazine_blocks_array_get( $attributes, 'orderType', '' );
 		$author            = magazine_blocks_array_get( $attributes, 'authorName', '' );
 		$post_count        = magazine_blocks_array_get( $attributes, 'postCount', '' );
+		$post_type         = magazine_blocks_array_get( $attributes, 'postType', 'post' );
+
+		// Header Meta
 		$enable_category   = magazine_blocks_array_get( $attributes, 'enableCategory', '' );
+		$enable_comment    = magazine_blocks_array_get( $attributes, 'enableComment', '' );
+		$category_position = magazine_blocks_array_get( $attributes, 'categoryPosition', '' );
 
 		$hover_animation = magazine_blocks_array_get( $attributes, 'hoverAnimation', '' );
 
@@ -64,8 +69,13 @@ class GridModule extends AbstractBlock {
 		$heading_layout_9_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout9AdvancedStyle', '' );
 		$label                           = magazine_blocks_array_get( $attributes, 'label', 'Explore More' );
 
+		// Post Box.
+		$enable_post_box_border = magazine_blocks_array_get( $attributes, 'enablePostBoxBorder', 'true' );
+
 		// Post Title.
-		$enable_post_title = magazine_blocks_array_get( $attributes, 'enablePostTitle', 'true' );
+		$enable_post_title        = magazine_blocks_array_get( $attributes, 'enablePostTitle', 'true' );
+		$enable_post_title_border = magazine_blocks_array_get( $attributes, 'enablePostTitleBorder', 'true' );
+		$tag_name                 = magazine_blocks_array_get( $attributes, 'tagName', 'h6' );
 
 		// Meta.
 		$meta_position    = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
@@ -99,6 +109,11 @@ class GridModule extends AbstractBlock {
 
 		// Pagination
 		$enable_pagination = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
+
+		//number list
+		$enable_number_list = magazine_blocks_array_get( $attributes, 'enableNumberList', false );
+		$number_layout      = magazine_blocks_array_get( $attributes, 'numberLayout', 'default' );
+		$number_position    = magazine_blocks_array_get( $attributes, 'numberPosition', 'with-image' );
 
 		//offset
 		$offset = magazine_blocks_array_get( $attributes, 'offset', 0 );
@@ -155,7 +170,23 @@ class GridModule extends AbstractBlock {
 			$advanced_style = $layout_2_advanced_style;
 		}
 
+		$number_style = '';
+		if ( true === $enable_number_list ) {
+			$number_style = 'mzb-number-list';
+		}
+
+		$number_layout_style = '';
+		if ( 'default' === $number_layout || 'circle' === $number_layout || 'square' === $number_layout || 'zero' === $number_layout || 'dot' === $number_layout ) {
+			$number_layout_style = $number_layout;
+		}
+
+		$number_position_style = '';
+		if ( 'with-image' === $number_position || 'with-text' === $number_position ) {
+			$number_position_style = $number_position;
+		}
+
 		$args = array(
+			'post_type'           => $post_type,
 			'posts_per_page'      => $post_count,
 			'status'              => 'publish',
 			'cat'                 => $category,
@@ -168,6 +199,29 @@ class GridModule extends AbstractBlock {
 			'paged'               => $paged, // Use the paged parameter.
 			'offset'              => $offset,
 		);
+
+		$type = get_query_var( 'mzb_template_type' );
+
+		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
+			$paged = get_query_var( 'paged' );
+			switch ( get_query_var( 'mzb_template_type' ) ) {
+				case 'archive':
+					if ( is_archive() ) {
+						if ( is_category() ) {
+							$args['category_name'] = get_query_var( 'category_name' );
+						} elseif ( is_tag() ) {
+							$args['tag'] = get_query_var( 'tag' );
+						} elseif ( is_author() ) {
+							$args['author'] = get_query_var( 'author' );
+						}
+					}
+					break;
+				case 'search':
+					$args['s'] = get_search_query();
+					break;
+			}
+		}
 
 		$query = new WP_Query( $args );
 
@@ -189,16 +243,43 @@ class GridModule extends AbstractBlock {
 				$html .= '</a></div>';
 			}
 			$html .= '</div>';
-			$html .= '<div class="mzb-posts mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-post-col--' . $column . '">';
+			$html .= '<div class="mzb-posts mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-post-col--' . $column . ' ' . $number_style . ' mzb-number-list__' . $number_layout_style . ' mzb-number-list__' . $number_position_style . '">';
 
 			while ( $query->have_posts() ) {
 				$query->the_post();
-				$id         = get_post_thumbnail_id();
-				$src        = wp_get_attachment_image_src( $id );
-				$src        = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-				$image      = $src ? '<a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><div class="mzb-featured-image ' . $hover_animation . '"><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/></div></a>' : '';
-				$title      = $enable_post_title ? '<h3 class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></h3>' : '';
-				$category   = ( true === $enable_category ) ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
+				$id       = get_post_thumbnail_id();
+				$src      = wp_get_attachment_image_src( $id );
+				$src      = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
+				$category = ( true === $enable_category ) ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
+				$comment  = '<a href="' . get_comments_link() . '">' . get_comments_number() . '</a>';
+				if ( $src ) {
+					$image = '<div class="mzb-featured-image ' . esc_attr( $hover_animation ) . ' ';
+					if ( 'layout-2' === $layout && 'in-image' === $category_position ) {
+						$image .= 'mzb-category--inside-image';
+					}
+					$image .= '">';
+					$image .= '<a href="' . esc_url( get_the_permalink() ) . '"title="' . esc_attr( get_the_title() ) . '"><img src="' . esc_url( $src ) . '" alt="' . esc_attr( get_the_title() ) . '"/></a>';
+					if ( ( $enable_category || $enable_comment ) && ( 'layout-2' === $layout && 'in-image' === $category_position ) ) {
+						$image .= '<div class="mzb-post-meta">';
+						$image .= $category;
+
+						if ( true === $enable_comment ) {
+							$image .= '<span class="comments-link">';
+							$image .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
+							</svg>';
+							$image .= $comment;
+							$image .= '</span>';
+						}
+
+						$image .= '</div>';
+					}
+
+					$image .= '</div>';
+				} else {
+					$image = '';
+				}
+				$title      = $enable_post_title ? '<a href="' . esc_url( get_the_permalink() ) . '"><' . $tag_name . ' class="mzb-post-title ' . ( $enable_post_title_border ? 'mzb-post-title-border' : '' ) . '">' . get_the_title() . '</' . $tag_name . '></a>' : '';
 				$author     = $enable_author ? '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' : '' ) . get_the_author_posts_link() . '</span>' : '';
 				$date       = $enable_date ? '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 				<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
@@ -220,23 +301,33 @@ class GridModule extends AbstractBlock {
 				( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
 				</svg>' : '' ) .
-																				'<span>' . $view . '
+																				'<span>' . ( empty( $view ) ? 0 : $view ) . '
 																					views
 																				</span>
 																			</span>' : '';
-				$html      .= '<div class="mzb-post">';
+				$html      .= '<div class="mzb-post ' . ( $enable_post_box_border ? 'mzb-post-box-border' : '' ) . '">';
 				$html      .= '';
 				$html      .= $image;
 				if ( 'top' === $meta_position ) {
 					if ( $date || $author || $read_time || $view_count ) {
 						$html .= '<div class="mzb-post-content">';
-						if ( $enable_category ) {
+						if ( ( $enable_category || $enable_comment ) && ( 'layout-2' !== $layout || 'out-image' === $category_position ) ) {
+							$html .= '<div class="mzb-post-meta">';
 							$html .= $category;
+							if ( true === $enable_comment ) {
+								$html .= '<span class="comments-link">';
+								$html .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
+							</svg>';
+								$html .= $comment;
+								$html .= '</span>';
+							}
+							$html .= '</div>';
 						}
 						if ( $date || $author || $read_time || $view_count ) {
 							$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-							$html .= $date;
 							$html .= $author;
+							$html .= $date;
 							$html .= $read_time;
 							$html .= $view_count;
 							$html .= '</div>';
@@ -246,14 +337,24 @@ class GridModule extends AbstractBlock {
 				} elseif ( 'bottom' === $meta_position ) {
 					if ( $title || $date || $author || $read_time || $view_count ) {
 						$html .= '<div class="mzb-post-content">';
-						if ( $enable_category ) {
+						if ( ( $enable_category || $enable_comment ) && ( 'layout-2' !== $layout || 'out-image' === $category_position ) ) {
+							$html .= '<div class="mzb-post-meta">';
 							$html .= $category;
+							if ( true === $enable_comment ) {
+								$html .= '<span class="comments-link">';
+								$html .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
+							</svg>';
+								$html .= $comment;
+								$html .= '</span>';
+							}
+							$html .= '</div>';
 						}
 						$html .= $title;
 						if ( $date || $author || $read_time || $view_count ) {
 							$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-							$html .= $date;
 							$html .= $author;
+							$html .= $date;
 							$html .= $read_time;
 							$html .= $view_count;
 							$html .= '</div>';
@@ -274,7 +375,7 @@ class GridModule extends AbstractBlock {
 
 			$html .= '</div>';
 
-			// Custom pagination function.
+				// Custom pagination function.
 			if ( $enable_pagination ) {
 				$html .= mzb_numbered_pagination( $query->max_num_pages, $paged, $client_id );
 			}
@@ -282,6 +383,7 @@ class GridModule extends AbstractBlock {
 			$html .= '</div>';
 			$query->reset_postdata();
 		}
+
 		return $html;
 	}
 

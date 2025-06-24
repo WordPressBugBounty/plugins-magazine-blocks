@@ -28,7 +28,11 @@ class CategoryList extends AbstractBlock {
 		$layout                  = magazine_blocks_array_get( $attributes, 'layout', '' );
 		$layout_1_advanced_style = magazine_blocks_array_get( $attributes, 'layout1AdvancedStyle', '' );
 		$layout_2_advanced_style = magazine_blocks_array_get( $attributes, 'layout2AdvancedStyle', '' );
+		$layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'layout3AdvancedStyle', '' );
 		$post_box_style          = magazine_blocks_array_get( $attributes, 'postBoxStyle', 'true' );
+		$icon_list               = magazine_blocks_array_get( $attributes, 'listIcon', '' );
+		$get_icon                = magazine_blocks_get_icon( $icon_list['icon'], false );
+		$enable_icon             = $icon_list['enable'];
 
 		$count = magazine_blocks_array_get( $attributes, 'categoryCount', '4' );
 
@@ -47,8 +51,9 @@ class CategoryList extends AbstractBlock {
 		} elseif ( 'layout-2' === $layout ) {
 			$advanced_style = $layout_2_advanced_style;
 		} elseif ( 'layout-3' === $layout ) {
+			$advanced_style = $layout_3_advanced_style;
 			if ( $post_box_style ) {
-				$advanced_style = 'separator';
+				$advanced_style .= ' separator';
 			}
 		}
 
@@ -88,14 +93,30 @@ class CategoryList extends AbstractBlock {
 		foreach ( $categories as $category ) {
 			$cat_id = get_cat_ID( $category->cat_name );
 			$src    = get_category_image( $category->slug );
-			$html  .= '<div class="mzb-post">';
-			$html  .= '<div class="mzb-title-wrapper" style="background-image: url(' . esc_url( $src ) . ');">';
-			$html  .= '<span class="mzb-post-categories"><a href="' . get_category_link( $cat_id ) . '">' . get_cat_name( $cat_id ) . '</a></span>';
-			$html  .= '</div>';
-			$html  .= '<div class="mzb-post-count-wrapper">';
-			$html  .= '<div class="mzb-post-count"><a href="' . get_category_link( $cat_id ) . '"> ' . $category->category_count . ' Posts </a></div>';
-			$html  .= '</div>';
-			$html  .= '</div>';
+			$html  .= '<div class="mzb-post mzb-' . $cat_id . '">';
+			if ( 'layout-1-style-2' === $advanced_style ) {
+				$html .= '<div class="mzb-title-wrapper" style="background-image: url(' . esc_url( $src ) . ');">';
+				$html .= '<div class="mzb-title"' . ( function_exists( 'colormag_category_color' ) ? ' style="background-color:' . colormag_category_color( $cat_id ) . ';"' : '' ) . '>';
+				$html .= '<span class="mzb-post-categories"><a href="' . get_category_link( $cat_id ) . '">' . get_cat_name( $cat_id ) . '</a></span>';
+				$html .= '<div class="mzb-post-count-wrapper">';
+				$html .= '<div class="mzb-post-count"><a href="' . get_category_link( $cat_id ) . '"> ' . $category->category_count . ' Posts </a></div>';
+				$html .= '</div>';
+				$html .= '</div>';
+				$html .= '</div>';
+			} else {
+				$html     .= '<div class="mzb-title-wrapper" style="background-image: url(' . esc_url( $src ) . ');">';
+				$html     .= '<span class="mzb-post-categories">' .
+						( $enable_icon ? '<span class="mzb-list-icon">' . $get_icon . '</span>' : '' ) .
+						'<a href="' . get_category_link( $cat_id ) . '">' . get_cat_name( $cat_id ) . '</a></span>';
+				$html     .= '</div>';
+				$html     .= '<div class="mzb-post-count-wrapper">';
+				$html     .= '<div class="mzb-post-count">';
+					$html .= '(<a href="' . get_category_link( $cat_id ) . '"> ' . $category->category_count . ' <span class="mzb-post-count-text">Posts</span> </a>)';
+				$html     .= '</div>';
+				$html     .= '</div>';
+			}
+
+			$html .= '</div>';
 		}
 		$html .= '</div>';
 		$html .= '</div>';

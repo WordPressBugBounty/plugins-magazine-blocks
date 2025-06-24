@@ -38,14 +38,18 @@ class LatestPosts extends AbstractBlock {
 	 * @return array
 	 */
 	protected function get_latest_posts_by_category( $categories, $excluded_category, $offset = 0 ) {
+		if ( ! is_array( $excluded_category ) ) {
+			$excluded_category = empty( $excluded_category ) ? array() : array( $excluded_category );
+		}
+
 		$latest_posts    = array();
 		$displayed_posts = array();
 
 		foreach ( $categories as $category ) {
-			if ( ! in_array( $category->term_id, $excluded_category ) ) {
+			if ( ! in_array( $category->term_id, $excluded_category, true ) ) {
 				$latest_post = $this->get_latest_post_in_category( $category->term_id, $excluded_category, $offset );
 
-				if ( $latest_post && ! in_array( $latest_post->ID, $displayed_posts ) ) {
+				if ( $latest_post && ! in_array( $latest_post->ID, $displayed_posts, true ) ) {
 					$displayed_posts[] = $latest_post->ID;
 					$latest_posts[]    = $latest_post;
 				}
@@ -62,8 +66,11 @@ class LatestPosts extends AbstractBlock {
 	 * @return mixed
 	 */
 	protected function get_latest_post_in_category( $category_id, $excluded_category, $offset = 0 ) {
+		$post_type = magazine_blocks_array_get( $this->attributes, 'postType', 'post' );
+
 		$latest_posts = get_posts(
 			array(
+				'post_type'        => $post_type,
 				'category'         => $category_id,
 				'numberposts'      => 1,
 				'orderby'          => 'date',
@@ -111,7 +118,31 @@ class LatestPosts extends AbstractBlock {
 		// Pagination.
 		$paged         = isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1;
 		$args['paged'] = $paged;
-		$query         = new WP_Query( $args );
+
+		$type = get_query_var( 'mzb_template_type' );
+
+		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
+			$paged = get_query_var( 'paged' );
+			switch ( get_query_var( 'mzb_template_type' ) ) {
+				case 'archive':
+					if ( is_archive() ) {
+						if ( is_category() ) {
+							$args['category_name'] = get_query_var( 'category_name' );
+						} elseif ( is_tag() ) {
+							$args['tag'] = get_query_var( 'tag' );
+						} elseif ( is_author() ) {
+							$args['author'] = get_query_var( 'author' );
+						}
+					}
+					break;
+				case 'search':
+					$args['s'] = get_search_query();
+					break;
+			}
+		}
+
+		$query = new WP_Query( $args );
 
 		// Generate unique class names
 		$client_id   = uniqid( 'mzb-latest-posts-' );

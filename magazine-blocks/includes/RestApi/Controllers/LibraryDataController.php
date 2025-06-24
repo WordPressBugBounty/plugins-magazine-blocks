@@ -87,7 +87,7 @@ class LibraryDataController extends \WP_REST_Controller {
 
 		if ( empty( $data ) ) {
 			$response = wp_remote_get(
-				'https://wpblockart.com/wp-json/mzb-library/v1/all',
+				'https://blocks.themegrilldemos.com/wp-json/blockart-library/v1/mzb/all',
 				array(
 					'timeout' => 120,
 				)
@@ -103,9 +103,62 @@ class LibraryDataController extends \WP_REST_Controller {
 
 			$data = wp_remote_retrieve_body( $response );
 
-			set_transient( '_magazine_blocks_library_data', $data, WEEK_IN_SECONDS );
-		}
+			$decoded = json_decode( $data, true );
 
-		return new \WP_REST_Response( $data, 200 );
+			if ( json_last_error() === $decoded ) {
+				return new \WP_Error(
+					'rest_forbidden',
+					esc_html__( 'You are not allowed to access this resource.', 'magazine-blocks' ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			}
+			$data = $decoded;
+			set_transient( '_magazine_blocks_library_data', $decoded, WEEK_IN_SECONDS );
+		}
+		$response = $this->prepare_items_for_response( $data, $request );
+		return new \WP_REST_Response( $response, 200 );
+	}
+
+		/**
+	 * Prepare items for response.
+	 *
+	 * @param array $data
+	 * @param \WP_Request $request
+	 * @return array
+	 */
+	protected function prepare_items_for_response( $data, $request ) {
+		$categorizer = function ( $data_to_categorize ) {
+			$result = array();
+			foreach ( $data_to_categorize as $item ) {
+				if ( ! empty( $item['children'] ) ) {
+					array_walk(
+						$item['children'],
+						function ( &$v ) use ( $item ) {
+							$v['slug'] = $item['post_name'] . ':' . $v['post_name'];
+						}
+					);
+				}
+				$item['slug'] = $item['post_name'];
+				foreach ( $item['category'] ?? [] as $cat ) {
+					if ( isset( $result[ $cat['slug'] ] ) ) {
+						++$result[ $cat['slug'] ]['count'];
+						$result[ $cat['slug'] ]['items'][] = $item;
+						continue;
+					}
+					$result[ $cat['slug'] ] = array(
+						'name'  => $cat['name'],
+						'slug'  => $cat['slug'],
+						'count' => 1,
+						'items' => array( $item ),
+					);
+				}
+			}
+			return $result;
+		};
+
+		return array(
+			'categorized_sections'  => $categorizer( $data['mzb-sections'] ?? [] ),
+			'categorized_templates' => $categorizer( $data['mzb-templates'] ?? [] ),
+		);
 	}
 }

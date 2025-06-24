@@ -243,7 +243,7 @@
             "type": "string",
             "style": [
                 {
-                    "selector": "{{WRAPPER}} .mzb-icon-wrapper svg {fill: {{VALUE}}; }"
+                    "selector": "{{WRAPPER}}.mzb-icon-block .mzb-outside-icon .mzb-icon-wrapper svg {fill: {{VALUE}}; }"
                 }
             ]
         },
@@ -290,7 +290,7 @@
             "type": "string",
             "style": [
                 {
-                    "selector": "{{WRAPPER}} .mzb-icon-wrapper {background-color: {{VALUE}}; }"
+                    "selector": "{{WRAPPER}}.mzb-icon-block .mzb-outside-icon .mzb-icon-wrapper {background-color: {{VALUE}}; }"
                 }
             ]
         },
@@ -298,7 +298,7 @@
             "type": "number",
             "style": [
                 {
-                    "selector": "{{WRAPPER}} .mzb-icon-wrapper { border-radius: {{VALUE}}%; }"
+                    "selector": "{{WRAPPER}}.mzb-icon-block .mzb-outside-icon .mzb-icon-wrapper { border-radius: {{VALUE}}%; }"
                 }
             ]
         },
@@ -312,7 +312,7 @@
             },
             "style": [
                 {
-                    "selector": "{{WRAPPER}} .mzb-icon-wrapper { padding: {{VALUE}}; }"
+                    "selector": "{{WRAPPER}}.mzb-icon-block .mzb-outside-icon .mzb-icon-wrapper { padding: {{VALUE}}; }"
                 }
             ]
         },

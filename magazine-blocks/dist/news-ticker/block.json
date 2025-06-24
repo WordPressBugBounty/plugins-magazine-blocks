@@ -31,6 +31,30 @@
       "type": "string",
       "default": "flash"
     },
+    "labelTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-news-ticker .mzb-heading"
+        }
+      ]
+    },
+    "bodyTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-news-ticker .mzb-news-ticker-box ul li a"
+        }
+      ]
+    },
     "iconSize": {
       "type": "object",
       "style": [

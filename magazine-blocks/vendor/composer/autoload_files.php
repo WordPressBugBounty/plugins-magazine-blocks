@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ace6d88241f812b4accb2d847454aef6' => $vendorDir . '/halaxa/json-machine/src/functions.php',
     '3703a551cf6c1195f75d3eb3d959d24e' => $baseDir . '/includes/Helpers/core.php',
     '5067cb711d5749dcde86acd2b66a8949' => $baseDir . '/includes/Helpers/array.php',
 );

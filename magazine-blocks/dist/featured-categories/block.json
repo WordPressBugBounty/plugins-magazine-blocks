@@ -50,6 +50,14 @@
       "type": "string",
       "default": "all"
     },
+    "postType": {
+      "type": "string",
+      "default": "post"
+    },
+    "postType2": {
+      "type": "string",
+      "default": "post"
+    },
     "excludedCategory": {
       "type": "array"
     },
@@ -701,6 +709,18 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p"
+        }
+      ]
+    },
+    "readMoreTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 400
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-entry-content .mzb-read-more a"
         }
       ]
     },

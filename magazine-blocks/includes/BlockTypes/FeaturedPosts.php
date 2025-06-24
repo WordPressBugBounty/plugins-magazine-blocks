@@ -43,6 +43,7 @@ class FeaturedPosts extends AbstractBlock {
 		$layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'layout3AdvancedStyle', '' );
 		$layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'layout4AdvancedStyle', '' );
 		$layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'layout5AdvancedStyle', '' );
+		$layout_6_advanced_style = magazine_blocks_array_get( $attributes, 'layout6AdvancedStyle', '' );
 		$column                  = magazine_blocks_array_get( $attributes, 'column', '' );
 
 		// Query.
@@ -53,6 +54,7 @@ class FeaturedPosts extends AbstractBlock {
 		$order_type        = magazine_blocks_array_get( $attributes, 'orderType', '' );
 		$author            = magazine_blocks_array_get( $attributes, 'authorName', '' );
 		$post_count        = magazine_blocks_array_get( $attributes, 'postCount', '' );
+		$post_type         = magazine_blocks_array_get( $attributes, 'postType', 'post' );
 
 		// Heading
 		$enable_heading                  = magazine_blocks_array_get( $attributes, 'enableHeading', '' );
@@ -80,8 +82,12 @@ class FeaturedPosts extends AbstractBlock {
 		$hover_animation       = magazine_blocks_array_get( $attributes, 'hoverAnimation', '' );
 
 		// Header Meta.
-		$enable_category = magazine_blocks_array_get( $attributes, 'enableCategory', '' );
-		$enable_comment  = magazine_blocks_array_get( $attributes, 'enableComment', '' );
+		$enable_category               = magazine_blocks_array_get( $attributes, 'enableCategory', '' );
+		$enable_comment                = magazine_blocks_array_get( $attributes, 'enableComment', '' );
+		$enable_highlighted_category   = magazine_blocks_array_get( $attributes, 'enableHighlightedCategory', '' );
+		$enable_highlighted_comment    = magazine_blocks_array_get( $attributes, 'enableHighlightedComment', '' );
+		$category_position             = magazine_blocks_array_get( $attributes, 'categoryPosition', '' );
+		$highlighted_category_position = magazine_blocks_array_get( $attributes, 'highlightedCategoryPosition', '' );
 
 		// Meta.
 		$meta_position    = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
@@ -97,8 +103,11 @@ class FeaturedPosts extends AbstractBlock {
 		$excerpt_limit  = magazine_blocks_array_get( $attributes, 'excerptLimit', '' );
 
 		// ReadMore.
-		$enable_readmore = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
-		$read_more_text  = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
+		$enable_readmore       = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
+		$read_more_text        = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
+		$enable_read_more_icon = magazine_blocks_array_get( $attributes, 'enableReadMoreIcon', '' );
+		$read_more_icon        = magazine_blocks_array_get( $attributes, 'readMoreIcon', '' );
+		$get_read_more_icon    = magazine_blocks_get_icon( $read_more_icon, false );
 
 		// Pagination
 		$enable_pagination = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
@@ -113,6 +122,9 @@ class FeaturedPosts extends AbstractBlock {
 		$view_more_url            = magazine_blocks_array_get( $attributes, 'viewMoreLink', array() );
 		$layout4_top_row_count    = magazine_blocks_array_get( $attributes, 'layout4TopRowCount', array() );
 		$layout4_bottom_row_count = magazine_blocks_array_get( $attributes, 'layout4BottomRowCount', array() );
+
+		$enable_highlighted_category_border = magazine_blocks_array_get( $attributes, 'enableHighlightedCategoryBorder', '' );
+		$enable_category_border             = magazine_blocks_array_get( $attributes, 'enableCategoryBorder', '' );
 
 		$href   = isset( $view_more_url['url'] ) ? esc_url( $view_more_url['url'] ) : '';
 		$target = ! empty( $view_more_url['newTab'] ) ? ' target="_blank"' : '';
@@ -159,12 +171,22 @@ class FeaturedPosts extends AbstractBlock {
 			$advanced_style = $layout_4_advanced_style;
 		} elseif ( 'layout-5' === $layout ) {
 			$advanced_style = $layout_5_advanced_style;
+		} elseif ( 'layout-6' === $layout ) {
+			$advanced_style = $layout_6_advanced_style;
 		}
 		// Pagination.
 		$paged         = isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1;
 		$args['paged'] = $paged;
 
+		$post_card_border = magazine_blocks_array_get( $attributes, 'postCardBorder', '' );
+		if ( isset( $post_card_border['border'] ) ) {
+			$post_card_border = $post_card_border['border'];
+		} else {
+			$post_card_border = '';
+		}
+
 		$args = array(
+			'post_type'           => $post_type,
 			'posts_per_page'      => $post_count,
 			'status'              => 'publish',
 			'cat'                 => $category,
@@ -182,7 +204,32 @@ class FeaturedPosts extends AbstractBlock {
 
 		$cat_name = empty( $cat_name ) ? 'Latest' : $cat_name;
 
-		$query = new WP_Query( $args );
+		$type = get_query_var( 'mzb_template_type' );
+
+		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
+			$paged = get_query_var( 'paged' );
+			switch ( get_query_var( 'mzb_template_type' ) ) {
+				case 'archive':
+					if ( is_archive() ) {
+						if ( is_category() ) {
+							$args['category_name'] = get_query_var( 'category_name' );
+						} elseif ( is_tag() ) {
+							$args['tag'] = get_query_var( 'tag' );
+						} elseif ( is_author() ) {
+							$args['author'] = get_query_var( 'author' );
+						}
+					}
+					break;
+				case 'search':
+					$args['s'] = get_search_query();
+					break;
+			}
+		}
+
+		$query = new WP_Query(
+			$args
+		);
 
 		# The Loop.
 		$html = '';
@@ -204,48 +251,104 @@ class FeaturedPosts extends AbstractBlock {
 			}
 			$html .= '</div>';
 
-			$html .= '<div class="mzb-posts mzb-post-col--' . $column . ' mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-' . $post_box_style . ' mzb-layout-4-style-1-top-row-' . $layout4_top_row_count . ' mzb-layout-4-style-1-bottom-row-' . $layout4_bottom_row_count . '">';
+			$html .= '<div class="mzb-posts mzb-post-col--' . $column . ' mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-' . $post_box_style . ( 'layout-4' === $layout ? ' mzb-layout-4-style-1-top-row-' . $layout4_top_row_count . ' mzb-layout-4-style-1-bottom-row-' . $layout4_bottom_row_count : '' ) . ( $post_card_border ? ' mzb-post-card-border' : '' ) . ( 1 === $post_count ? ' mzb-post-col--full' : '' ) . '">';
 
 			$index = 1;
 			while ( $query->have_posts() ) {
 				$query->the_post();
-				$id         = get_post_thumbnail_id();
-				$src        = wp_get_attachment_image_src( $id );
-				$src        = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-				$image      = $src ? '<div class="mzb-featured-image ' . $hover_animation . '"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
-				$title      = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
-				$category   = '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
-				$comment    = '<a href="' . get_comments_link() . '">' . get_comments_number() . '</a>';
-				$author     = '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/> ' : '' ) . get_the_author_posts_link() . '</span>';
-				$date       = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+				$id       = get_post_thumbnail_id();
+				$src      = wp_get_attachment_image_src( $id );
+				$src      = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
+				$category = '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
+				$comment  = '<a href="' . get_comments_link() . '">' . get_comments_number() . '</a>';
+				if ( $src ) {
+					$image = '<div class="mzb-featured-image ' . esc_attr( $hover_animation ) . ' ';
+					if ( 'layout-4' !== $layout && ( ( 1 === $index ) || ( 'layout-1' === $layout && ( ( 2 === (int) $column && ( 1 === $index || 2 === $index ) ) || ( 3 === (int) $column && ( 1 === $index || 2 === $index || 3 === $index ) ) ) ) ) ) {
+						if ( 'in-image' === $highlighted_category_position ) {
+							$image .= 'mzb-category--inside-image';
+						}
+					} elseif ( 'in-image' === $category_position ) {
+						$image .= 'mzb-category--inside-image';
+					}
+					$image .= '">';
+					$image .= '<a href="' . esc_url( get_the_permalink() ) . '"title="' . esc_attr( get_the_title() ) . '"><img src="' . esc_url( $src ) . '" alt="' . esc_attr( get_the_title() ) . '"/></a>';
+					if ( 'layout-4' !== $layout && ( ( 1 === $index ) || ( 'layout-1' === $layout && ( ( 2 === (int) $column && ( 1 === $index || 2 === $index ) ) || ( 3 === (int) $column && ( 1 === $index || 2 === $index || 3 === $index ) ) ) ) ) ) {
+						if ( ( $enable_highlighted_category || $enable_highlighted_comment ) && ( 'in-image' === $highlighted_category_position ) ) {
+							$image .= '<div class="mzb-post-meta">';
+							$image .= $category;
+							if ( true === $enable_comment ) {
+								$image .= '<span class="comments-link">';
+								$image .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
+							</svg>';
+								$image .= $comment;
+								$image .= '</span>';
+							}
+								$image .= '</div>';
+						}
+					} elseif ( ( $enable_category || $enable_comment ) && ( 'in-image' === $category_position ) ) {
+						$image .= '<div class="mzb-post-meta">';
+						$image .= $category;
+						if ( true === $enable_comment ) {
+							$image .= '<span class="comments-link">';
+							$image .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+							<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
+						</svg>';
+							$image .= $comment;
+							$image .= '</span>';
+						}
+						$image .= '</div>';
+					}
+
+					$image .= '</div>';
+				} else {
+					$image = '';
+				}
+					$title      = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
+					$author     = '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/> ' : '' ) . get_the_author_posts_link() . '</span>';
+					$date       = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
 							</svg>' : '' ) .
 							'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
-				$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
-				$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">' .
-				( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
+					$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">' .
+					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Z" clip-rule="evenodd"/>
 				<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
 				</svg>' : '' ) .
-				'<span>' .
+					'<span>' .
 					self::calculate_read_time( $id ) . '
 				min
 				read
 				</span>
 				</span>' : '';
-				$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">' .
-				( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">' .
+					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
 				</svg>' : '' ) .
 																				'<span>' . $view . '
 																					views
 																				</span>
 																			</span>' : '';
-				$html      .= '<div class="mzb-post' . ( ( 1 === (int) $column && 1 === $index ) || ( 2 === (int) $column && ( 1 === $index || 2 === $index ) ) ? ' mzb-first-post--highlight' : '' ) . '">';
-				$html      .= '';
-				$html      .= ( true == $enable_featured_image ) ? $image : '';
-				$html      .= '<div class="mzb-post-content">';
-				if ( $enable_category || $enable_comment ) {
+					$html      .= '<div class="mzb-post' . ( 'layout-4' !== $layout && ( ( 1 === $index ) || ( 'layout-1' === $layout && ( ( 2 === (int) $column && ( 1 === $index || 2 === $index ) ) || ( 3 === (int) $column && ( 1 === $index || 2 === $index || 3 === $index ) ) ) ) ) ? ' mzb-first-post--highlight ' . ( $enable_highlighted_category_border ? 'mzb-highlighted-post-category-border' : '' ) : ( $enable_category_border ? ' mzb-post-category-border' : '' ) ) . '">';
+					$html      .= '';
+					$html      .= ( true == $enable_featured_image ) ? $image : '';
+					$html      .= '<div class="mzb-post-content">';
+				if ( 'layout-4' !== $layout && ( ( 1 === $index ) || ( 'layout-1' === $layout && ( ( 2 === (int) $column && ( 1 === $index || 2 === $index ) ) || ( 3 === (int) $column && ( 1 === $index || 2 === $index || 3 === $index ) ) ) ) ) ) {
+					if ( ( $enable_highlighted_category || $enable_highlighted_comment ) && ( 'out-image' === $highlighted_category_position ) ) {
+						$html .= '<div class="mzb-post-meta">';
+						$html .= $category;
+						if ( true === $enable_comment ) {
+							$html .= '<span class="comments-link">';
+							$html .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
+							</svg>';
+							$html .= $comment;
+							$html .= '</span>';
+						}
+						$html .= '</div>';
+					}
+				} elseif ( ( $enable_category || $enable_comment ) && ( 'out-image' === $category_position ) ) {
 					$html .= '<div class="mzb-post-meta">';
 					$html .= $category;
 					if ( true === $enable_comment ) {
@@ -258,6 +361,7 @@ class FeaturedPosts extends AbstractBlock {
 					}
 					$html .= '</div>';
 				}
+
 				if ( 'top' === $meta_position ) {
 					if ( $enable_author || $enable_date || $enable_readtime || $enable_viewcount ) {
 						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
@@ -269,7 +373,7 @@ class FeaturedPosts extends AbstractBlock {
 						$html .= '</div>';
 					}
 				}
-				$html .= $title;
+					$html .= $title;
 				if ( 'bottom' === $meta_position ) {
 					if ( $enable_author || $enable_date || $enable_readtime || $enable_viewcount ) {
 						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
@@ -281,17 +385,17 @@ class FeaturedPosts extends AbstractBlock {
 						$html .= '</div>';
 					}
 				}
-				if ( $enable_excerpt || $enable_readmore ) {
+				if ( ( $enable_excerpt || $enable_readmore ) && ( 'layout-6' !== $layout || 1 === $index ) ) {
 					$html .= '<div class="mzb-entry-content">';
 					$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-					$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
+					$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ( $enable_read_more_icon ? $get_read_more_icon : '' ) . ' </a></div>' : '';
 					$html .= '</div>';
 				}
-				$html .= '</div>';
-				$html .= '</div>';
-				++$index;
+					$html .= '</div>';
+					$html .= '</div>';
+					++$index;
 			}
-			$html .= '</div>';
+				$html .= '</div>';
 
 			if ( $enable_view_more && 'bottom' === $view_button_position ) {
 				$html .= '<div class="mzb-view-more"><a href="' . esc_url( $view_more_url ) . '">';
@@ -302,15 +406,15 @@ class FeaturedPosts extends AbstractBlock {
 				$html .= '</a></div>';
 			}
 
-			// Custom pagination function.
+				// Custom pagination function.
 			if ( $enable_pagination ) {
 				$html .= mzb_numbered_pagination( $query->max_num_pages, $paged, $client_id );
 			}
 
-			$html .= '</div>';
-			wp_reset_postdata();
+				$html .= '</div>';
+				wp_reset_postdata();
 		}
-		return $html;
+			return $html;
 	}
 
 	public function calculate_read_time( $post_id ) {

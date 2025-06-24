@@ -148,9 +148,11 @@ class RestApi {
 	 * @return array
 	 */
 	public function get_post_author( array $post ): array {
+		$author_id = isset( $post['author'] ) ? $post['author'] : 0;
+
 		return [
-			'name'   => get_the_author_meta( 'display_name', $post['author'] ),
-			'avatar' => get_avatar_url( $post['author'] ),
+			'name'   => get_the_author_meta( 'display_name', $author_id ),
+			'avatar' => get_avatar_url( $author_id ),
 		];
 	}
 

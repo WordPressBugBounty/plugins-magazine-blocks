@@ -74,7 +74,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-tab-title.active"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-tab-controls .mzb-tab-title.active"
         }
       ]
     },
@@ -86,7 +86,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-tab-title"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-tab-controls .mzb-tab-title"
         }
       ]
     },
@@ -114,6 +114,54 @@
         }
       ]
     },
+    "imageHeight": {
+      "type": "object",
+      "default": {
+        "desktop": {
+          "value": 74,
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post img { height: {{VALUE}}; }"
+        }
+      ]
+    },
+    "objectFit": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post img { object-fit: {{VALUE}}; }"
+        }
+      ]
+    },
+    "imageWidth": {
+      "type": "object",
+      "default": {
+        "desktop": {
+          "value": 74,
+          "unit": "px"
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post img { max-width: {{VALUE}}; width: {{VALUE}}; }"
+        }
+      ]
+    },
+    "excerptTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-content .mzb-post-title a"
+        }
+      ]
+    },
     "postTitleColor": {
       "type": "string",
       "style": [
@@ -134,11 +182,15 @@
       "type": "boolean",
       "default": false
     },
+    "enableExcerpt": {
+      "type": "boolean",
+      "default": true
+    },
     "categoryColor": {
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a {color: {{VALUE}}; }"
         }
       ]
     },
@@ -149,7 +201,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a"
         }
       ]
     },
@@ -157,7 +209,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover {fill: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover {fill: {{VALUE}}; }"
         }
       ]
     },
@@ -168,7 +220,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover"
         }
       ]
     },
@@ -182,7 +234,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a { padding: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a { padding: {{VALUE}}; }"
         }
       ]
     },
@@ -203,10 +255,10 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-tab-controls.mzb-tab-layout-style1"
+          "selector": "{{WRAPPER}} .mzb-tab-controls"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-tab-controls.mzb-tab-layout-style1 .mzb-tab-title.active::after"
+          "selector": "{{WRAPPER}} .mzb-tab-controls"
         }
       ]
     },
@@ -241,7 +293,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a"
         }
       ]
     },
@@ -262,7 +314,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover"
         }
       ]
     },
@@ -273,7 +325,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a"
         }
       ]
     },
@@ -284,7 +336,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post-categories a:hover"
         }
       ]
     },
@@ -317,6 +369,14 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-post-date svg {fill: {{VALUE}}; }"
+        }
+      ]
+    },
+    "excerptColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-content .mzb-post-title a {color: {{VALUE}}; }"
         }
       ]
     },

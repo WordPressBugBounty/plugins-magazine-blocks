@@ -12,6 +12,7 @@ namespace MagazineBlocks;
 defined( 'ABSPATH' ) || exit;
 
 use MagazineBlocks\BlockTypes\Advertisement;
+use MagazineBlocks\BlockTypes\Archive;
 use MagazineBlocks\BlockTypes\DateWeather;
 use MagazineBlocks\BlockTypes\Modal;
 use MagazineBlocks\Traits\Singleton;
@@ -29,6 +30,7 @@ use MagazineBlocks\BlockTypes\PostVideo;
 use MagazineBlocks\BlockTypes\Section;
 use MagazineBlocks\BlockTypes\Slider;
 use MagazineBlocks\BlockTypes\AbstractBlock;
+use MagazineBlocks\BlockTypes\Breadcrumbs;
 use MagazineBlocks\BlockTypes\LatestPosts;
 use MagazineBlocks\BlockTypes\SocialIcons;
 use MagazineBlocks\BlockTypes\SocialIcon;
@@ -144,7 +146,11 @@ final class Blocks {
 			return $args[0];
 		}
 		if ( ! magazine_blocks_is_block_theme() && doing_action( 'wp_head' ) ) {
-			$this->prepared_blocks        = parse_blocks( get_the_content() );
+			$content                      = apply_filters(
+				'magazine_blocks_content_for_css_generation',
+				get_the_content()
+			);
+			$this->prepared_blocks        = parse_blocks( $content );
 			$this->prepared_widget_blocks = $this->get_widget_blocks();
 		}
 	}
@@ -196,7 +202,9 @@ final class Blocks {
 			array(
 				Advertisement::class,
 				Heading::class,
+				Archive::class,
 				BannerPosts::class,
+				Breadcrumbs::class,
 				GridModule::class,
 				FeaturedPosts::class,
 				FeaturedCategories::class,

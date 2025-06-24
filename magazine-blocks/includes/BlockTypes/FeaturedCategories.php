@@ -36,6 +36,8 @@ class FeaturedCategories extends AbstractBlock {
 		$tag_2               = magazine_blocks_array_get( $attributes, 'tag2', '' );
 		$excluded_category   = magazine_blocks_array_get( $attributes, 'excludedCategory', '' );
 		$excluded_category_2 = magazine_blocks_array_get( $attributes, 'excludedCategory2', '' );
+		$post_type           = magazine_blocks_array_get( $attributes, 'postType', 'post' );
+		$post_type2          = magazine_blocks_array_get( $attributes, 'postType2', 'post' );
 
 		$post_count = magazine_blocks_array_get( $attributes, 'postCount', '' );
 
@@ -130,6 +132,7 @@ class FeaturedCategories extends AbstractBlock {
 		add_filter( 'excerpt_length', $custom_excerpt_length );
 
 		$cat_1_args = array(
+			'post_type'           => $post_type,
 			'posts_per_page'      => $post_count,
 			'status'              => 'publish',
 			'cat'                 => $category,
@@ -140,6 +143,7 @@ class FeaturedCategories extends AbstractBlock {
 		);
 
 		$cat_2_args = array(
+			'post_type'           => $post_type2,
 			'posts_per_page'      => $post_count,
 			'status'              => 'publish',
 			'cat'                 => $category_2,
@@ -151,14 +155,62 @@ class FeaturedCategories extends AbstractBlock {
 
 		$cat_name = get_cat_name( $category );
 
-		$cat_name = empty( $cat_name ) ? 'Latest' : $cat_name;
+		if ( empty( $cat_name ) ) {
+			$cat_name = $label;
+		}
 
 		$cat_name2 = get_cat_name( $category_2 );
 
-		$cat_name2 = empty( $cat_name2 ) ? 'Latest' : $cat_name2;
+		if ( empty( $cat_name2 ) ) {
+			$cat_name2 = $label;
+		}
 
 		# The Loop.
 		$html = '';
+
+		$type = get_query_var( 'mzb_template_type' );
+
+		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+			unset( $cat_1_args['cat'], $cat_1_args['tag_id'], $cat_1_args['orderby'], $cat_1_args['order'], $cat_1_args['author'], $cat_1_args['category__not_in'], $cat_1_args['ignore_sticky_posts'], $cat_1_args['paged'], $cat_1_args['offset'] );
+			$paged = get_query_var( 'paged' );
+			switch ( get_query_var( 'mzb_template_type' ) ) {
+				case 'archive':
+					if ( is_archive() ) {
+						if ( is_category() ) {
+							$cat_1_args['category_name'] = get_query_var( 'category_name' );
+						} elseif ( is_tag() ) {
+							$cat_1_args['tag'] = get_query_var( 'tag' );
+						} elseif ( is_author() ) {
+							$cat_1_args['author'] = get_query_var( 'author' );
+						}
+					}
+					break;
+				case 'search':
+					$cat_1_args['s'] = get_search_query();
+					break;
+			}
+		}
+
+		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+			unset( $cat_2_args['cat'], $cat_2_args['tag_id'], $cat_2_args['orderby'], $cat_2_args['order'], $cat_2_args['author'], $cat_2_args['category__not_in'], $cat_2_args['ignore_sticky_posts'], $cat_2_args['paged'], $cat_2_args['offset'] );
+			$paged = get_query_var( 'paged' );
+			switch ( get_query_var( 'mzb_template_type' ) ) {
+				case 'archive':
+					if ( is_archive() ) {
+						if ( is_category() ) {
+							$cat_2_args['category_name'] = get_query_var( 'category_name' );
+						} elseif ( is_tag() ) {
+							$cat_2_args['tag'] = get_query_var( 'tag' );
+						} elseif ( is_author() ) {
+							$cat_2_args['author'] = get_query_var( 'author' );
+						}
+					}
+					break;
+				case 'search':
+					$cat_2_args['s'] = get_search_query();
+					break;
+			}
+		}
 
 		$query = new WP_Query( $cat_1_args );
 
@@ -169,7 +221,7 @@ class FeaturedCategories extends AbstractBlock {
 			$html .= '<div class="mzb-category-1-posts mzb-' . $post_box_style . '">';
 			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
 			if ( $enable_heading ) {
-				$html .= '<h2 class="mzb-heading-text">' . esc_html( $label ) . '</h2>';
+				$html .= '<h2 class="mzb-heading-text">' . esc_html( $cat_name ) . '</h2>';
 			}
 			if ( $enable_view_more && 'top' === $view_button_position ) {
 				$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';
@@ -246,7 +298,7 @@ class FeaturedCategories extends AbstractBlock {
 			$html .= '<div class="mzb-category-2-posts mzb-' . $post_box_style . '">';
 			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
 			if ( $enable_heading ) {
-				$html .= '<h2 class="mzb-heading-text">' . esc_html( $label2 ) . '</h2>';
+				$html .= '<h2 class="mzb-heading-text">' . esc_html( $cat_name2 ) . '</h2>';
 			}
 			if ( $enable_view_more && 'top' === $view_button_position ) {
 				$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';

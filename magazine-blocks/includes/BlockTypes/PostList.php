@@ -21,6 +21,7 @@ class PostList extends AbstractBlock {
 
 
 
+
 	/**
 	 * Block name.
 	 *
@@ -44,6 +45,7 @@ class PostList extends AbstractBlock {
 		$order_type        = magazine_blocks_array_get( $attributes, 'orderType', '' );
 		$author            = magazine_blocks_array_get( $attributes, 'authorName', '' );
 		$post_count        = magazine_blocks_array_get( $attributes, 'postCount', '' );
+		$post_type         = magazine_blocks_array_get( $attributes, 'postType', 'post' );
 
 		// General.
 		$layout                  = magazine_blocks_array_get( $attributes, 'layout', '' );
@@ -169,6 +171,7 @@ class PostList extends AbstractBlock {
 		}
 
 		$args = array(
+			'post_type'           => $post_type,
 			'posts_per_page'      => $post_count,
 			'status'              => 'publish',
 			'cat'                 => $category,
@@ -186,7 +189,32 @@ class PostList extends AbstractBlock {
 
 		$cat_name = empty( $cat_name ) ? 'Latest' : $cat_name;
 
-		$query = new WP_Query( $args );
+		$type = get_query_var( 'mzb_template_type' );
+
+		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
+			$paged = get_query_var( 'paged' );
+			switch ( get_query_var( 'mzb_template_type' ) ) {
+				case 'archive':
+					if ( is_archive() ) {
+						if ( is_category() ) {
+							$args['category_name'] = get_query_var( 'category_name' );
+						} elseif ( is_tag() ) {
+							$args['tag'] = get_query_var( 'tag' );
+						} elseif ( is_author() ) {
+							$args['author'] = get_query_var( 'author' );
+						}
+					}
+					break;
+				case 'search':
+					$args['s'] = get_search_query();
+					break;
+			}
+		}
+
+		$query = new WP_Query(
+			$args
+		);
 
 		# The Loop.
 		$html = '';
@@ -224,24 +252,24 @@ class PostList extends AbstractBlock {
 				$date       = $enable_date ? '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
 							</svg>' : '' ) .
-							'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
+					'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
 				$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
 				$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">' .
-							( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 							<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Z" clip-rule="evenodd"/>
 							<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
 							</svg>' : '' ) .
-							'<span>' .
+					'<span>' .
 					self::calculate_read_time( $id ) . '
 							min
 							read
 							</span>
 							</span>' : '';
 				$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">' .
-							( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 							<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
 							</svg>' : '' ) .
-																							'<span>' . $view . '
+					'<span>' . $view . '
 																								views
 																							</span>
 																						</span>' : '';

@@ -278,8 +278,8 @@ class ScriptStyle {
 			array(
 				'name' => '_MAGAZINE_BLOCKS_DASHBOARD_',
 				'data' => array(
-					'version'     => MAGAZINE_BLOCKS_VERSION,
-					'plugins'     => array_reduce(
+					'version'         => MAGAZINE_BLOCKS_VERSION,
+					'plugins'         => array_reduce(
 						$allowed_plugin_slugs,
 						function ( $acc, $curr ) use ( $installed_plugin_slugs ) {
 							if ( in_array( $curr, $installed_plugin_slugs, true ) ) {
@@ -295,7 +295,7 @@ class ScriptStyle {
 						},
 						array()
 					),
-					'themes'      => array(
+					'themes'          => array(
 						'zakra'    => strpos( $current_theme, 'zakra' ) !== false ? 'active' : (
 						in_array( 'zakra', $installed_theme_slugs, true ) ? 'inactive' : 'not-installed'
 						),
@@ -303,8 +303,9 @@ class ScriptStyle {
 						in_array( 'colormag', $installed_theme_slugs, true ) || in_array( 'colormag-pro', $installed_theme_slugs, true ) ? 'inactive' : 'not-installed'
 						),
 					),
-					'adminUrl'    => admin_url(),
-					'googleFonts' => $this->get_google_fonts(),
+					'adminUrl'        => admin_url(),
+					'googleFonts'     => $this->get_google_fonts(),
+					'templateEditUrl' => admin_url( 'post.php?post=%d&action=edit' ),
 				),
 			)
 		);
@@ -319,8 +320,8 @@ class ScriptStyle {
 	public function localize_block_scripts() {
 		global $pagenow;
 
-		$font_awesome_icons    = Items::fromFile( Icon::FONT_AWESOME_ICONS_PATH );
-		$magazine_blocks_icons = Items::fromFile( Icon::MAGAZINE_BLOCKS_ICONS_PATH );
+		$font_awesome_icons    = iterator_to_array( Items::fromFile( Icon::FONT_AWESOME_ICONS_PATH ) );
+		$magazine_blocks_icons = iterator_to_array( Items::fromFile( Icon::MAGAZINE_BLOCKS_ICONS_PATH ) );
 		$google_fonts          = Items::fromFile( MAGAZINE_BLOCKS_PLUGIN_DIR . '/assets/json/google-fonts.json' );
 		$localized_scripts     = apply_filters(
 			'magazine_blocks_localize_block_scripts',
@@ -354,9 +355,9 @@ class ScriptStyle {
 					),
 					'googleFonts'     => iterator_to_array( $google_fonts ),
 					'icons'           => array(
-						'font-awesome'    => array_values( iterator_to_array( $font_awesome_icons ) ),
-						'magazine-blocks' => array_values( iterator_to_array( $magazine_blocks_icons ) ),
-						'all'             => array_merge( iterator_to_array( $font_awesome_icons ), iterator_to_array( $magazine_blocks_icons ) ),
+						'font-awesome'    => array_values( ( $font_awesome_icons ) ),
+						'magazine-blocks' => array_values( $magazine_blocks_icons ),
+						'all'             => array_merge( ( $font_awesome_icons ), ( $magazine_blocks_icons ) ),
 					),
 				),
 			)

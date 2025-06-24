@@ -28,6 +28,7 @@ class PostVideo extends AbstractBlock {
 		$client_id = magazine_blocks_array_get( $attributes, 'clientId', '' );
 
 		$category                       = magazine_blocks_array_get( $attributes, 'category', '' );
+		$tag                            = magazine_blocks_array_get( $attributes, 'tag', '' );
 		$no_of_posts                    = magazine_blocks_array_get( $attributes, 'postCount', '' );
 		$column                         = magazine_blocks_array_get( $attributes, 'column', '' );
 		$presets                        = magazine_blocks_array_get( $attributes, 'presets', '' );
@@ -44,11 +45,15 @@ class PostVideo extends AbstractBlock {
 		$offset                         = magazine_blocks_array_get( $attributes, 'offset', 0 );
 		$meta_separator                 = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
 		$enable_icon                    = magazine_blocks_array_get( $attributes, 'enableIcon', '' );
+		$meta_position                  = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
+		$post_type                      = magazine_blocks_array_get( $attributes, 'postType', 'post' );
 
 		$args = array(
+			'post_type'           => $post_type,
 			'posts_per_page'      => $no_of_posts,
 			'status'              => 'publish',
 			'cat'                 => $category,
+			'tag_id'              => $tag,
 			'ignore_sticky_posts' => 1,
 			'tax_query'           => array(
 				array(
@@ -60,6 +65,31 @@ class PostVideo extends AbstractBlock {
 			'offset'              => $offset,
 		);
 
+		$type = get_query_var( 'mzb_template_type' );
+
+		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+			$args['post_type'] = 'post';
+			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
+			$paged         = get_query_var( 'paged' );
+			$args['paged'] = $paged;
+			switch ( get_query_var( 'mzb_template_type' ) ) {
+				case 'archive':
+					if ( is_archive() ) {
+						if ( is_category() ) {
+							$args['category_name'] = get_query_var( 'category_name' );
+						} elseif ( is_tag() ) {
+							$args['tag'] = get_query_var( 'tag' );
+						} elseif ( is_author() ) {
+							$args['author'] = get_query_var( 'author' );
+						}
+					}
+					break;
+				case 'search':
+					$args['s'] = get_search_query();
+					break;
+			}
+		}
+
 		$query = new WP_Query( $args );
 
 			# The Loop.
@@ -68,7 +98,7 @@ class PostVideo extends AbstractBlock {
 			$index = 1;
 		if ( $query->have_posts() ) {
 			$html .= '<div class="mzb-post-video mzb-post-video-' . $client_id . ' ' . ( $presets ? 'mzb-preset-' . $presets : '' ) . '">';
-			$html .= '<div class="mzb-posts mzb-post-col--' . $column . '">';
+			$html .= '<div class="mzb-posts mzb-post-col--' . $column . ( 'style-3' === $presets && 1 === $no_of_posts ? ' mzb-post-col--full' : '' ) . '">';
 
 			$first_post = false;
 
@@ -120,15 +150,22 @@ class PostVideo extends AbstractBlock {
 					$html .= $category;
 					$html .= '</div>';
 				}
-				if ( $enable_author || $enable_date ) {
-					$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-					$html .= $enable_author ? $author : '';
-					$html .= '';
-					$html .= $enable_date ? $date : '';
-					$html .= '</div>';
+				if ( ( 'style-3' !== $presets || $is_first_post ) && ( $enable_author || $enable_date ) && 'top' === $meta_position ) {
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
+						$html .= $enable_author ? $author : '';
+						$html .= '';
+						$html .= $enable_date ? $date : '';
+						$html .= '</div>';
 				}
 				if ( $enable_title ) {
 					$html .= $title;
+				}
+				if ( ( 'style-3' !== $presets || $is_first_post ) && ( $enable_author || $enable_date ) && 'bottom' === $meta_position ) {
+						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
+						$html .= $enable_author ? $author : '';
+						$html .= '';
+						$html .= $enable_date ? $date : '';
+						$html .= '</div>';
 				}
 				if ( $enable_excerpt ) {
 					$html .= '<div class="mzb-entry-content">';
