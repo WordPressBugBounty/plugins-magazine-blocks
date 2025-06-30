@@ -1,4 +1,11 @@
 == Changelog ==
+= 1.7.1 - 30/06/2025 =
+* Added - New Category Block.
+* Added - New Featured Image Block.
+* Added - New Post Title Block.
+* Added - New Post Content Block.
+* Added - New Post Meta Block.
+
 = 1.7.0 - 24/06/2025 =
 * Fix - Image hover animation issue in frontend of banner posts block.
 * Fix - Heading Border option not working properly for all presets in heading block.

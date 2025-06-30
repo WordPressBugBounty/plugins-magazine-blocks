@@ -167,8 +167,16 @@ class SettingsController extends \WP_REST_Controller {
 							'description' => __( 'Breadcrumbs block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
+						'category'            => array(
+							'description' => __( 'Category block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
 						'grid-module'         => array(
 							'description' => __( 'Grid Module block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'post-image'          => array(
+							'description' => __( 'Featured Image block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'featured-posts'      => array(
@@ -181,6 +189,10 @@ class SettingsController extends \WP_REST_Controller {
 						),
 						'tab-post'            => array(
 							'description' => __( 'Tab Post block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'post-title'          => array(
+							'description' => __( 'Post Title block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'post-list'           => array(

@@ -448,7 +448,7 @@
     },
     "postTitleMarkup": {
       "type": "string",
-      "default": "h3"
+      "default": "h6"
     },
     "postTitleColor": {
       "type": "string",

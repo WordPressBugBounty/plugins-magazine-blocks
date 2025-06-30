@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit29dcdbb06355cbbc30e19ca7abc4a5bc
+class ComposerStaticInit67161243b998601c671e15e509f8fa4c
 {
     public static $files = array (
         'ace6d88241f812b4accb2d847454aef6' => __DIR__ . '/..' . '/halaxa/json-machine/src/functions.php',
@@ -188,10 +188,12 @@ class ComposerStaticInit29dcdbb06355cbbc30e19ca7abc4a5bc
         'MagazineBlocks\\BlockTypes\\Archive' => __DIR__ . '/../..' . '/includes/BlockTypes/Archive.php',
         'MagazineBlocks\\BlockTypes\\BannerPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/BannerPosts.php',
         'MagazineBlocks\\BlockTypes\\Breadcrumbs' => __DIR__ . '/../..' . '/includes/BlockTypes/Breadcrumbs.php',
+        'MagazineBlocks\\BlockTypes\\Category' => __DIR__ . '/../..' . '/includes/BlockTypes/Category.php',
         'MagazineBlocks\\BlockTypes\\CategoryList' => __DIR__ . '/../..' . '/includes/BlockTypes/CategoryList.php',
         'MagazineBlocks\\BlockTypes\\Column' => __DIR__ . '/../..' . '/includes/BlockTypes/Column.php',
         'MagazineBlocks\\BlockTypes\\DateWeather' => __DIR__ . '/../..' . '/includes/BlockTypes/DateWeather.php',
         'MagazineBlocks\\BlockTypes\\FeaturedCategories' => __DIR__ . '/../..' . '/includes/BlockTypes/FeaturedCategories.php',
+        'MagazineBlocks\\BlockTypes\\FeaturedImage' => __DIR__ . '/../..' . '/includes/BlockTypes/FeaturedImage.php',
         'MagazineBlocks\\BlockTypes\\FeaturedPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/FeaturedPosts.php',
         'MagazineBlocks\\BlockTypes\\GridModule' => __DIR__ . '/../..' . '/includes/BlockTypes/GridModule.php',
         'MagazineBlocks\\BlockTypes\\Heading' => __DIR__ . '/../..' . '/includes/BlockTypes/Heading.php',
@@ -200,7 +202,10 @@ class ComposerStaticInit29dcdbb06355cbbc30e19ca7abc4a5bc
         'MagazineBlocks\\BlockTypes\\LatestPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/LatestPosts.php',
         'MagazineBlocks\\BlockTypes\\Modal' => __DIR__ . '/../..' . '/includes/BlockTypes/Modal.php',
         'MagazineBlocks\\BlockTypes\\NewsTicker' => __DIR__ . '/../..' . '/includes/BlockTypes/NewsTicker.php',
+        'MagazineBlocks\\BlockTypes\\PostContent' => __DIR__ . '/../..' . '/includes/BlockTypes/PostContent.php',
         'MagazineBlocks\\BlockTypes\\PostList' => __DIR__ . '/../..' . '/includes/BlockTypes/PostList.php',
+        'MagazineBlocks\\BlockTypes\\PostMeta' => __DIR__ . '/../..' . '/includes/BlockTypes/PostMeta.php',
+        'MagazineBlocks\\BlockTypes\\PostTitle' => __DIR__ . '/../..' . '/includes/BlockTypes/PostTitle.php',
         'MagazineBlocks\\BlockTypes\\PostVideo' => __DIR__ . '/../..' . '/includes/BlockTypes/PostVideo.php',
         'MagazineBlocks\\BlockTypes\\Section' => __DIR__ . '/../..' . '/includes/BlockTypes/Section.php',
         'MagazineBlocks\\BlockTypes\\Slider' => __DIR__ . '/../..' . '/includes/BlockTypes/Slider.php',
@@ -237,9 +242,9 @@ class ComposerStaticInit29dcdbb06355cbbc30e19ca7abc4a5bc
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit29dcdbb06355cbbc30e19ca7abc4a5bc::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit29dcdbb06355cbbc30e19ca7abc4a5bc::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit29dcdbb06355cbbc30e19ca7abc4a5bc::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit67161243b998601c671e15e509f8fa4c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit67161243b998601c671e15e509f8fa4c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit67161243b998601c671e15e509f8fa4c::$classMap;
 
         }, null, ClassLoader::class);
     }

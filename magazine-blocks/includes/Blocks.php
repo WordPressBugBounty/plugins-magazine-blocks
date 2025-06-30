@@ -15,6 +15,8 @@ use MagazineBlocks\BlockTypes\Advertisement;
 use MagazineBlocks\BlockTypes\Archive;
 use MagazineBlocks\BlockTypes\DateWeather;
 use MagazineBlocks\BlockTypes\Modal;
+use MagazineBlocks\BlockTypes\PostContent;
+use MagazineBlocks\BlockTypes\PostMeta;
 use MagazineBlocks\Traits\Singleton;
 use MagazineBlocks\BlockTypes\Heading;
 use MagazineBlocks\BlockTypes\BannerPosts;
@@ -31,11 +33,14 @@ use MagazineBlocks\BlockTypes\Section;
 use MagazineBlocks\BlockTypes\Slider;
 use MagazineBlocks\BlockTypes\AbstractBlock;
 use MagazineBlocks\BlockTypes\Breadcrumbs;
+use MagazineBlocks\BlockTypes\Category;
+use MagazineBlocks\BlockTypes\FeaturedImage;
 use MagazineBlocks\BlockTypes\LatestPosts;
 use MagazineBlocks\BlockTypes\SocialIcons;
 use MagazineBlocks\BlockTypes\SocialIcon;
 use MagazineBlocks\BlockTypes\Icon;
 use MagazineBlocks\BlockTypes\Image;
+use MagazineBlocks\BlockTypes\PostTitle;
 use WP_Query;
 
 /**
@@ -203,6 +208,8 @@ final class Blocks {
 				Advertisement::class,
 				Heading::class,
 				Archive::class,
+				PostContent::class,
+				PostMeta::class,
 				BannerPosts::class,
 				Breadcrumbs::class,
 				GridModule::class,
@@ -223,6 +230,9 @@ final class Blocks {
 				LatestPosts::class,
 				Image::class,
 				Icon::class,
+				Category::class,
+				FeaturedImage::class,
+				PostTitle::class,
 			)
 		);
 	}

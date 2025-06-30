@@ -45,7 +45,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-entry-content p"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-entry-content p"
         }
       ]
     },
@@ -393,7 +393,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a, {{WRAPPER}} .mzb-featured-image.mzb-category--inside-image .mzb-post-meta .mzb-post-categories a"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-post-categories a, .mzb-grid-module{{WRAPPER}} .mzb-featured-image.mzb-category--inside-image .mzb-post-meta .mzb-post-categories a"
         }
       ]
     },
@@ -413,7 +413,10 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-title"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-post-title"
+        },
+        {
+          "selector": ".editor-styles-wrapper .mzb-grid-module{{WRAPPER}} .mzb-post-title"
         }
       ]
     },
@@ -463,7 +466,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-posts .mzb-featured-image img { border-radius: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-featured-image { border-radius: {{VALUE}}; }"
         }
       ]
     },
@@ -536,6 +539,17 @@
         "desktop": "left"
       }
     },
+    "categoryJustification": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post .mzb-post-content .mzb-post-meta {justify-content: {{VALUE}}; }"
+        }
+      ],
+      "default": {
+        "desktop": "left"
+      }
+    },
     "metaIconColor": {
       "type": "string",
       "style": [
@@ -568,7 +582,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-author a, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-date a, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-read-time span, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-view-count span"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-author a, .mzb-grid-module{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-date a, .mzb-grid-module{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-read-time span, .mzb-grid-module{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-view-count span"
         }
       ]
     },
@@ -701,7 +715,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-view-more a p"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-view-more a p"
         }
       ]
     },
@@ -1134,34 +1148,34 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__default.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__zero.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__circle.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__square.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__dot.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__dot.mzb-number-list__with-image .mzb-post mzb-featured-image::before"
         },
         {
-          "selector": "{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__dot.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-posts.mzb-number-list.mzb-number-list__dot.mzb-number-list__with-text .mzb-post .mzb-post-content::before"
         }
       ]
     },

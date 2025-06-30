@@ -42,8 +42,8 @@ class FeaturedCategories extends AbstractBlock {
 		$post_count = magazine_blocks_array_get( $attributes, 'postCount', '' );
 
 		// Post Title.
-		$post_title_markup = magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' );
-		$post_title_markup = magazine_blocks_sanitize_html_tag( $post_title_markup, 'h3' );
+		$post_title_markup = magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h6' );
+		$post_title_markup = magazine_blocks_sanitize_html_tag( $post_title_markup, 'h6' );
 
 		// Image.
 		$hover_animation = magazine_blocks_array_get( $attributes, 'hoverAnimation' );
@@ -238,7 +238,7 @@ class FeaturedCategories extends AbstractBlock {
 				$src      = wp_get_attachment_image_src( $id );
 				$src      = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
 				$image    = $src ? '<div class="mzb-featured-image ' . $hover_animation . '"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
-				$title    = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
+				$title    = '<a href="' . esc_url( get_the_permalink() ) . '"><' . $post_title_markup . ' class="mzb-post-title">' . get_the_title() . '</' . $post_title_markup . '></a>';
 				$category = $enable_category ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
 				$comment  = '<a href="' . get_comments_link() . '">' . get_comments_number() . '</a>';
 				$date     = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">

@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,13 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.7.1 - 30/06/2025 =
+* Added - New Category Block.
+* Added - New Featured Image Block.
+* Added - New Post Title Block.
+* Added - New Post Content Block.
+* Added - New Post Meta Block.
+
 = 1.7.0 - 24/06/2025 =
 * Fix - Image hover animation issue in frontend of banner posts block.
 * Fix - Heading Border option not working properly for all presets in heading block.

@@ -20,6 +20,7 @@ class GridModule extends AbstractBlock {
 
 
 
+
 	/**
 	 * Block name.
 	 *
@@ -258,13 +259,16 @@ class GridModule extends AbstractBlock {
 						$image .= 'mzb-category--inside-image';
 					}
 					$image .= '">';
-					$image .= '<a href="' . esc_url( get_the_permalink() ) . '"title="' . esc_attr( get_the_title() ) . '"><img src="' . esc_url( $src ) . '" alt="' . esc_attr( get_the_title() ) . '"/></a>';
+					$image .= '<a href="' . esc_url( get_the_permalink() ) . '"title="' . esc_attr( get_the_title() ) . '">';
+					$image .= '<img src="' . esc_url( $src ) . '" alt="' . esc_attr( get_the_title() ) . '" />';
+					$image .= '<div class="mzb-overlay"></div>';
+					$image .= '</a>';
 					if ( ( $enable_category || $enable_comment ) && ( 'layout-2' === $layout && 'in-image' === $category_position ) ) {
 						$image .= '<div class="mzb-post-meta">';
 						$image .= $category;
 
 						if ( true === $enable_comment ) {
-							$image .= '<span class="comments-link">';
+							$image .= '<span class="mzb-comments-link">';
 							$image .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
 							</svg>';
@@ -284,24 +288,24 @@ class GridModule extends AbstractBlock {
 				$date       = $enable_date ? '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
 				<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
 				</svg>' : '' ) .
-				'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
+					'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
 				$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
 				$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">' .
-				( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Z" clip-rule="evenodd"/>
 				<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
 				</svg>' : '' ) .
-				'<span>' .
+					'<span>' .
 					self::calculate_read_time( $id ) . '
 				min
 				read
 				</span>
 				</span>' : '';
 				$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">' .
-				( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
 				</svg>' : '' ) .
-																				'<span>' . ( empty( $view ) ? 0 : $view ) . '
+					'<span>' . ( empty( $view ) ? 0 : $view ) . '
 																					views
 																				</span>
 																			</span>' : '';
@@ -315,7 +319,7 @@ class GridModule extends AbstractBlock {
 							$html .= '<div class="mzb-post-meta">';
 							$html .= $category;
 							if ( true === $enable_comment ) {
-								$html .= '<span class="comments-link">';
+								$html .= '<span class="mzb-comments-link">';
 								$html .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
 							</svg>';
@@ -341,7 +345,7 @@ class GridModule extends AbstractBlock {
 							$html .= '<div class="mzb-post-meta">';
 							$html .= $category;
 							if ( true === $enable_comment ) {
-								$html .= '<span class="comments-link">';
+								$html .= '<span class="mzb-comments-link">';
 								$html .= '<svg class="mzb-icon mzb-icon--comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 								<path fill-rule="evenodd" d="M12 4c-5.19 0-9 3.33-9 7 0 1.756.84 3.401 2.308 4.671l.412.358-.46 3.223 3.456-1.728.367.098c.913.245 1.893.378 2.917.378 5.19 0 9-3.33 9-7s-3.81-7-9-7zM1 11c0-5.167 5.145-9 11-9s11 3.833 11 9-5.145 9-11 9c-1.06 0-2.087-.122-3.06-.352l-6.2 3.1.849-5.94C1.999 15.266 1 13.246 1 11z"></path>
 							</svg>';
@@ -375,7 +379,7 @@ class GridModule extends AbstractBlock {
 
 			$html .= '</div>';
 
-				// Custom pagination function.
+			// Custom pagination function.
 			if ( $enable_pagination ) {
 				$html .= mzb_numbered_pagination( $query->max_num_pages, $paged, $client_id );
 			}
