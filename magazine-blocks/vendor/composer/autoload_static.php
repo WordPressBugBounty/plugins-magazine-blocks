@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit67161243b998601c671e15e509f8fa4c
+class ComposerStaticInit287027cce231d341b1337b739f6183e3
 {
     public static $files = array (
         'ace6d88241f812b4accb2d847454aef6' => __DIR__ . '/..' . '/halaxa/json-machine/src/functions.php',
@@ -193,7 +193,6 @@ class ComposerStaticInit67161243b998601c671e15e509f8fa4c
         'MagazineBlocks\\BlockTypes\\Column' => __DIR__ . '/../..' . '/includes/BlockTypes/Column.php',
         'MagazineBlocks\\BlockTypes\\DateWeather' => __DIR__ . '/../..' . '/includes/BlockTypes/DateWeather.php',
         'MagazineBlocks\\BlockTypes\\FeaturedCategories' => __DIR__ . '/../..' . '/includes/BlockTypes/FeaturedCategories.php',
-        'MagazineBlocks\\BlockTypes\\FeaturedImage' => __DIR__ . '/../..' . '/includes/BlockTypes/FeaturedImage.php',
         'MagazineBlocks\\BlockTypes\\FeaturedPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/FeaturedPosts.php',
         'MagazineBlocks\\BlockTypes\\GridModule' => __DIR__ . '/../..' . '/includes/BlockTypes/GridModule.php',
         'MagazineBlocks\\BlockTypes\\Heading' => __DIR__ . '/../..' . '/includes/BlockTypes/Heading.php',
@@ -203,6 +202,7 @@ class ComposerStaticInit67161243b998601c671e15e509f8fa4c
         'MagazineBlocks\\BlockTypes\\Modal' => __DIR__ . '/../..' . '/includes/BlockTypes/Modal.php',
         'MagazineBlocks\\BlockTypes\\NewsTicker' => __DIR__ . '/../..' . '/includes/BlockTypes/NewsTicker.php',
         'MagazineBlocks\\BlockTypes\\PostContent' => __DIR__ . '/../..' . '/includes/BlockTypes/PostContent.php',
+        'MagazineBlocks\\BlockTypes\\PostImage' => __DIR__ . '/../..' . '/includes/BlockTypes/PostImage.php',
         'MagazineBlocks\\BlockTypes\\PostList' => __DIR__ . '/../..' . '/includes/BlockTypes/PostList.php',
         'MagazineBlocks\\BlockTypes\\PostMeta' => __DIR__ . '/../..' . '/includes/BlockTypes/PostMeta.php',
         'MagazineBlocks\\BlockTypes\\PostTitle' => __DIR__ . '/../..' . '/includes/BlockTypes/PostTitle.php',
@@ -242,9 +242,9 @@ class ComposerStaticInit67161243b998601c671e15e509f8fa4c
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit67161243b998601c671e15e509f8fa4c::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit67161243b998601c671e15e509f8fa4c::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit67161243b998601c671e15e509f8fa4c::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit287027cce231d341b1337b739f6183e3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit287027cce231d341b1337b739f6183e3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit287027cce231d341b1337b739f6183e3::$classMap;
 
         }, null, ClassLoader::class);
     }

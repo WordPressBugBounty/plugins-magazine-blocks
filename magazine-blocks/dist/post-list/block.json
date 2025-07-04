@@ -536,7 +536,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}}.mzb-post-list .mzb-layout-1 .mzb-post .mzb-featured-image img { height: {{VALUE}} }"
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post .mzb-featured-image img { height: {{VALUE}} }"
         }
       ]
     },
@@ -544,7 +544,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}}.mzb-post-list .mzb-layout-1 .mzb-post .mzb-featured-image img { max-width: {{VALUE}} }"
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post .mzb-featured-image img { min-width: {{VALUE}} ; max-width: {{VALUE}} }"
         }
       ]
     },

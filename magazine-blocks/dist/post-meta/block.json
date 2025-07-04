@@ -155,6 +155,26 @@
         }
       ]
     },
+    "dateIcon": {
+      "type": "string",
+      "default": ""
+    },
+    "commentIcon": {
+      "type": "string",
+      "default": ""
+    },
+    "authorTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-meta-author"
+        }
+      ]
+    },
     "separatorSize": {
       "type": "object",
       "style": [

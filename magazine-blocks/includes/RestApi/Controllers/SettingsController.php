@@ -176,7 +176,7 @@ class SettingsController extends \WP_REST_Controller {
 							'type'        => 'boolean',
 						),
 						'post-image'          => array(
-							'description' => __( 'Featured Image block', 'magazine-blocks' ),
+							'description' => __( 'Post Image block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'featured-posts'      => array(

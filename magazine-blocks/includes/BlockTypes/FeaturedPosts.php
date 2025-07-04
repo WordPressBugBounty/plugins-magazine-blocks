@@ -90,24 +90,26 @@ class FeaturedPosts extends AbstractBlock {
 		$highlighted_category_position = magazine_blocks_array_get( $attributes, 'highlightedCategoryPosition', '' );
 
 		// Meta.
-		$meta_position    = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
-		$enable_author    = magazine_blocks_array_get( $attributes, 'enableAuthor', '' );
-		$enable_date      = magazine_blocks_array_get( $attributes, 'enableDate', '' );
-		$enable_readtime  = magazine_blocks_array_get( $attributes, 'enableReadTime', '' );
-		$enable_viewcount = magazine_blocks_array_get( $attributes, 'enableViewCount', '' );
-		$enable_icon      = magazine_blocks_array_get( $attributes, 'enableIcon', '' );
-		$meta_separator   = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
+		$meta_position         = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
+		$enable_author         = magazine_blocks_array_get( $attributes, 'enableAuthor', '' );
+		$enable_date           = magazine_blocks_array_get( $attributes, 'enableDate', '' );
+		$enable_readtime       = magazine_blocks_array_get( $attributes, 'enableReadTime', '' );
+		$enable_viewcount      = magazine_blocks_array_get( $attributes, 'enableViewCount', '' );
+		$enable_icon           = magazine_blocks_array_get( $attributes, 'enableIcon', '' );
+		$enable_meta_separator = magazine_blocks_array_get( $attributes, 'enableMetaSeparator', '' );
+		$meta_separator        = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
 
 		// Excerpt.
 		$enable_excerpt = magazine_blocks_array_get( $attributes, 'enableExcerpt', '' );
 		$excerpt_limit  = magazine_blocks_array_get( $attributes, 'excerptLimit', '' );
 
 		// ReadMore.
-		$enable_readmore       = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
-		$read_more_text        = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
-		$enable_read_more_icon = magazine_blocks_array_get( $attributes, 'enableReadMoreIcon', '' );
-		$read_more_icon        = magazine_blocks_array_get( $attributes, 'readMoreIcon', '' );
-		$get_read_more_icon    = magazine_blocks_get_icon( $read_more_icon, false );
+		$enable_readmore         = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
+		$read_more_text          = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
+		$enable_read_more_icon   = magazine_blocks_array_get( $attributes, 'enableReadMoreIcon', '' );
+		$read_more_icon          = magazine_blocks_array_get( $attributes, 'readMoreIcon', '' );
+		$get_read_more_icon      = magazine_blocks_get_icon( $read_more_icon, false );
+		$enable_read_more_border = magazine_blocks_array_get( $attributes, 'enableReadMoreBorder', '' );
 
 		// Pagination
 		$enable_pagination = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
@@ -122,6 +124,7 @@ class FeaturedPosts extends AbstractBlock {
 		$view_more_url            = magazine_blocks_array_get( $attributes, 'viewMoreLink', array() );
 		$layout4_top_row_count    = magazine_blocks_array_get( $attributes, 'layout4TopRowCount', array() );
 		$layout4_bottom_row_count = magazine_blocks_array_get( $attributes, 'layout4BottomRowCount', array() );
+		$enable_view_more_border  = magazine_blocks_array_get( $attributes, 'enableViewMoreBorder', '' );
 
 		$enable_highlighted_category_border = magazine_blocks_array_get( $attributes, 'enableHighlightedCategoryBorder', '' );
 		$enable_category_border             = magazine_blocks_array_get( $attributes, 'enableCategoryBorder', '' );
@@ -206,7 +209,7 @@ class FeaturedPosts extends AbstractBlock {
 
 		$type = get_query_var( 'mzb_template_type' );
 
-		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+		if ( in_array( $type, array( 'archive', 'search', 'single', 'front' ), true ) ) {
 			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
 			$paged = get_query_var( 'paged' );
 			switch ( get_query_var( 'mzb_template_type' ) ) {
@@ -236,7 +239,7 @@ class FeaturedPosts extends AbstractBlock {
 
 		if ( $query->have_posts() ) {
 
-			$html .= '<div class="mzb-featured-posts mzb-featured-posts-' . $client_id . ' ' . $class_name . '">';
+			$html .= '<div class="mzb-featured-posts mzb-featured-posts-' . $client_id . ' ' . $class_name . ( $enable_view_more_border ? ' mzb-view-more-border' : '' ) . '">';
 			$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
 			if ( $enable_heading ) {
 				$html .= '<h2 class="mzb-heading-text">' . esc_html( $label ) . '</h2>';
@@ -251,7 +254,7 @@ class FeaturedPosts extends AbstractBlock {
 			}
 			$html .= '</div>';
 
-			$html .= '<div class="mzb-posts mzb-post-col--' . $column . ' mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-' . $post_box_style . ( 'layout-4' === $layout ? ' mzb-layout-4-style-1-top-row-' . $layout4_top_row_count . ' mzb-layout-4-style-1-bottom-row-' . $layout4_bottom_row_count : '' ) . ( $post_card_border ? ' mzb-post-card-border' : '' ) . ( 1 === $post_count ? ' mzb-post-col--full' : '' ) . '">';
+			$html .= '<div class="mzb-posts mzb-post-col--' . $column . ' mzb-' . $layout . ' mzb-' . $advanced_style . ' mzb-' . $post_box_style . ( 'layout-4' === $layout ? ' mzb-layout-4-style-1-top-row-' . $layout4_top_row_count . ' mzb-layout-4-style-1-bottom-row-' . $layout4_bottom_row_count : '' ) . ( $post_card_border ? ' mzb-post-card-border' : '' ) . ( 1 === $post_count ? ' mzb-post-col--full' : '' ) . ( $enable_read_more_border ? ' mzb-read-more-border' : '' ) . '">';
 
 			$index = 1;
 			while ( $query->have_posts() ) {
@@ -326,14 +329,14 @@ class FeaturedPosts extends AbstractBlock {
 					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
 				</svg>' : '' ) .
-																				'<span>' . $view . '
+																				'<span>' . ( empty( $view ) ? 0 : $view ) . '
 																					views
 																				</span>
 																			</span>' : '';
 					$html      .= '<div class="mzb-post' . ( 'layout-4' !== $layout && ( ( 1 === $index ) || ( 'layout-1' === $layout && ( ( 2 === (int) $column && ( 1 === $index || 2 === $index ) ) || ( 3 === (int) $column && ( 1 === $index || 2 === $index || 3 === $index ) ) ) ) ) ? ' mzb-first-post--highlight ' . ( $enable_highlighted_category_border ? 'mzb-highlighted-post-category-border' : '' ) : ( $enable_category_border ? ' mzb-post-category-border' : '' ) ) . '">';
 					$html      .= '';
 					$html      .= ( true == $enable_featured_image ) ? $image : '';
-					$html      .= '<div class="mzb-post-content">';
+					$html      .= '<div class="mzb-post-content ' . ( $meta_position ? 'mzb-meta-position--' . $meta_position : '' ) . '">';
 				if ( 'layout-4' !== $layout && ( ( 1 === $index ) || ( 'layout-1' === $layout && ( ( 2 === (int) $column && ( 1 === $index || 2 === $index ) ) || ( 3 === (int) $column && ( 1 === $index || 2 === $index || 3 === $index ) ) ) ) ) ) {
 					if ( ( $enable_highlighted_category || $enable_highlighted_comment ) && ( 'out-image' === $highlighted_category_position ) ) {
 						$html .= '<div class="mzb-post-meta">';
@@ -364,7 +367,7 @@ class FeaturedPosts extends AbstractBlock {
 
 				if ( 'top' === $meta_position ) {
 					if ( $enable_author || $enable_date || $enable_readtime || $enable_viewcount ) {
-						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
+						$html .= '<div class="mzb-post-entry-meta' . ( $enable_meta_separator && $meta_separator ? ' mzb-meta-separator--' . $meta_separator : '' ) . '">';
 						$html .= $enable_author ? $author : '';
 						$html .= '';
 						$html .= $enable_date ? $date : '';
@@ -376,7 +379,7 @@ class FeaturedPosts extends AbstractBlock {
 					$html .= $title;
 				if ( 'bottom' === $meta_position ) {
 					if ( $enable_author || $enable_date || $enable_readtime || $enable_viewcount ) {
-						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
+						$html .= '<div class="mzb-post-entry-meta' . ( $enable_meta_separator && $meta_separator ? ' mzb-meta-separator--' . $meta_separator : '' ) . '">';
 						$html .= $enable_author ? $author : '';
 						$html .= '';
 						$html .= $enable_date ? $date : '';
@@ -385,7 +388,7 @@ class FeaturedPosts extends AbstractBlock {
 						$html .= '</div>';
 					}
 				}
-				if ( ( $enable_excerpt || $enable_readmore ) && ( 'layout-6' !== $layout || 1 === $index ) ) {
+				if ( ( $enable_excerpt || $enable_readmore ) && ( 'layout-6' !== $layout || 1 === $index ) && ( 'layout-5' !== $layout || 1 === $index ) ) {
 					$html .= '<div class="mzb-entry-content">';
 					$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
 					$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ( $enable_read_more_icon ? $get_read_more_icon : '' ) . ' </a></div>' : '';
@@ -395,17 +398,15 @@ class FeaturedPosts extends AbstractBlock {
 					$html .= '</div>';
 					++$index;
 			}
-				$html .= '</div>';
-
+			$html .= '</div>';
 			if ( $enable_view_more && 'bottom' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href="' . esc_url( $view_more_url ) . '">';
+				$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';
 				$html .= '<p>' . $view_more_text . '</p>';
 				if ( $enable_view_more_icon ) {
 					$html .= $get_icon;
 				}
 				$html .= '</a></div>';
 			}
-
 				// Custom pagination function.
 			if ( $enable_pagination ) {
 				$html .= mzb_numbered_pagination( $query->max_num_pages, $paged, $client_id );

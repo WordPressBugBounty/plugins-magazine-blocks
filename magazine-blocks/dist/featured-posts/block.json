@@ -383,13 +383,9 @@
     },
     "highlightedPostFeaturedImageHeight": {
       "type": "object",
-      "default": {
-        "value": 300,
-        "unit": "px"
-      },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post.mzb-first-post--highlight .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight { height: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .mzb-post.mzb-first-post--highlight .mzb-featured-image, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight .mzb-featured-image, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight { height: {{VALUE}} }"
         }
       ]
     },
@@ -441,19 +437,15 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post .mzb-featured-image img { width: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5.mzb-layout-5-style-1 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img { width: {{VALUE}} }"
         }
       ]
     },
     "featuredImageHeight": {
       "type": "object",
-      "default": {
-        "value": 160,
-        "unit": "px"
-      },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-1.mzb-layout-1-style-2 .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post .mzb-featured-image img { height: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-1.mzb-layout-1-style-2 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5.mzb-layout-5-style-1 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5.mzb-layout-5-style-1 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img { height: {{VALUE}} }"
         }
       ]
     },
@@ -467,7 +459,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-posts .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight .mzb-featured-image::before { border-radius: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-featured-image img, {{WRAPPER}} .mzb-layout-2 .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight .mzb-featured-image::before { border-radius: {{VALUE}}; }"
         }
       ]
     },
@@ -510,9 +502,36 @@
         }
       ]
     },
+    "postTitlePadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post .mzb-post-content .mzb-post-title { padding: {{VALUE}}; }"
+        }
+      ]
+    },
+    "postTitleMargin": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post .mzb-post-content .mzb-post-title { margin: {{VALUE}}; }"
+        }
+      ]
+    },
     "highlightTitleColor": {
       "type": "string",
-      "default": "#ffffff",
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-first-post--highlight .mzb-post-title a {color: {{VALUE}}; }"
@@ -521,7 +540,6 @@
     },
     "highlightTitleHoverColor": {
       "type": "string",
-      "default": "#ffffff",
       "style": [
         {
           "selector": "{{WRAPPER}}.mzb-featured-posts .mzb-first-post--highlight .mzb-post-content .mzb-post-title a:hover {color: {{VALUE}}; }"
@@ -548,7 +566,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-categories a {color: {{VALUE}}; }"
         }
       ]
     },
@@ -559,7 +577,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-categories a"
         }
       ]
     },
@@ -567,7 +585,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-categories a:hover {color: {{VALUE}}; }"
         }
       ]
     },
@@ -578,7 +596,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-categories a:hover"
         }
       ]
     },
@@ -592,7 +610,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a { padding: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-categories a { padding: {{VALUE}}; }"
         }
       ]
     },
@@ -606,7 +624,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-content .mzb-post-meta, {{WRAPPER}} .mzb-post .mzb-featured-image.mzb-category--inside-image .mzb-post-meta { margin: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-content .mzb-post-meta, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image.mzb-category--inside-image .mzb-post-meta { margin: {{VALUE}}; }"
         }
       ]
     },
@@ -631,7 +649,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-category-border .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight).mzb-post-category-border .mzb-post-categories a"
         }
       ]
     },
@@ -652,7 +670,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight).mzb-post-category-border .mzb-post-categories a:hover"
         }
       ]
     },
@@ -663,7 +681,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-categories a"
         }
       ]
     },
@@ -674,7 +692,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-categories a:hover"
         }
       ]
     },
@@ -686,7 +704,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-meta .mzb-post-categories a, {{WRAPPER}} .mzb-post .mzb-category--inside-image .mzb-post-meta .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-content .mzb-post-meta .mzb-post-categories a, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-category--inside-image .mzb-post-meta .mzb-post-categories a"
         }
       ]
     },
@@ -798,7 +816,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-first-post--highlight .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-first-post--highlight.mzb-highlighted-post-category-border .mzb-post-categories a:hover"
         }
       ]
     },
@@ -880,16 +898,15 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-date svg {fill: {{VALUE}} !important; }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-date svg, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-read-time svg, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-view-count svg {fill: {{VALUE}} !important; }"
         }
       ]
     },
     "highlightMetaIconColor": {
       "type": "string",
-      "default": "#ffffff",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-layout-5-style-1 .mzb-first-post--highlight .mzb-post-date svg {fill: {{VALUE}} !important; }"
+          "selector": "{{WRAPPER}} .mzb-first-post--highlight .mzb-post-date svg, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-read-time svg, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-view-count svg {fill: {{VALUE}} !important; }"
         }
       ]
     },
@@ -897,16 +914,15 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-date a, {{WRAPPER}} .mzb-post-author a {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-date a, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-author a, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-read-time span, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-view-count span {color: {{VALUE}}; }"
         }
       ]
     },
     "highlightMetaLinkColor": {
       "type": "string",
-      "default": "#ffffff",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-layout-5-style-1 .mzb-first-post--highlight .mzb-post-date a, {{WRAPPER}} .mzb-layout-5-style-1 .mzb-first-post--highlight .mzb-post-author a {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-first-post--highlight .mzb-post-date a, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-author a, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-read-time span, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-view-count span {color: {{VALUE}}; }"
         }
       ]
     },
@@ -914,16 +930,15 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-date a:hover, {{WRAPPER}} .mzb-post-author a:hover {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-date a:hover, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-author a:hover, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-read-time span:hover, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-view-count span:hover {color: {{VALUE}}; }"
         }
       ]
     },
     "highlightMetaLinkHoverColor": {
       "type": "string",
-      "default": "#ffffff",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-layout-5-style-1 .mzb-first-post--highlight .mzb-post-date a:hover, {{WRAPPER}} .mzb-layout-5-style-1 .mzb-first-post--highlight .mzb-post-author a:hover {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-first-post--highlight .mzb-post-date a:hover, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-author a:hover, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-read-time span:hover, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-view-count span:hover {color: {{VALUE}}; }"
         }
       ]
     },
@@ -935,7 +950,19 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-author a, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-date a, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-read-time span, {{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta .mzb-post-view-count span"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-content .mzb-post-entry-meta .mzb-post-author a, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-content .mzb-post-entry-meta .mzb-post-date a, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-content .mzb-post-entry-meta .mzb-post-read-time span, {{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-content .mzb-post-entry-meta .mzb-post-view-count span"
+        }
+      ]
+    },
+    "highlightMetaTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 400
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-first-post--highlight .mzb-post-content .mzb-post-entry-meta .mzb-post-author a, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-content .mzb-post-entry-meta .mzb-post-date a, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-content .mzb-post-entry-meta .mzb-post-read-time span, {{WRAPPER}} .mzb-first-post--highlight .mzb-post-content .mzb-post-entry-meta .mzb-post-view-count span"
         }
       ]
     },
@@ -943,16 +970,15 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post .mzb-post-content .mzb-post-entry-meta span:nth-child(odd):not(:last-child)::after {color: {{VALUE}}; } "
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-post-content .mzb-post-entry-meta span:not(:last-child)::after {color: {{VALUE}}; } "
         }
       ]
     },
     "highlightMetaSeparatorColor": {
       "type": "string",
-      "default": "#ffffff",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-layout-5-style-1 .mzb-first-post--highlight .mzb-post .mzb-post-content .mzb-post-entry-meta span:nth-child(odd):not(:last-child)::after {color: {{VALUE}}; } "
+          "selector": "{{WRAPPER}} .mzb-first-post--highlight.mzb-post .mzb-post-content .mzb-post-entry-meta span:not(:last-child)::after {color: {{VALUE}}; } "
         }
       ]
     },
@@ -978,7 +1004,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary p { margin: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-entry-content .mzb-entry-summary { margin: {{VALUE}}; }"
         }
       ]
     },
@@ -1040,7 +1066,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-view-more a p:hover {color: {{VALUE}}; }{{WRAPPER}} .mzb-view-more a svg:hover{fill: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-view-more a:hover p {color: {{VALUE}}; } {{WRAPPER}} .mzb-view-more a:hover svg {fill: {{VALUE}}; }"
         }
       ]
     },
@@ -1085,6 +1111,10 @@
         }
       ]
     },
+    "enableViewMoreBorder": {
+      "type": "boolean",
+      "default": false
+    },
     "viewMoreBorder": {
       "type": "object",
       "default": {
@@ -1102,7 +1132,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-view-more a"
+          "selector": "{{WRAPPER}}.mzb-view-more-border .mzb-view-more a"
         }
       ]
     },
@@ -1123,7 +1153,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-view-more a:hover"
+          "selector": "{{WRAPPER}}.mzb-view-more-border .mzb-view-more a:hover"
         }
       ]
     },
@@ -1134,7 +1164,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-view-more a"
+          "selector": "{{WRAPPER}}.mzb-view-more-border .mzb-view-more a"
         }
       ]
     },
@@ -1145,7 +1175,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-view-more a:hover"
+          "selector": "{{WRAPPER}}.mzb-view-more-border .mzb-view-more a:hover"
         }
       ]
     },
@@ -1185,6 +1215,18 @@
         }
       ]
     },
+    "readMoreTypography": {
+      "type": "object",
+      "default": {
+        "typography": 1,
+        "weight": 500
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post .mzb-read-more a"
+        }
+      ]
+    },
     "readMoreBackground": {
       "type": "object",
       "default": {
@@ -1200,7 +1242,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post .mzb-read-more a:hover {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post .mzb-read-more a:hover {color: {{VALUE}}; } {{WRAPPER}} .mzb-post.mzb-first-post--highlight .mzb-post-content .mzb-read-more a:hover svg , {{WRAPPER}} .mzb-post .mzb-read-more a:hover svg {fill: {{VALUE}};}"
         }
       ]
     },
@@ -1237,6 +1279,10 @@
         }
       ]
     },
+    "enableReadMoreBorder": {
+      "type": "boolean",
+      "default": false
+    },
     "readMoreBorder": {
       "type": "object",
       "default": {
@@ -1254,7 +1300,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-read-more a"
+          "selector": "{{WRAPPER}} .mzb-read-more-border .mzb-read-more a"
         }
       ]
     },
@@ -1275,7 +1321,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-read-more a:hover"
+          "selector": "{{WRAPPER}} .mzb-read-more-border .mzb-read-more a:hover"
         }
       ]
     },
@@ -1286,7 +1332,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-read-more a"
+          "selector": "{{WRAPPER}} .mzb-read-more-border .mzb-read-more a"
         }
       ]
     },
@@ -1297,7 +1343,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-read-more a:hover"
+          "selector": "{{WRAPPER}} .mzb-read-more-border .mzb-read-more a:hover"
         }
       ]
     },

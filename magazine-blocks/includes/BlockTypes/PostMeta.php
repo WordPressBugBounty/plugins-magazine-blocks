@@ -31,9 +31,9 @@ class PostMeta extends AbstractBlock {
 		$enable_author       = magazine_blocks_array_get( $attributes, 'enableAuthor', true );
 		$enable_comment      = magazine_blocks_array_get( $attributes, 'enableComment', true );
 		$enable_date         = magazine_blocks_array_get( $attributes, 'enableDate', true );
-		$enable_author_icon  = magazine_blocks_array_get( $attributes, 'authorIconColor', true );
-		$enable_date_icon    = magazine_blocks_array_get( $attributes, 'dateIconColor', true );
-		$enable_comment_icon = magazine_blocks_array_get( $attributes, 'commentIconColor', true );
+		$enable_author_icon  = magazine_blocks_array_get( $attributes, 'enableAuthorIcon', true );
+		$enable_date_icon    = magazine_blocks_array_get( $attributes, 'enableDateIcon', true );
+		$enable_comment_icon = magazine_blocks_array_get( $attributes, 'enableCommentIcon', true );
 		$author              = get_the_author();
 		$date                = get_the_date( 'F j, Y' );
 		$comments            = get_comments_number();
@@ -56,9 +56,15 @@ class PostMeta extends AbstractBlock {
 		if ( $enable_author ) {
 			$html .= '<span class="mzb-post-meta-author">';
 			if ( $enable_author_icon ) {
-				$html .= '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4-3a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" /><path d="M14 14s-1-1.5-6-1.5S2 14 2 14V13a6 6 0 1 1 12 0v1z" /></svg>';
+				$author_id = get_the_author_meta( 'ID' );
+				$avatar    = get_avatar( $author_id, 18 );
+				if ( $avatar ) {
+					$html .= $avatar;
+				} else {
+					$html .= '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4-3a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" /><path d="M14 14s-1-1.5-6-1.5S2 14 2 14V13a6 6 0 1 1 12 0v1z" /></svg>';
+				}
 			}
-			$html .= '<span>' . esc_html__( 'by ', 'magazine-blocks' ) . esc_html( $author ) . '</span>';
+			$html .= '<span>' . esc_html( $author ) . '</span>';
 			$html .= '</span>';
 		}
 

@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,25 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.7.2 - 04/07/2025 =
+* Added - Separator header meta styles for highlighted post and post box in featured posts block.
+* Added - Meta Typography option for highlighted post in featured posts block.
+* Added - Typography option for read more in featured posts block.
+* Added - Padding and margin option for post title in featured posts block.
+* Fix - Meta separator displaying even when separator is disabled in featured posts block.
+* Fix - View all not displaying in bottom position in frontend in featured posts block.
+* Fix- Icon color and link color of meta not applied to read time and view count in featured posts block.
+* Fix - Text hover color of read more not applying in read more icon in featured posts block.
+* Fix - Border displaying even when enable border option of read more is disabled in featured posts block.
+* Fix - Text hover color of view all not applying in view all icon in featured posts block.
+* Fix - Border displaying even when enable border option of view all is disabled in featured posts block.
+* Fix - Radius option in image not working in layout 2 style 1 preset in featured posts block.
+* Fix - Image height and width option not working in layout 5 style 1 preset in featured posts block.
+* Fix - Image width not working for all presets in post list block.
+* Fix - Image height not working for layout 2 style 1 preset in post list block.
+* Fix - Post content issue in frontend in post list block.
+* Fix - Update featured image block name to post image.
+
 = 1.7.1 - 30/06/2025 =
 * Added - New Category Block.
 * Added - New Featured Image Block.

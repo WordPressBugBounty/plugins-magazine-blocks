@@ -211,7 +211,7 @@ class PostList extends AbstractBlock {
 							</svg> ' . esc_html( $comment_count ) . '</span>';
 		}
 
-		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
+		if ( in_array( $type, array( 'archive', 'search', 'single', 'front' ), true ) ) {
 			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
 			$paged = get_query_var( 'paged' );
 			switch ( get_query_var( 'mzb_template_type' ) ) {
@@ -266,11 +266,11 @@ class PostList extends AbstractBlock {
 				        <img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/>
 				    </a>'
 					. ( ( ( $enable_category || $enable_comment ) && $category_position === 'in-image' )
-					    ? ( '<div class="mzb-post-meta' . ( $enable_category_border ? ' mzb-post-border-enable' : '' ) . '">'
-					        . ( $enable_category ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '' )
-					        . $comment_html
-					        . '</div>' )
-					    : '' )
+						? ( '<div class="mzb-post-meta' . ( $enable_category_border ? ' mzb-post-border-enable' : '' ) . '">'
+							. ( $enable_category ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '' )
+							. $comment_html
+							. '</div>' )
+						: '' )
 					. '</div>'
 					: '';
 				$img   = ( true === $image_toggle ) ? $image : '';
@@ -310,55 +310,55 @@ class PostList extends AbstractBlock {
 				$html      .= $img;
 
 				if ( 'top' === $meta_position ) {
-					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
-						$html .= '<div class="mzb-post-content">';
-						if ( ( $enable_category || $enable_comment ) && $category_position === 'out-image' ) {
+					$html .= '<div class="mzb-post-content">';
+					if ( ( $enable_category || $enable_comment ) && 'out-image' === $category_position ) {
 
-							$border_class = $enable_category_border ? ' mzb-post-border-enable' : '';
-							$html        .= '<div class="mzb-post-meta' . $border_class . '">';
-							$html        .= '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
-							$html        .= $comment_html;
-							$html        .= '</div>';
-						}
+						$border_class = $enable_category_border ? ' mzb-post-border-enable' : '';
+						$html        .= '<div class="mzb-post-meta' . $border_class . '">';
+						$html        .= '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
+						$html        .= $comment_html;
+						$html        .= '</div>';
+					}
+					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
 						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 						$html .= $enable_date ? $date : '';
 						$html .= $enable_readtime ? $read_time : '';
 						$html .= $enable_viewcount ? $view_count : '';
 						$html .= '</div>';
-						$html .= $title;
-						if ( $enable_excerpt || $enable_readmore ) {
-							$html .= '<div class="mzb-entry-content">';
-							$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-							$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-							$html .= '</div>';
-						}
+					}
+					$html .= $title;
+					if ( $enable_excerpt || $enable_readmore ) {
+						$html .= '<div class="mzb-entry-content">';
+						$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
+						$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
 						$html .= '</div>';
 					}
+					$html .= '</div>';
 				} elseif ( 'bottom' === $meta_position ) {
-					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
-						$html .= '<div class="mzb-post-content">';
-						if ( ( $enable_category || $enable_comment ) && $category_position === 'out-image' ) {
+					$html .= '<div class="mzb-post-content">';
+					if ( ( $enable_category || $enable_comment ) && 'out-image' === $category_position ) {
 
-							$border_class = $enable_category_border ? ' mzb-post-border-enable' : '';
-							$html        .= '<div class="mzb-post-meta' . $border_class . '">';
-							$html        .= '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
-							$html        .= $comment_html;
-							$html        .= '</div>';
-						}
-						$html .= $title;
+						$border_class = $enable_category_border ? ' mzb-post-border-enable' : '';
+						$html        .= '<div class="mzb-post-meta' . $border_class . '">';
+						$html        .= '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
+						$html        .= $comment_html;
+						$html        .= '</div>';
+					}
+					$html .= $title;
+					if ( $enable_date || $enable_readtime || $enable_viewcount ) {
 						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
 						$html .= $enable_date ? $date : '';
 						$html .= $enable_readtime ? $read_time : '';
 						$html .= $enable_viewcount ? $view_count : '';
 						$html .= '</div>';
-						if ( $enable_excerpt || $enable_readmore ) {
-							$html .= '<div class="mzb-entry-content">';
-							$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-							$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-							$html .= '</div>';
-						}
+					}
+					if ( $enable_excerpt || $enable_readmore ) {
+						$html .= '<div class="mzb-entry-content">';
+						$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
+						$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
 						$html .= '</div>';
 					}
+					$html .= '</div>';
 				}
 				$html .= '</div>';
 			}

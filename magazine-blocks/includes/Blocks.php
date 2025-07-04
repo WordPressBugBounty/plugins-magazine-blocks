@@ -34,7 +34,7 @@ use MagazineBlocks\BlockTypes\Slider;
 use MagazineBlocks\BlockTypes\AbstractBlock;
 use MagazineBlocks\BlockTypes\Breadcrumbs;
 use MagazineBlocks\BlockTypes\Category;
-use MagazineBlocks\BlockTypes\FeaturedImage;
+use MagazineBlocks\BlockTypes\PostImage;
 use MagazineBlocks\BlockTypes\LatestPosts;
 use MagazineBlocks\BlockTypes\SocialIcons;
 use MagazineBlocks\BlockTypes\SocialIcon;
@@ -231,7 +231,7 @@ final class Blocks {
 				Image::class,
 				Icon::class,
 				Category::class,
-				FeaturedImage::class,
+				PostImage::class,
 				PostTitle::class,
 			)
 		);
