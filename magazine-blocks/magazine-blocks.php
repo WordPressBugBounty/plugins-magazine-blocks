@@ -4,7 +4,7 @@
  * Description: Craft your beautifully unique and dynamic Magazine, Newspaper website with various beautiful and advanced posts related blocks like Featured Posts, Banner Posts, Grid Module, Tab Posts, and more.
  * Author: WPBlockArt
  * Author URI: https://wpblockart.com/
- * Version: 1.7.2
+ * Version: 1.8.0
  * Requires at least: 5.4
  * Requires PHP: 7.0
  * Text Domain: magazine-blocks
@@ -16,12 +16,12 @@
  */
 
 use MagazineBlocks\Blocks;
-use MagazineBlocks\Helper;
+use MagazineBlocks\Helpers\PostHelper;
 use MagazineBlocks\MagazineBlocks;
 
 defined( 'ABSPATH' ) || exit;
 
-! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.7.2' );
+! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.0' );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_FILE' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_FILE', __FILE__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR', __DIR__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
@@ -54,7 +54,7 @@ magazine_blocks();
  * @since 1.0.9
  */
 function magazine_blocks_register_rest_fields() {
-	$post_type = Helper::get_post_types();
+	$post_type = PostHelper::get_post_types();
 
 	foreach ( $post_type as $key => $value ) {
 		// Featured image.
@@ -164,14 +164,82 @@ function magazine_blocks_get_author_image( $object ) {
 if ( ! function_exists( 'magazine_blocks_get_category_list' ) ) {
 	function magazine_blocks_get_category_list( $object ) {
 		$taxonomies = get_post_taxonomies( $object['id'] );
-		if ( 'post' === get_post_type() ) {
-			return get_the_category_list( esc_html__( ' ' ), '', $object['id'] );
+		$post_id    = $object['id'];
+		$output     = '';
+
+		if ( 'post' === get_post_type( $post_id ) ) {
+			$categories = get_the_category( $post_id );
+			if ( ! empty( $categories ) ) {
+				foreach ( $categories as $category ) {
+					$class   = 'category-link category-link-' . esc_attr( $category->term_id );
+					$output .= '<a href="#" class="' . $class . '">' . esc_html( $category->name ) . '</a> ';}
+			}
 		} elseif ( ! empty( $taxonomies ) ) {
-				return get_the_term_list( $object['id'], $taxonomies[0], ' ' );
+			$terms = get_the_terms( $post_id, $taxonomies[0] );
+			if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+				foreach ( $terms as $term ) {
+					$class   = 'category-link category-link-' . esc_attr( $term->term_id );
+					$output .= '<a href="#" class="' . $class . '">' . esc_html( $term->name ) . '</a> ';
+				}
+			}
 		}
+		return trim( $output );
 	}
 }
 add_action( 'rest_api_init', 'magazine_blocks_register_rest_fields' );
+
+add_action(
+	'enqueue_block_editor_assets',
+	function () {
+		$categories = get_categories();
+		echo '<style id="magazine-blocks-category-colors">';
+		$enable_override_category_color = get_theme_mod( 'colormag_enable_override_category_color', false );
+		if ( function_exists( 'colormag_category_color' ) && $enable_override_category_color ) {
+			foreach ( $categories as $category ) {
+				$color = colormag_category_color( $category->term_id );
+				if ( $color ) {
+					echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $color ) . ';}';
+				}
+			}
+		} else {
+			foreach ( $categories as $category ) {
+				echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: var(--mzb-categories-colors-' . esc_attr( $category->term_id ) . ');}';
+			}
+		}
+		echo '</style>';
+	}
+);
+
+add_action(
+	'wp_head',
+	function () {
+		$categories = get_categories();
+		echo '<style id="magazine-blocks-category-colors">';
+		$enable_override_category_color = get_theme_mod( 'colormag_enable_override_category_color', false );
+		if ( function_exists( 'colormag_category_color' ) && $enable_override_category_color ) {
+			foreach ( $categories as $category ) {
+				$color = colormag_category_color( $category->term_id );
+				if ( $color ) {
+					echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $color ) . ';}';
+				}
+			}
+		} else {
+			foreach ( $categories as $category ) {
+				$settings = magazine_blocks_get_setting( 'global-styles' );
+				$settings = json_decode( $settings, true );
+				$color    = $settings['categories_color'] ?? array();
+				if ( ! empty( $color ) ) {
+					foreach ( $color as $setting => $value ) {
+						if ( isset( $value['id'], $value['value'] ) && $value['id'] == $category->term_id ) {
+							echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $value['value'] ) . ';}';
+						}
+					}
+				}
+			}
+		}
+		echo '</style>';
+	}
+);
 
 add_action( 'wp_ajax_magazine_blocks_pagination_load', 'magazine_blocks_pagination_load' );
 add_action( 'wp_ajax_nopriv_magazine_blocks_pagination_load', 'magazine_blocks_pagination_load' );

@@ -5,7 +5,7 @@
  * @since 2.0.7.3
  */
 
-namespace MagazineBlocks ;
+namespace MagazineBlocks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -180,7 +180,7 @@ class WebFontLoader {
 
 		$rule_sets = array_filter(
 			$css_doc->getAllRuleSets(),
-			function( $rule_set ) {
+			function ( $rule_set ) {
 				$rules = $rule_set->getRulesAssoc();
 				if ( isset( $rules['unicode-range'] ) && $rules['unicode-range'] instanceof \Sabberworm\CSS\Rule\Rule ) {
 					return false !== strpos( (string) $rules['unicode-range']->getValue(), 'U+0000-00FF' );
@@ -712,7 +712,6 @@ class WebFontLoader {
 
 	/**
 	 * Get an absolute URL from a relative URL.
-	 *
 	 *
 	 * @param string $url The URL.
 	 *

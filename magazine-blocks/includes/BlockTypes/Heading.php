@@ -5,14 +5,19 @@
  * @package Magazine Blocks
  */
 
- namespace MagazineBlocks\BlockTypes;
+namespace MagazineBlocks\BlockTypes;
+
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\HasRender;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Heading block.
  */
-class Heading extends AbstractBlock {
+class Heading extends Block {
+
+	use HasRender;
 
 	/**
 	 * Block name.

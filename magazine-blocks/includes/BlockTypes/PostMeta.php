@@ -1,18 +1,20 @@
 <?php
-			/**
-			 * Post Meta.
-			 *
-			 * @package Magazine Blocks
-			 */
+/**
+ * Post Meta.
+ *
+ * @package Magazine Blocks
+ */
 
-			namespace MagazineBlocks\BlockTypes;
+namespace MagazineBlocks\BlockTypes;
 
-			defined( 'ABSPATH' ) || exit;
+use MagazineBlocks\Abstracts\Block;
 
-			/**
-			 * Heading block.
-			 */
-class PostMeta extends AbstractBlock {
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Heading block.
+ */
+class PostMeta extends Block {
 
 	/**
 	 * Block name.
@@ -20,10 +22,17 @@ class PostMeta extends AbstractBlock {
 	 * @var string Block name.
 	 */
 	protected $block_name = 'post-meta';
-
-	public function render( $attributes, $content, $block ) {
+	/**
+	 * Render the block.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string Rendered HTML output.
+	 */
+	public function render( $attributes = array(), $content = '', $block = null ) {
 		global $post;
-		if ( ! in_array( get_post_type( $post ), [ 'post', 'page' ], true ) ) {
+		if ( ! in_array( get_post_type( $post ), array( 'post', 'page' ), true ) ) {
 			return '';
 		}
 
@@ -38,13 +47,13 @@ class PostMeta extends AbstractBlock {
 		$date                = get_the_date( 'F j, Y' );
 		$comments            = get_comments_number();
 		$separator_type      = isset( $attributes['separatorType'] ) ? $attributes['separatorType'] : 'dash';
-		$separator_map       = [
+		$separator_map       = array(
 			'dash'  => '—',
 			'dot'   => '·',
 			'pipe'  => '|',
 			'slash' => '/',
 			'none'  => '',
-		];
+		);
 		$separator           = isset( $separator_map[ $separator_type ] ) ? $separator_map[ $separator_type ] : '—';
 
 		$comments_text = sprintf( _n( '%s Comment', '%s Comments', $comments, 'magazine-blocks' ), number_format_i18n( $comments ) );
@@ -52,7 +61,7 @@ class PostMeta extends AbstractBlock {
 		$html  = '<div class="mzb-post-meta mzb-post-meta-' . esc_attr( $client_id ) . '">';
 		$html .= '<div class="mzb-post-meta-content">';
 
-		// Author
+		// Author.
 		if ( $enable_author ) {
 			$html .= '<span class="mzb-post-meta-author">';
 			if ( $enable_author_icon ) {
@@ -73,7 +82,7 @@ class PostMeta extends AbstractBlock {
 				$html .= ' <span class="mzb-post-meta-separator">' . esc_html( $separator ) . '</span> ';
 			}
 
-			// Date
+			// Date.
 			$html .= '<span class="mzb-post-meta-date">';
 			if ( $enable_date_icon ) {
 				$html .= '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 3v1h14V3a1 1 0 0 0-1-1h-1v.5a.5.5 0 0 1-1 0V2H4v.5a.5.5 0 0 1-1 0V2H2a1 1 0 0 0-1 1zm14 2H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z" /></svg>';
@@ -87,7 +96,7 @@ class PostMeta extends AbstractBlock {
 				$html .= ' <span class="mzb-post-meta-separator">' . esc_html( $separator ) . '</span> ';
 			}
 
-			// Comments
+			// Comments.
 			$html .= '<span class="mzb-post-meta-comment">';
 			if ( $enable_comment_icon ) {
 				$html .= '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 3a5 5 0 0 0-4.546 2.914A.5.5 0 0 0 3.5 7h9a.5.5 0 0 0 .046-.086A5 5 0 0 0 8 3zm-7 5a7 7 0 1 1 14 0A7 7 0 0 1 1 8zm7 6a6.978 6.978 0 0 1-4.546-1.914A.5.5 0 0 1 3.5 13h9a.5.5 0 0 1 .046-.086A6.978 6.978 0 0 1 8 14z" /></svg>';

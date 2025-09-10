@@ -37,14 +37,14 @@ function magazine_blocks_array_add( array $array, string $key, $value ): array {
  * @return array
  */
 function magazine_blocks_array_collapse( $array ) {
-	$results = [];
+	$results = array();
 	foreach ( $array as $values ) {
 		if ( ! is_array( $values ) ) {
 			continue;
 		}
 		$results[] = $values;
 	}
-	return array_merge( [], ...$results );
+	return array_merge( array(), ...$results );
 }
 
 /**
@@ -54,9 +54,9 @@ function magazine_blocks_array_collapse( $array ) {
  */
 function magazine_blocks_array_cross_join(): array {
 	$arrays  = func_get_args();
-	$results = [ [] ];
+	$results = array( array() );
 	foreach ( $arrays as $index => $array ) {
-		$append = [];
+		$append = array();
 		foreach ( $results as $result ) {
 			foreach ( $array as $item ) {
 				$result[ $index ] = $item;
@@ -76,7 +76,7 @@ function magazine_blocks_array_cross_join(): array {
  * @return array
  */
 function magazine_blocks_array_divide( array $array ) {
-	return [ array_keys( $array ), array_values( $array ) ];
+	return array( array_keys( $array ), array_values( $array ) );
 }
 
 /**
@@ -87,7 +87,7 @@ function magazine_blocks_array_divide( array $array ) {
  * @return array
  */
 function magazine_blocks_array_dot( $array, $prepend = '' ) {
-	$results = [];
+	$results = array();
 	foreach ( $array as $key => $value ) {
 		if ( is_array( $value ) && ! empty( $value ) ) {
 			$results = array_merge( $results, magazine_blocks_array_dot( $value, $prepend . $key . '.' ) );
@@ -110,7 +110,7 @@ function magazine_blocks_array_dot( $array, $prepend = '' ) {
  * @return array The converted nested array
  */
 function magazine_blocks_array_undot( $array_value ) {
-	$results = [];
+	$results = array();
 	foreach ( $array_value as $key => $value ) {
 		magazine_blocks_array_set( $results, $key, $value );
 	}
@@ -191,7 +191,7 @@ function magazine_blocks_array_last( array $array, callable $callback = null, $d
  * @return array
  */
 function magazine_blocks_array_flatten( $array, $depth = INF ): array {
-	$result = [];
+	$result = array();
 	foreach ( $array as $item ) {
 		if ( ! is_array( $item ) ) {
 			$result[] = $item;
@@ -281,7 +281,7 @@ function magazine_blocks_array_get( $array, $key, $default = null ) {
  */
 function magazine_blocks_array_has( $array, $keys ): bool {
 	$keys = (array) $keys;
-	if ( ! $array || [] === $keys ) {
+	if ( ! $array || array() === $keys ) {
 		return false;
 	}
 	foreach ( $keys as $key ) {
@@ -315,7 +315,7 @@ function magazine_blocks_array_has_any( $array, $keys ): bool {
 	if ( ! $array ) {
 		return false;
 	}
-	if ( [] === $keys ) {
+	if ( array() === $keys ) {
 		return false;
 	}
 	foreach ( $keys as $key ) {
@@ -363,7 +363,7 @@ function magazine_blocks_array_prepend( $array, $value, $key = null ) {
 	if ( func_num_args() === 2 ) {
 		array_unshift( $array, $value );
 	} else {
-		$array = [ $key => $value ] + $array;
+		$array = array( $key => $value ) + $array;
 	}
 	return $array;
 }
@@ -407,17 +407,17 @@ function magazine_blocks_array_random( $array, $preserve_keys, $number = null ) 
 
 	if ( $requested > $count ) {
 		throw new InvalidArgumentException(
-			"You requested {$requested} items, but there are only {$count} items available."
+			esc_html( "You requested {$requested} items, but there are only {$count} items available." )
 		);
 	}
 	if ( is_null( $number ) ) {
 		return $array[ array_rand( $array ) ];
 	}
 	if ( 0 === (int) $number ) {
-		return [];
+		return array();
 	}
 	$keys    = array_rand( $array, $number );
-	$results = [];
+	$results = array();
 	if ( $preserve_keys ) {
 		foreach ( (array) $keys as $key ) {
 			$results[ $key ] = $array[ $key ];
@@ -452,7 +452,7 @@ function magazine_blocks_array_set( &$array, $key, $value ): array {
 		}
 		unset( $keys[ $i ] );
 		if ( ! isset( $array[ $key ] ) || ! is_array( $array[ $key ] ) ) {
-			$array[ $key ] = [];
+			$array[ $key ] = array();
 		}
 		$array = &$array[ $key ];
 	}
@@ -514,7 +514,7 @@ function magazine_blocks_array_sort_recursive( array $array, int $options = SORT
  */
 function magazine_blocks_array_to_css_classes( $array ) {
 	$class_list = magazine_blocks_array_wrap( $array );
-	$classes    = [];
+	$classes    = array();
 	foreach ( $class_list as $class => $constraint ) {
 		if ( is_numeric( $class ) ) {
 			$classes[] = $constraint;
@@ -544,9 +544,9 @@ function magazine_blocks_array_where( $array, $callback ): array {
  */
 function magazine_blocks_array_wrap( $value ): array {
 	if ( is_null( $value ) ) {
-		return [];
+		return array();
 	}
-	return is_array( $value ) ? $value : [ $value ];
+	return is_array( $value ) ? $value : array( $value );
 }
 
 /**
@@ -656,7 +656,7 @@ function magazine_blocks_parse_args( &$a, $b ) {
  * @return string
  */
 function magazine_blocks_array_to_html_attributes( $array ) {
-	$attributes = [];
+	$attributes = array();
 
 	foreach ( $array as $key => $value ) {
 		if ( is_null( $value ) ) {

@@ -7,12 +7,14 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * SocialIcon block.
  */
-class Advertisement extends AbstractBlock {
+class Advertisement extends Block {
 
 	/**
 	 * Block name.
@@ -30,7 +32,7 @@ class Advertisement extends AbstractBlock {
 	 *
 	 * @return string
 	 */
-	public function render( $attributes, $content, $block ) {
+	public function render( $attributes = array(), $content = '', $block = null ) {
 		$start_date = magazine_blocks_array_get( $attributes, 'startDate', '' );
 		$end_date   = magazine_blocks_array_get( $attributes, 'endDate', '' );
 		$today      = gmdate( 'Y-m-d' );

@@ -47,10 +47,10 @@ class SiteBuilderController extends \WP_REST_Controller {
 							'sanitize_callback' => 'rest_sanitize_boolean',
 							'required'          => false,
 						),
-						'type'    => [
+						'type'    => array(
 							'default'  => 'all',
 							'required' => false,
-						],
+						),
 					),
 				),
 			)

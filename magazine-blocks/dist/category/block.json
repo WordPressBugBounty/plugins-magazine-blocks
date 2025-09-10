@@ -6,7 +6,7 @@
     "keywords": [
         "category"
     ],
-    "category": "magazine-blocks",
+    "category": "magazine-blocks-utility-blocks",
     "textdomain": "magazine-blocks",
     "supports": {
         "className": false,

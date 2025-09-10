@@ -8,7 +8,7 @@
     "post",
     "list"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -64,7 +64,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-post .mzb-post-meta .mzb-post-categories a"
         }
       ]
     },
@@ -83,7 +83,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-post .mzb-post-meta .mzb-post-categories a:hover"
         }
       ]
     },
@@ -396,8 +396,7 @@
     "headingTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -510,6 +509,31 @@
         }
       ]
     },
+    "lineAccent": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-8-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-2-style-1, {{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-3-style-1, {{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-4-style-1,{{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-5-style-1, {{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-6-style-1, {{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-7-style-1, {{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-9-style-1 {border-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-6-style-1::after, {{WRAPPER}}.mzb-post-list .mzb-post-heading.mzb-heading-layout-6-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
     "imageToggle": {
       "type": "boolean",
       "default": true
@@ -536,7 +560,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post .mzb-featured-image img { height: {{VALUE}} }"
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-posts .mzb-post .mzb-featured-image img { height: {{VALUE}} }"
         }
       ]
     },
@@ -544,7 +568,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}}.mzb-post-list .mzb-post .mzb-featured-image img { min-width: {{VALUE}} ; max-width: {{VALUE}} }"
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-posts .mzb-post .mzb-featured-image img { min-width: {{VALUE}} ; max-width: {{VALUE}} }"
         }
       ]
     },
@@ -558,8 +582,7 @@
     "postTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -670,8 +693,7 @@
     "numberListTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -930,8 +952,7 @@
     "excerptTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -942,8 +963,7 @@
     "readMoreTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -1023,8 +1043,7 @@
     "viewAllTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -1183,6 +1202,20 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-read-more a { padding: {{VALUE}}; }"
+        }
+      ]
+    },
+    "postboxPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-post-list .mzb-posts .mzb-post .mzb-post-content { padding: {{VALUE}}; }"
         }
       ]
     },

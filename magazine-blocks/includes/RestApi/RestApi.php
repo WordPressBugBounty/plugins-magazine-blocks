@@ -67,15 +67,15 @@ class RestApi {
 	 */
 	public function register_rest_fields() {
 		$post_types = magazine_blocks_get_post_types();
-		$fields     = [
+		$fields     = array(
 			'magazineBlocksPostFeaturedMedia'  => array( $this, 'get_post_featured_media' ),
 			'magazineBlocksPostAuthor'         => array( $this, 'get_post_author' ),
 			'magazineBlocksPostCommentsNumber' => array( $this, 'get_post_comments_number' ),
 			'magazineBlocksPostExcerpt'        => array( $this, 'get_post_excerpt' ),
 			'magazineBlocksPostCategories'     => array( $this, 'get_post_categories' ),
-			'magazineBlocksPostViewCount'      => [ $this, 'get_post_view_count' ],
-			'magazineBlocksPostReadTime'       => [ $this, 'get_post_read_time' ],
-		];
+			'magazineBlocksPostViewCount'      => array( $this, 'get_post_view_count' ),
+			'magazineBlocksPostReadTime'       => array( $this, 'get_post_read_time' ),
+		);
 
 		foreach ( $post_types as $post_type ) {
 			foreach ( $fields as $id => $callback ) {
@@ -136,7 +136,7 @@ class RestApi {
 
 				return $acc;
 			},
-			[]
+			array()
 		);
 	}
 
@@ -150,10 +150,10 @@ class RestApi {
 	public function get_post_author( array $post ): array {
 		$author_id = isset( $post['author'] ) ? $post['author'] : 0;
 
-		return [
+		return array(
 			'name'   => get_the_author_meta( 'display_name', $author_id ),
 			'avatar' => get_avatar_url( $author_id ),
-		];
+		);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class RestApi {
 		$categories = get_the_terms( $post['id'], 'category' );
 
 		if ( empty( $categories ) || is_wp_error( $categories ) ) {
-			return [];
+			return array();
 		}
 
 		return array_reduce(
@@ -212,7 +212,7 @@ class RestApi {
 	public function get_controllers() {
 		return apply_filters(
 			'magazine_blocks_get_rest_api_controllers',
-			[
+			array(
 				'MagazineBlocks\RestApi\Controllers\LibraryDataController',
 				'MagazineBlocks\RestApi\Controllers\ImageImportController',
 				'MagazineBlocks\RestApi\Controllers\RegenCSSController',
@@ -220,7 +220,7 @@ class RestApi {
 				'MagazineBlocks\RestApi\Controllers\ChangelogController',
 				'MagazineBlocks\RestApi\Controllers\VersionControlController',
 				'MagazineBlocks\RestApi\Controllers\SiteBuilderController',
-			]
+			)
 		);
 	}
 }

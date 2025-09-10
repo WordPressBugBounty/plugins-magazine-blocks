@@ -92,32 +92,32 @@ final class MagazineBlocks {
 	 * @return string The modified template path if a match is found, otherwise the original template.
 	 */
 	public function mzb_global_template_override( $template ) {
-		$map = [
+		$map = array(
 			'is_front_page' => 'front',
 			'is_single'     => 'single',
 			'is_archive'    => 'archive',
 			'is_404'        => '404',
 			'is_search'     => 'search',
-		];
+		);
 
 		$header_template = get_posts(
-			[
+			array(
 				'post_type'   => 'mzb-builder-template',
 				'meta_key'    => '_mzb_template',
 				'meta_value'  => 'header',
 				'post_status' => 'publish',
 				'numberposts' => 1,
-			]
+			)
 		);
 
 		$footer_template = get_posts(
-			[
+			array(
 				'post_type'   => 'mzb-builder-template',
 				'meta_key'    => '_mzb_template',
 				'meta_value'  => 'footer',
 				'post_status' => 'publish',
 				'numberposts' => 1,
-			]
+			)
 		);
 
 		// Check if we have header or footer templates
@@ -131,13 +131,13 @@ final class MagazineBlocks {
 		foreach ( $map as $check => $type ) {
 			if ( function_exists( $check ) && $check() ) {
 				$page_template = get_posts(
-					[
+					array(
 						'post_type'   => 'mzb-builder-template',
 						'meta_key'    => '_mzb_template',
 						'meta_value'  => $type,
 						'post_status' => 'publish',
 						'numberposts' => 1,
-					]
+					)
 				);
 
 				if ( ! empty( $page_template ) ) {
@@ -216,13 +216,13 @@ final class MagazineBlocks {
 	 */
 	private function enqueue_template_styles( $type ) {
 		$template = get_posts(
-			[
+			array(
 				'post_type'   => 'mzb-builder-template',
 				'meta_key'    => '_mzb_template',
 				'meta_value'  => $type,
 				'post_status' => 'publish',
 				'numberposts' => 1,
-			]
+			)
 		);
 
 		if ( ! empty( $template ) && class_exists( '\MagazineBlocks\BlockStyles' ) ) {
@@ -254,8 +254,9 @@ final class MagazineBlocks {
 				$css    = ( new \MagazineBlocks\BlockStyles( $blocks, $post->ID, true ) )->get_styles() ?? '';
 				printf( '<style>%s</style>', $css ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
+			// phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
 		} catch ( \Exception $e ) {
-			// Do nothing
+			// Do nothing.
 		}
 
 		if ( function_exists( 'has_blocks' ) && has_blocks( $content ) && function_exists( 'parse_blocks' ) && function_exists( 'render_block' ) ) {
@@ -276,9 +277,9 @@ final class MagazineBlocks {
 	 * @return void
 	 */
 	public function register_post_types() {
-		$post_types = [
+		$post_types = array(
 			\MagazineBlocks\PostTypes\SiteBuilder::class,
-		];
+		);
 		foreach ( $post_types as $post_type ) {
 			( new $post_type() )->register();
 		}

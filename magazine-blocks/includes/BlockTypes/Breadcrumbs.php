@@ -9,12 +9,21 @@ namespace MagazineBlocks\BlockTypes;
 
 defined( 'ABSPATH' ) || exit;
 
-use MagazineBlocks\BlockTypes\AbstractBlock;
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\Attributes;
+use MagazineBlocks\Traits\Blocks\HasClassNames;
+use MagazineBlocks\Traits\Blocks\HasHtmlAttributes;
+use MagazineBlocks\Traits\Blocks\HasRender;
 
 /**
  * Breadcrumbs block.
  */
-class Breadcrumbs extends AbstractBlock {
+class Breadcrumbs extends Block {
+
+	use Attributes;
+	use HasRender;
+	use HasClassNames;
+	use HasHtmlAttributes;
 
 	/**
 	 * Block name.
@@ -29,38 +38,43 @@ class Breadcrumbs extends AbstractBlock {
 	 * @return array
 	 */
 	protected function get_default_html_attrs() {
-		return [
+		return array(
 			'id'               => $this->get_attribute( 'cssID' ),
 			'class'            => $this->cn(
 				"mzb-breadcrumbs mzb-breadcrumbs-{$this->get_attribute('clientId', '', true)}",
 				$this->get_attribute( 'className', '' )
 			),
 			'data-breadcrumbs' => '_magazine_blocks_breadcrumbs_' . $this->get_attribute( 'clientId' ),
-		];
+		);
 	}
 
+	/**
+	 * Build html.
+	 *
+	 * @param [type] $content The content.
+	 */
 	public function build_html( $content ) {
 		if ( magazine_blocks_is_rest_request() ) {
 			return $content;
 		}
 
-		ob_start();
-
-		$data = [
+		$data = array(
 			'separator'    => $this->get_attribute( 'separator', '>' ),
 			'homeLabel'    => $this->get_attribute( 'homeLabel', 'Home' ),
 			'showHomeLink' => $this->get_attribute( 'showHomeLink', true ),
 
-		];
+		);
 
 		$breadcrumbs_html = $this->generate_dynamic_breadcrumbs( $data );
+
+		ob_start();
 		?>
 		<div <?php $this->build_html_attributes( true ); ?>>
-		<nav aria-label="Breadcrumbs" class="mzb-breadcrumb">
-		<div style="display: flex; align-items: center; margin: 10px 0;">
-		<?php echo wp_kses_post( $breadcrumbs_html ); ?>
-		</div>
-		</nav>
+			<nav aria-label="Breadcrumbs" class="mzb-breadcrumb">
+				<div style="display: flex; align-items: center; margin: 10px 0;">
+				<?php echo wp_kses_post( $breadcrumbs_html ); ?>
+				</div>
+			</nav>
 		</div>
 		<?php
 
@@ -74,7 +88,7 @@ class Breadcrumbs extends AbstractBlock {
 	 * @return string Generated breadcrumbs HTML.
 	 */
 	private function generate_dynamic_breadcrumbs( $data ) {
-		$breadcrumbs = [];
+		$breadcrumbs = array();
 
 		if ( $data['showHomeLink'] ) {
 			$breadcrumbs[] = sprintf(

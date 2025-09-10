@@ -2,9 +2,9 @@
 Contributors: WPBlockArt
 Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
-Tested up to: 6.8
+Tested up to: 6.8.2
 Requires PHP: 7.0
-Stable tag: 1.7.2
+Stable tag: 1.8.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,7 +116,7 @@ Magazine Blocks works with most other WordPress plugins. Below are some popular 
 * [Masteriyo](https://masteriyo.com/)
 
 ### DOCUMENTATION AND SUPPORT
-👉 Refer to our [Documentation](https://docs.wpblockart.com/magazine-blocks/) for self help
+👉 Refer to our [Documentation](https://docs.wpblockart.com/magazine-blocks/) for self-help
 👉 Have more questions, visit our Plugin's [Support Forum](https://wordpress.org/support/plugin/magazine-blocks/)
 👉 Visit our [Website](https://wpblockart.com/magazine-blocks/) to contact us directly via the contact form
 👉 We’d love to hear your feedback. Please consider [ leaving us a rating](https://wordpress.org/support/plugin/magazine-blocks/)!
@@ -163,6 +163,70 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.0 - 10/09/2025 =
+* Renamed - Featured Categories block to Split feed.
+* Renamed - Slider block to Post Slider.
+* Renamed - Modal Block to Pop up.
+* Renamed - Query setting to post options on all post blocks.
+* Improved - Global block settings structure.
+* Improved - Architecture and Code Quality.
+* Improved - UI for all Post Blocks’ preset menu.
+* Improved - Default states of various blocks.
+* Improved - Section & column block UI and UX.
+* Improved - Block grouping in the block inserter area.
+* Improved - Only shown styling settings for enabled elements for all blocks.
+* Improved - UI/UX for weather block.
+* Improved - Z index input type.
+* Improved - UI/UX for the news ticker block.
+* Improved - Max value of range sliders for font size.
+* Improved - Default typography font weight from 500 to default (theme inherited).
+* Improved - Disabled link clicked in the builder area.
+* Improved - Post options setting placement.
+* Improved - Single width control in image block.
+* Added - Layout menu for all blocks.
+* Added - Customization options for all heading presets.
+* Added - Animation options for news ticker block.
+* Added - Missing reset buttons throughout the plugin.
+* Added - Keyboard navigation toggle for Slider block.
+* Added - Arrow Position for Slider blocks presets.
+* Added - Card padding option in general for layout 2 style 1 preset in grid module block.
+* Added - Category position option in header meta for slider style 3 in slider block.
+* Added - Category margin option for header meta in slider block.
+* Added - Padding and Justification option for meta in slider block.
+* Added - Padding and border option for post title in slider block.
+* Added - Padding, background and border option for post box in slider block for slider style 3.
+* Added - Read time and view count option for meta in slider block.
+* Added - New Button Block.
+* Added - New Tabs Block.
+* Added - New Paragraph block.
+* Added - Category lists presets (Layout 2 Style 2, Layout 2 Style 3, and Layout 3 Style 2).
+* Added - New Preset Style 4 on Post Video Block.
+* Added - Advertisement Management System.
+* Added - Header Meta Position option in Slider block.
+* Added - Card Border and Box Shadow option in Slider block.
+* Added - Meta Separator option with customization (position, color, spacing) in Slider block.
+* Added - Card Padding option for Layout 2 Style 1 preset in Grid Module block.
+* Added - Category Position option in Header Meta for Slider Style 3.
+* Added - Category Margin option in Header Meta for Slider block.
+* Added - Padding and Border option for Post Title in Slider block.
+* Added - Arrow Position option for Slider block presets.
+* Added - Category Lists presets (Layout 2 Style 2, Layout 2 Style 3, Layout 3 Style 2).
+* Added - New Preset Style 4 in Post Video block.
+* Added - General Block and Post Block grouping.
+* Added - Option to control Heading across blocks.
+* Added - Option to control News Ticker type, speed, and autoplay.
+* Fix - Heading typography not working issue for layout 3 style 1 preset in post list block.
+* Fix - Header meta margin not working when category position is inside image in post list block.
+* Fix - Meta icon color not working in layout 2 style 1 preset in grid module block.
+* Fix - Update wrapper for arrows border and box shadow options on slider block.
+* Fix - Change opacity type from string to number in Image Block.
+* Fix - 3-digit fields requiring multiple backspaces
+* Fix - Color contrast issues on toggle buttons.
+* Fix - Global colors not reflecting on responsive mode.
+* Fix - Dimension control value not clearing.
+* Fix - PopUp Block height option issue.
+* Fix - Link clickable issue in editor.
+
 = 1.7.2 - 04/07/2025 =
 * Added - Separator header meta styles for highlighted post and post box in featured posts block.
 * Added - Meta Typography option for highlighted post in featured posts block.

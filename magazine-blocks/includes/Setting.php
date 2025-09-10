@@ -23,34 +23,38 @@ class Setting {
 		'blocks'           => array(
 			'section'             => true,
 			'heading'             => true,
-			'archive'             => true,
-			'icon'                => true,
+			'paragraph'           => true,
 			'image'               => true,
+			'icon'                => true,
+			'social-icons'        => true,
 			'advertisement'       => true,
+			'date-weather'        => true,
+			'news-ticker'         => true,
+			'modal'               => true,
 			'banner-posts'        => true,
+			'grid-module'         => true,
+			'featured-posts'      => true,
+			'post-video'          => true,
+			'tab-post'            => true,
+			'post-list'           => true,
+			'slider'              => true,
+			'featured-categories' => true,
+			'category-list'       => true,
+			'archive'             => true,
 			'post-content'        => true,
 			'post-meta'           => true,
 			'breadcrumbs'         => true,
 			'category'            => true,
-			'category-list'       => true,
-			'chart'               => true,
-			'date-weather'        => true,
 			'post-image'          => true,
-			'featured-posts'      => true,
-			'featured-categories' => true,
-			'grid-module'         => true,
-			'latest-posts'        => true,
-			'modal'               => true,
-			'news-ticker'         => true,
 			'post-title'          => true,
-			'post-list'           => true,
-			'post-video'          => true,
-			'slider'              => true,
-			'social-icons'        => true,
+			'button'              => true,
+			'chart'               => true,
+			'latest-posts'        => true,
 			'split-content'       => true,
-			'tab-post'            => true,
+			'story'               => true,
 			'video-scrolling'     => true,
 			'video-popup'         => true,
+			'tabs'                => true,
 		),
 		'editor'           => array(
 			'section-width'          => 1170,
@@ -104,6 +108,10 @@ class Setting {
 			'featured-posts'      => 'magazine_blocks_string_to_bool',
 			'featured-categories' => 'magazine_blocks_string_to_bool',
 			'tab-post'            => 'magazine_blocks_string_to_bool',
+			'post-content'        => 'magazine_blocks_string_to_bool',
+			'post-title'          => 'magazine_blocks_string_to_bool',
+			'button'              => 'magazine_blocks_string_to_bool',
+			'post-image'          => 'magazine_blocks_string_to_bool',
 			'post-list'           => 'magazine_blocks_string_to_bool',
 			'post-video'          => 'magazine_blocks_string_to_bool',
 			'category-list'       => 'magazine_blocks_string_to_bool',
@@ -178,7 +186,7 @@ class Setting {
 	 * Get setting.
 	 *
 	 * @param string $key
-	 * @param mixed $default_value
+	 * @param mixed  $default_value
 	 * @return mixed
 	 */
 	public static function get( $key, $default_value = null ) {
@@ -211,7 +219,7 @@ class Setting {
 	 */
 	private static function set_default_global_styles() {
 		$styles                      = array(
-			'colors'       => array(
+			'colors'           => array(
 				array(
 					'id'    => 'primary',
 					'name'  => 'Primary',
@@ -233,7 +241,7 @@ class Setting {
 					'value' => '#61CE70',
 				),
 			),
-			'typographies' => array(
+			'typographies'     => array(
 				array(
 					'id'    => 'primary',
 					'name'  => 'Primary',
@@ -267,6 +275,7 @@ class Setting {
 					),
 				),
 			),
+			'categories_color' => array(),
 		);
 		self::$data['global-styles'] = wp_json_encode( $styles );
 	}
@@ -275,7 +284,7 @@ class Setting {
 	 * Set setting data.
 	 *
 	 * @param string $key Key to set.
-	 * @param mixed $value Value to set.
+	 * @param mixed  $value Value to set.
 	 * @return void
 	 */
 	public static function set( $key, $value ) {
@@ -287,7 +296,7 @@ class Setting {
 	 * Sanitize value.
 	 *
 	 * @param string $key Key to sanitize.
-	 * @param mixed $value Value to sanitize.
+	 * @param mixed  $value Value to sanitize.
 	 * @return mixed Sanitized value.
 	 */
 	private static function sanitize( $key, $value ) {
@@ -313,6 +322,7 @@ class Setting {
 		self::watch_responsive_breakpoints();
 		update_option( '_magazine_blocks_settings', self::$data );
 	}
+
 
 	/**
 	 * Watch responsive breakpoints.

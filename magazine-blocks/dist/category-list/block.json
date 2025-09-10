@@ -7,7 +7,7 @@
     "Category list",
     "category"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -76,6 +76,13 @@
         "icon": "arrowRight"
       }
     },
+    "categoryArrow": {
+      "type": "object",
+      "default": {
+        "enable": true,
+        "icon": "chevronRightCircle"
+      }
+    },
     "layout": {
       "type": "string",
       "default": "layout-1"
@@ -91,6 +98,50 @@
     "layout3AdvancedStyle": {
       "type": "string",
       "default": "layout-3-style-1"
+    },
+    "cardBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-3-style-2"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-2-style-2"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-2-style-3"
+        }
+      ]
+    },
+    "cardBoxShadow": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-3-style-2"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-2-style-2"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-2-style-3"
+        }
+      ]
     },
     "postBoxStyle": {
       "type": "boolean",
@@ -213,8 +264,7 @@
     "headingTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -226,7 +276,10 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text::before {background-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-4-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-5-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
         }
       ]
     },
@@ -234,7 +287,32 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-heading .mzb-heading-text:hover::before {background-color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-4-style-1 .mzb-heading-text::before::before {background-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineAccent": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-8-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-2-style-1, {{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-3-style-1, {{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-4-style-1,{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-5-style-1, {{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-6-style-1, {{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-7-style-1, {{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-9-style-1 {border-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-6-style-1::after,{{WRAPPER}}.mzb-category-list .mzb-post-heading.mzb-heading-layout-6-style-1::before {border-bottom-color: {{VALUE}}; }"
         }
       ]
     },
@@ -245,8 +323,7 @@
     "categoryTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit287027cce231d341b1337b739f6183e3
+class ComposerStaticInit6a111480e81655c5d53a76cff69c541e
 {
     public static $files = array (
         'ace6d88241f812b4accb2d847454aef6' => __DIR__ . '/..' . '/halaxa/json-machine/src/functions.php',
@@ -178,6 +178,7 @@ class ComposerStaticInit287027cce231d341b1337b739f6183e3
         'JsonMachine\\Tokens' => __DIR__ . '/..' . '/halaxa/json-machine/src/Tokens.php',
         'JsonMachine\\TokensWithDebugging' => __DIR__ . '/..' . '/halaxa/json-machine/src/TokensWithDebugging.php',
         'JsonMachine\\ValidJsonPointers' => __DIR__ . '/..' . '/halaxa/json-machine/src/ValidJsonPointers.php',
+        'MagazineBlocks\\Abstracts\\Block' => __DIR__ . '/../..' . '/includes/Abstracts/Block.php',
         'MagazineBlocks\\Abstracts\\Styles' => __DIR__ . '/../..' . '/includes/Abstracts/Styles.php',
         'MagazineBlocks\\Activation' => __DIR__ . '/../..' . '/includes/Activation.php',
         'MagazineBlocks\\Admin' => __DIR__ . '/../..' . '/includes/Admin.php',
@@ -188,6 +189,8 @@ class ComposerStaticInit287027cce231d341b1337b739f6183e3
         'MagazineBlocks\\BlockTypes\\Archive' => __DIR__ . '/../..' . '/includes/BlockTypes/Archive.php',
         'MagazineBlocks\\BlockTypes\\BannerPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/BannerPosts.php',
         'MagazineBlocks\\BlockTypes\\Breadcrumbs' => __DIR__ . '/../..' . '/includes/BlockTypes/Breadcrumbs.php',
+        'MagazineBlocks\\BlockTypes\\Button' => __DIR__ . '/../..' . '/includes/BlockTypes/Button.php',
+        'MagazineBlocks\\BlockTypes\\Buttons' => __DIR__ . '/../..' . '/includes/BlockTypes/Buttons.php',
         'MagazineBlocks\\BlockTypes\\Category' => __DIR__ . '/../..' . '/includes/BlockTypes/Category.php',
         'MagazineBlocks\\BlockTypes\\CategoryList' => __DIR__ . '/../..' . '/includes/BlockTypes/CategoryList.php',
         'MagazineBlocks\\BlockTypes\\Column' => __DIR__ . '/../..' . '/includes/BlockTypes/Column.php',
@@ -201,6 +204,7 @@ class ComposerStaticInit287027cce231d341b1337b739f6183e3
         'MagazineBlocks\\BlockTypes\\LatestPosts' => __DIR__ . '/../..' . '/includes/BlockTypes/LatestPosts.php',
         'MagazineBlocks\\BlockTypes\\Modal' => __DIR__ . '/../..' . '/includes/BlockTypes/Modal.php',
         'MagazineBlocks\\BlockTypes\\NewsTicker' => __DIR__ . '/../..' . '/includes/BlockTypes/NewsTicker.php',
+        'MagazineBlocks\\BlockTypes\\Paragraph' => __DIR__ . '/../..' . '/includes/BlockTypes/Paragraph.php',
         'MagazineBlocks\\BlockTypes\\PostContent' => __DIR__ . '/../..' . '/includes/BlockTypes/PostContent.php',
         'MagazineBlocks\\BlockTypes\\PostImage' => __DIR__ . '/../..' . '/includes/BlockTypes/PostImage.php',
         'MagazineBlocks\\BlockTypes\\PostList' => __DIR__ . '/../..' . '/includes/BlockTypes/PostList.php',
@@ -216,8 +220,10 @@ class ComposerStaticInit287027cce231d341b1337b739f6183e3
         'MagazineBlocks\\Deactivation' => __DIR__ . '/../..' . '/includes/Deactivation.php',
         'MagazineBlocks\\Functions' => __DIR__ . '/../..' . '/includes/Functions.php',
         'MagazineBlocks\\GlobalStyles' => __DIR__ . '/../..' . '/includes/GlobalStyles.php',
-        'MagazineBlocks\\Helper' => __DIR__ . '/../..' . '/includes/Helper.php',
+        'MagazineBlocks\\Helpers\\PostHelper' => __DIR__ . '/../..' . '/includes/Helpers/PostHelper.php',
         'MagazineBlocks\\Icon' => __DIR__ . '/../..' . '/includes/Icon.php',
+        'MagazineBlocks\\Interfaces\\QueryableInterface' => __DIR__ . '/../..' . '/includes/Interfaces/QueryableInterface.php',
+        'MagazineBlocks\\Interfaces\\RenderableInterface' => __DIR__ . '/../..' . '/includes/Interfaces/RenderableInterface.php',
         'MagazineBlocks\\MagazineBlocks' => __DIR__ . '/../..' . '/includes/MagazineBlocks.php',
         'MagazineBlocks\\MaintenanceMode' => __DIR__ . '/../..' . '/includes/MaintenanceMode.php',
         'MagazineBlocks\\PostTypes\\SiteBuilder' => __DIR__ . '/../..' . '/includes/PostTypes/SiteBuilder.php',
@@ -232,7 +238,18 @@ class ComposerStaticInit287027cce231d341b1337b739f6183e3
         'MagazineBlocks\\RestApi\\RestApi' => __DIR__ . '/../..' . '/includes/RestApi/RestApi.php',
         'MagazineBlocks\\Review' => __DIR__ . '/../..' . '/includes/Review.php',
         'MagazineBlocks\\ScriptStyle' => __DIR__ . '/../..' . '/includes/ScriptStyle.php',
+        'MagazineBlocks\\Services\\BlockRegistrar' => __DIR__ . '/../..' . '/includes/Services/BlockRegistrar.php',
+        'MagazineBlocks\\Services\\MetadataValidator' => __DIR__ . '/../..' . '/includes/Services/MetadataValidator.php',
+        'MagazineBlocks\\Services\\OpenWeather' => __DIR__ . '/../..' . '/includes/Services/OpenWeather.php',
+        'MagazineBlocks\\Services\\PostQueryBuilder' => __DIR__ . '/../..' . '/includes/Services/PostQueryBuilder.php',
+        'MagazineBlocks\\Services\\TemplateContextHandler' => __DIR__ . '/../..' . '/includes/Services/TemplateContextHandler.php',
         'MagazineBlocks\\Setting' => __DIR__ . '/../..' . '/includes/Setting.php',
+        'MagazineBlocks\\Traits\\Blocks\\Attributes' => __DIR__ . '/../..' . '/includes/traits/Blocks/Attributes.php',
+        'MagazineBlocks\\Traits\\Blocks\\HasAttributes' => __DIR__ . '/../..' . '/includes/traits/Blocks/HasAttributes.php',
+        'MagazineBlocks\\Traits\\Blocks\\HasClassNames' => __DIR__ . '/../..' . '/includes/traits/Blocks/HasClassNames.php',
+        'MagazineBlocks\\Traits\\Blocks\\HasHtmlAttributes' => __DIR__ . '/../..' . '/includes/traits/Blocks/HasHtmlAttributes.php',
+        'MagazineBlocks\\Traits\\Blocks\\HasRender' => __DIR__ . '/../..' . '/includes/traits/Blocks/HasRender.php',
+        'MagazineBlocks\\Traits\\Blocks\\PostRenderer' => __DIR__ . '/../..' . '/includes/traits/Blocks/PostRenderer.php',
         'MagazineBlocks\\Traits\\Singleton' => __DIR__ . '/../..' . '/includes/traits/Singleton.php',
         'MagazineBlocks\\Update' => __DIR__ . '/../..' . '/includes/Update.php',
         'MagazineBlocks\\Utils' => __DIR__ . '/../..' . '/includes/Utils.php',
@@ -242,9 +259,9 @@ class ComposerStaticInit287027cce231d341b1337b739f6183e3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit287027cce231d341b1337b739f6183e3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit287027cce231d341b1337b739f6183e3::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit287027cce231d341b1337b739f6183e3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6a111480e81655c5d53a76cff69c541e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6a111480e81655c5d53a76cff69c541e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit6a111480e81655c5d53a76cff69c541e::$classMap;
 
         }, null, ClassLoader::class);
     }

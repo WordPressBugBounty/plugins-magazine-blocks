@@ -8,7 +8,7 @@
     "tab",
     "post"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -81,8 +81,7 @@
     "tabTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -105,8 +104,7 @@
     "postTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -153,8 +151,7 @@
     "excerptTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

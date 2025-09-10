@@ -7,12 +7,17 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\HasRender;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * SocialIcon block.
  */
-class SocialIcon extends AbstractBlock {
+class SocialIcon extends Block {
+
+	use HasRender;
 
 	/**
 	 * Block name.

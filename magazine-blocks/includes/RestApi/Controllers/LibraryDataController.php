@@ -119,10 +119,10 @@ class LibraryDataController extends \WP_REST_Controller {
 		return new \WP_REST_Response( $response, 200 );
 	}
 
-		/**
+	/**
 	 * Prepare items for response.
 	 *
-	 * @param array $data
+	 * @param array       $data
 	 * @param \WP_Request $request
 	 * @return array
 	 */
@@ -139,7 +139,7 @@ class LibraryDataController extends \WP_REST_Controller {
 					);
 				}
 				$item['slug'] = $item['post_name'];
-				foreach ( $item['category'] ?? [] as $cat ) {
+				foreach ( $item['category'] ?? array() as $cat ) {
 					if ( isset( $result[ $cat['slug'] ] ) ) {
 						++$result[ $cat['slug'] ]['count'];
 						$result[ $cat['slug'] ]['items'][] = $item;
@@ -157,8 +157,8 @@ class LibraryDataController extends \WP_REST_Controller {
 		};
 
 		return array(
-			'categorized_sections'  => $categorizer( $data['mzb-sections'] ?? [] ),
-			'categorized_templates' => $categorizer( $data['mzb-templates'] ?? [] ),
+			'categorized_sections'  => $categorizer( $data['mzb-sections'] ?? array() ),
+			'categorized_templates' => $categorizer( $data['mzb-templates'] ?? array() ),
 		);
 	}
 }

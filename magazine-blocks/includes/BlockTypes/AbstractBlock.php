@@ -111,8 +111,8 @@ abstract class AbstractBlock {
 	/**
 	 * Get attribute.
 	 *
-	 * @param string $attribute_key
-	 * @param mixed $default
+	 * @param string  $attribute_key
+	 * @param mixed   $default
 	 * @param boolean $sanitize
 	 * @return mixed
 	 */
@@ -219,13 +219,13 @@ abstract class AbstractBlock {
 	 * @return array
 	 */
 	protected function get_default_html_attrs() {
-		return [
+		return array(
 			'id'    => $this->get_attribute( 'cssID', '', true ),
 			'class' => $this->cn(
 				"mzb-$this->block_name mzb-$this->block_name-{$this->get_attribute('clientId', '', true)}",
 				$this->get_attribute( 'className', '' ),
 			),
-		];
+		);
 	}
 
 	/**

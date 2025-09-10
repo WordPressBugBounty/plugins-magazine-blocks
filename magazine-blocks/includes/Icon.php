@@ -19,8 +19,8 @@ class Icon {
 
 	use Singleton;
 
-	const FONT_AWESOME_ICONS_PATH = MAGAZINE_BLOCKS_PLUGIN_DIR . '/assets/json/font-awesome-v6.json';
-	const MAGAZINE_BLOCKS_ICONS_PATH     = MAGAZINE_BLOCKS_PLUGIN_DIR . '/assets/json/magazine-blocks-v1.json';
+	const FONT_AWESOME_ICONS_PATH    = MAGAZINE_BLOCKS_PLUGIN_DIR . '/assets/json/font-awesome-v6.json';
+	const MAGAZINE_BLOCKS_ICONS_PATH = MAGAZINE_BLOCKS_PLUGIN_DIR . '/assets/json/magazine-blocks-v1.json';
 
 	/**
 	 * Get icon.

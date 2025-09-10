@@ -58,7 +58,6 @@ class SettingsController extends \WP_REST_Controller {
 	/**
 	 * Create a single item.
 	 *
-	 *
 	 * @param \WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_Error|WP_REST_Response
@@ -94,7 +93,6 @@ class SettingsController extends \WP_REST_Controller {
 
 	/**
 	 * Check if a given request has access to update an item.
-	 *
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean
@@ -184,11 +182,19 @@ class SettingsController extends \WP_REST_Controller {
 							'type'        => 'boolean',
 						),
 						'featured-categories' => array(
-							'description' => __( 'Featured Categories block', 'magazine-blocks' ),
+							'description' => __( 'Split Feed block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'tab-post'            => array(
 							'description' => __( 'Tab Post block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'paragraph'           => array(
+							'description' => __( 'Paragraph block', 'magazine-blocks' ),
+							'type'        => 'boolean',
+						),
+						'button'              => array(
+							'description' => __( 'Button block', 'magazine-blocks' ),
 							'type'        => 'boolean',
 						),
 						'post-title'          => array(

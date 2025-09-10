@@ -58,7 +58,7 @@ class Utils {
 		);
 
 		return array_map(
-			function( $item ) {
+			function ( $item ) {
 				$item                  = (array) $item;
 				$item['media_details'] = wp_get_attachment_metadata( $item['ID'] );
 				$item['alt_text']      = get_post_meta( $item['ID'], '_wp_attachment_image_alt', true );
@@ -263,7 +263,7 @@ class Utils {
 		$blocks = get_option( 'widget_block' );
 		return array_reduce(
 			(array) $blocks,
-			function( $acc, $cur ) {
+			function ( $acc, $cur ) {
 				if (
 					isset( $cur['content'] ) &&
 					false !== strpos( $cur['content'], 'wp:magazine-blocks/' )

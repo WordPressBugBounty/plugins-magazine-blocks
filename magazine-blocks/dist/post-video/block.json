@@ -7,7 +7,7 @@
     "post-video",
     "video"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -71,6 +71,14 @@
     },
     "presets": {
       "type": "string"
+    },
+    "layout4TopRowCount": {
+      "type": "number",
+      "default": 2
+    },
+    "layout4BottomRowCount": {
+      "type": "number",
+      "default": 4
     },
     "enableTitle": {
       "type": "boolean",
@@ -178,8 +186,7 @@
     "highlightedPostTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -275,8 +282,7 @@
     "postTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -287,8 +293,7 @@
     "headerMetaTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

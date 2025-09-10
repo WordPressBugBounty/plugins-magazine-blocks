@@ -8,12 +8,14 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Post Image block class.
  */
-class PostImage extends AbstractBlock {
+class PostImage extends Block {
 
 	/**
 	 * Block name.
@@ -30,7 +32,7 @@ class PostImage extends AbstractBlock {
 	 * @param object $block      Block instance.
 	 * @return string
 	 */
-	public function render( $attributes, $content, $block ) {
+	public function render( $attributes = array(), $content = '', $block = null ) {
 		$post_id  = get_the_ID();
 		$image_id = get_post_thumbnail_id( $post_id );
 
@@ -43,10 +45,10 @@ class PostImage extends AbstractBlock {
 		$hide_desktop = ! empty( $attributes['hideOnDesktop'] );
 
 		// Construct class list.
-		$class_names = [
+		$class_names = array(
 			'mzb-post-image',
 			"mzb-post-image-{$client_id}",
-		];
+		);
 
 		if ( $hide_desktop ) {
 			$class_names[] = 'magazine-blocks-hide-on-desktop';
@@ -59,9 +61,9 @@ class PostImage extends AbstractBlock {
 			$image_id,
 			'large',
 			false,
-			[
+			array(
 				'alt' => get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : esc_attr__( 'Featured image', 'magazine-blocks' ),
-			]
+			)
 		);
 
 		return sprintf(

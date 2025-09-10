@@ -31,13 +31,22 @@
       "type": "string"
     },
     "orientation": {
-      "type": "object"
+      "type": "object",
+      "default": {
+        "desktop": "horizontal"
+      }
     },
     "justification": {
-      "type": "object"
+      "type": "object",
+      "default": {
+        "desktop": "center"
+      }
     },
     "alignment": {
-      "type": "object"
+      "type": "object",
+      "default": {
+        "desktop": "center"
+      }
     },
     "hasModal": {
       "type": "boolean",
@@ -297,9 +306,7 @@
       "default": {
         "dimension": 1,
         "desktop": {
-          "left": 15,
-          "right": 15,
-          "unit": "px"
+          "lock": true
         }
       },
       "style": [

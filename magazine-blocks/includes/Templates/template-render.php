@@ -14,24 +14,24 @@
 	<?php
 	// Get custom header
 	$header = get_posts(
-		[
+		array(
 			'post_type'   => 'mzb-builder-template',
 			'meta_key'    => '_mzb_template',
 			'meta_value'  => 'header',
 			'post_status' => 'publish',
 			'numberposts' => 1,
-		]
+		)
 	);
 
 	// Get custom footer
 	$footer = get_posts(
-		[
+		array(
 			'post_type'   => 'mzb-builder-template',
 			'meta_key'    => '_mzb_template',
 			'meta_value'  => 'footer',
 			'post_status' => 'publish',
 			'numberposts' => 1,
-		]
+		)
 	);
 
 	$use_custom_header = ! empty( $header ) && function_exists( 'magazine_blocks' );
@@ -92,9 +92,9 @@
 			$template_content = preg_replace( '/<body[^>]*>/i', '', $template_content );
 			$template_content = preg_replace( '/<\/body>/i', '', $template_content );
 
-			echo $template_content;
+			echo wp_kses_post( $template_content );
 		} else {
-			// Fallback if template not found
+			// Fallback if template not found.
 			echo '<div class="site-content">';
 			echo '<div class="container">';
 			echo '<div class="content-area">';

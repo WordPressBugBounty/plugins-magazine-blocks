@@ -8,12 +8,14 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Post Title block class.
  */
-class PostTitle extends AbstractBlock {
+class PostTitle extends Block {
 
 	/**
 	 * Block name.
@@ -30,7 +32,7 @@ class PostTitle extends AbstractBlock {
 	 * @param object $block      Block instance.
 	 * @return string
 	 */
-	public function render( $attributes, $content, $block ) {
+	public function render( $attributes = array(), $content = '', $block = null ) {
 		$post_id = get_the_ID();
 
 		if ( ! $post_id ) {
@@ -48,10 +50,10 @@ class PostTitle extends AbstractBlock {
 		$markup       = $attributes['markup'] ?? 'h2';
 
 		// Construct class list.
-		$class_names = [
+		$class_names = array(
 			'mzb-post-title',
 			$client_id ? "mzb-post-title-{$client_id}" : '',
-		];
+		);
 
 		if ( $hide_desktop ) {
 			$class_names[] = 'magazine-blocks-hide-on-desktop';

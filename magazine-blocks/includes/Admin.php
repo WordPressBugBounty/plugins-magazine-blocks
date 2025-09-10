@@ -52,7 +52,7 @@ class Admin {
 			'manage_options',
 			'magazine-blocks',
 			array( $this, 'markup' ),
-			'data:image/svg+xml;base64,' . base64_encode(
+			'data:image/svg+xml;base64,' . base64_encode( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Used for SVG icon encoding
 				'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#F3F1F1"><path d="M10.155 15.105H4.803V5.273l5.352 3.343v6.49Zm5.341 0h-5.341v-6.49l5.341-3.342v9.832Z"/><path d="M18 18.057H2V2h16v16.057Zm-15.276-.723h14.564V2.724H2.724v14.61Z"/></svg>' ) // phpcs:ignore
 		);
 
@@ -90,43 +90,43 @@ class Admin {
 	 * @return array
 	 */
 	private function get_submenus() {
-		$submenus = [
-			'dashboard'    => [
+		$submenus = array(
+			'dashboard'    => array(
 				'page_title' => __( 'Dashboard', 'magazine-blocks' ),
 				'menu_title' => __( 'Dashboard', 'magazine-blocks' ),
 				'position'   => 10,
-			],
-			'blocks'       => [
+			),
+			'blocks'       => array(
 				'page_title' => __( 'Blocks', 'magazine-blocks' ),
 				'menu_title' => __( 'Blocks', 'magazine-blocks' ),
 				'position'   => 20,
-			],
-			'site-builder' => [
+			),
+			'site-builder' => array(
 				'page_title' => __( 'Template Builder', 'magazine-blocks' ),
 				'menu_title' => __( 'Template Builder', 'magazine-blocks' ),
 				'position'   => 21,
-			],
+			),
 			// 'products'     => [
-			//  'page_title' => __( 'Products', 'magazine-blocks' ),
-			//  'menu_title' => __( 'Products', 'magazine-blocks' ),
-			//  'position'   => 30,
+			// 'page_title' => __( 'Products', 'magazine-blocks' ),
+			// 'menu_title' => __( 'Products', 'magazine-blocks' ),
+			// 'position'   => 30,
 			// ],
-			'settings'     => [
+			'settings'     => array(
 				'page_title' => __( 'Settings', 'magazine-blocks' ),
 				'menu_title' => __( 'Settings', 'magazine-blocks' ),
 				'position'   => 40,
-			],
-			'free-vs-pro'  => [
+			),
+			'free-vs-pro'  => array(
 				'page_title' => __( 'Free Vs pro', 'magazine-blocks' ),
 				'menu_title' => __( 'Free Vs pro', 'magazine-blocks' ),
 				'position'   => 45,
-			],
-			'help'         => [
+			),
+			'help'         => array(
 				'page_title' => __( 'Help', 'magazine-blocks' ),
 				'menu_title' => __( 'Help', 'magazine-blocks' ),
 				'position'   => 50,
-			],
-		];
+			),
+		);
 
 		$submenus = apply_filters( 'magazine_blocks_admin_submenus', $submenus );
 		$submenus = array_map(
@@ -139,7 +139,7 @@ class Admin {
 						'parent_slug' => 'magazine-blocks',
 						'capability'  => 'manage_options',
 						'position'    => 1000,
-						'callback'    => [ $this, 'markup' ],
+						'callback'    => array( $this, 'markup' ),
 					)
 				);
 			},

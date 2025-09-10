@@ -25,7 +25,7 @@
     },
     "enableSubHeading": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "label": {
       "type": "string",
@@ -73,8 +73,7 @@
     "subHeadingTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 400
+        "typography": 1
       },
       "style": [
         {
@@ -181,7 +180,7 @@
     },
     "headingLayout1AdvancedStyle": {
       "type": "string",
-      "default": "heading-layout-1-style-1"
+      "default": "heading-layout-1-style-2"
     },
     "headingLayout2AdvancedStyle": {
       "type": "string",
@@ -223,6 +222,37 @@
         },
         {
           "selector": "{{WRAPPER}}.mzb-heading-layout-5-style-1 .mzb-post-heading .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineAccent": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {border-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading.mzb-heading-layout-3-style-1 .mzb-heading-inner::before {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading.mzb-heading-layout-8-style-1 .mzb-heading-inner::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-heading.mzb-heading-layout-2-style-1 .mzb-heading-inner, {{WRAPPER}}.mzb-heading.mzb-heading-layout-3-style-1 .mzb-heading-inner {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading.mzb-heading-layout-7-style-1 .mzb-heading-inner::after {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading.mzb-heading-layout-6-style-1 .mzb-heading-inner::after, {{WRAPPER}}.mzb-heading.mzb-heading-layout-6-style-1 .mzb-heading-inner::before {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-heading.mzb-heading-layout-9-style-1 .mzb-post-heading { border-top-color:{{VALUE}}; }"
         }
       ]
     },
@@ -310,8 +340,7 @@
     "typography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

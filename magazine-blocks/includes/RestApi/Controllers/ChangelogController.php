@@ -192,7 +192,7 @@ class ChangelogController extends \WP_REST_Controller {
 	/**
 	 * Prepare item for response.
 	 *
-	 * @param array $item Item.
+	 * @param array            $item Item.
 	 * @param \WP_Rest_Request $request Full detail about the request.
 	 * @return \WP_Rest_Response
 	 */

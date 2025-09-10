@@ -19,35 +19,35 @@ class GlobalStyles extends Styles {
 	 *
 	 * @var array
 	 */
-	protected $colors = [];
+	protected $colors = array();
 
 	/**
 	 * Global typographies.
 	 *
 	 * @var array
 	 */
-	protected $typographies = [];
+	protected $typographies = array();
 
 	/**
 	 * Global tablet typographies.
 	 *
 	 * @var array
 	 */
-	protected $typographies_tablet = [];
+	protected $typographies_tablet = array();
 
 	/**
 	 * Global mobile typographies.
 	 *
 	 * @var array
 	 */
-	protected $typographies_mobile = [];
+	protected $typographies_mobile = array();
 
 	/**
 	 * Raw styles
 	 *
 	 * @var array
 	 */
-	protected $raw_styles = [];
+	protected $raw_styles = array();
 
 	/**
 	 * Typography css.
@@ -92,10 +92,10 @@ class GlobalStyles extends Styles {
 	 * @return void
 	 */
 	protected function make_styles() {
-		$styles            = implode( "\n", $this->colors );
-		$styles           .= "\n";
-		$styles           .= implode( "\n", $this->typographies );
-		$styles            = ":root {{$styles}}";
+		$styles  = implode( "\n", $this->colors );
+		$styles .= "\n";
+		$styles .= implode( "\n", $this->typographies );
+		$styles  = ":root {{$styles}}";
 
 		$tablet_breakpoint = $this->get_tablet_breakpoint();
 		$mobile_breakpoint = $this->get_mobile_breakpoint();
@@ -107,7 +107,7 @@ class GlobalStyles extends Styles {
 			$mobile_css = implode( "\n", $this->typographies_mobile );
 			$styles    .= "\n@media (max-width: $mobile_breakpoint) {:root{{$mobile_css}}}";
 		}
-		$styles      .= $this->typography_css;
+		$styles .= $this->typography_css;
 
 		$this->styles = $styles;
 		$this->set_styles_generated_timestamp();
@@ -173,7 +173,7 @@ class GlobalStyles extends Styles {
 
 			if ( $family && 'Default' !== $family ) {
 				if ( ! isset( $this->fonts[ $family ] ) ) {
-					$this->fonts[ $family ] = [];
+					$this->fonts[ $family ] = array();
 				}
 				if ( ! in_array( $weight, $this->fonts[ $family ], true ) ) {
 					$this->fonts[ $family ][] = $weight;
@@ -222,7 +222,7 @@ class GlobalStyles extends Styles {
 	/**
 	 * Process responsive typography.
 	 *
-	 * @param array $values
+	 * @param array  $values
 	 * @param string $css_prop_name
 	 * @return void
 	 */
@@ -267,7 +267,7 @@ class GlobalStyles extends Styles {
 	 * @return array|false
 	 */
 	protected function get_saved_styles() {
-		return get_option( '_magazine_blocks_blocks_css', array() )[ $this->id ] ?? [];
+		return get_option( '_magazine_blocks_blocks_css', array() )[ $this->id ] ?? array();
 	}
 
 	/**

@@ -23,9 +23,21 @@
       "type": "string",
       "default": "all"
     },
+    "postCount": {
+      "type": "number",
+      "default": 4
+    },
+    "enableLabel": {
+      "type": "boolean",
+      "default": true
+    },
     "label": {
       "type": "string",
       "default": "Breaking News"
+    },
+    "enableIcon": {
+      "type": "boolean",
+      "default": true
     },
     "icon": {
       "type": "string",
@@ -34,8 +46,7 @@
     "labelTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -46,8 +57,7 @@
     "bodyTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -114,6 +124,30 @@
     "enableArrows": {
       "type": "boolean",
       "default": false
+    },
+    "tickerEffect": {
+      "type": "string",
+      "default": "fade"
+    },
+    "tickerDirection": {
+      "type": "string",
+      "default": "ltr"
+    },
+    "delayTimer": {
+      "type": "number",
+      "default": 4000
+    },
+    "autoPlay": {
+      "type": "boolean",
+      "default": true
+    },
+    "scrollSpeed": {
+      "type": "number",
+      "default": 2
+    },
+    "stopOnHover": {
+      "type": "boolean",
+      "default": true
     },
     "blockHTML": {
       "type": "string",

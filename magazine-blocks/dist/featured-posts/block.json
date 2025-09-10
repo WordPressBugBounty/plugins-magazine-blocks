@@ -8,7 +8,7 @@
     "post",
     "featured-posts"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -255,8 +255,7 @@
     "headingTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -369,11 +368,35 @@
         }
       ]
     },
+    "lineAccent": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-8-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-2-style-1, {{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-3-style-1, {{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-4-style-1,{{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-5-style-1, {{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-6-style-1, {{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-7-style-1, {{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-9-style-1 {border-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-6-style-1::after, {{WRAPPER}}.mzb-featured-posts .mzb-post-heading.mzb-heading-layout-6-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
     "highlightedPostTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -385,7 +408,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post.mzb-first-post--highlight .mzb-featured-image, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight .mzb-featured-image, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight { height: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .mzb-post.mzb-first-post--highlight .mzb-featured-image, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight .mzb-featured-image, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight, {{WRAPPER}}.mzb-featured-posts .mzb-posts.mzb-layout-6 .mzb-post.mzb-first-post--highlight .mzb-featured-image { height: {{VALUE}} }"
         }
       ]
     },
@@ -445,7 +468,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-1.mzb-layout-1-style-2 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5.mzb-layout-5-style-1 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5.mzb-layout-5-style-1 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img { height: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-1.mzb-layout-1-style-2 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5.mzb-layout-5-style-1 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5.mzb-layout-5-style-1 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}}.mzb-featured-posts .mzb-layout-6 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img { height: {{VALUE}} }"
         }
       ]
     },
@@ -459,7 +482,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-posts .mzb-featured-image img, {{WRAPPER}} .mzb-layout-2 .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight .mzb-featured-image::before { border-radius: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-featured-image img, {{WRAPPER}} .mzb-layout-2 .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post .mzb-featured-image img, {{WRAPPER}} .mzb-layout-5 .mzb-post.mzb-first-post--highlight .mzb-featured-image::before, {{WRAPPER}}.mzb-featured-posts .mzb-layout-6 .mzb-post:not(.mzb-first-post--highlight) .mzb-featured-image img, {{WRAPPER}}.mzb-featured-posts .mzb-layout-6 .mzb-post.mzb-first-post--highlight .mzb-featured-image img { border-radius: {{VALUE}}; }"
         }
       ]
     },
@@ -470,8 +493,7 @@
     "postTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -1182,8 +1204,7 @@
     "viewAllTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -1218,8 +1239,7 @@
     "readMoreTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

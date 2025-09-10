@@ -7,12 +7,17 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\HasRender;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Section block.
  */
-class Section extends AbstractBlock {
+class Section extends Block {
+
+	use HasRender;
 
 	/**
 	 * Block name.

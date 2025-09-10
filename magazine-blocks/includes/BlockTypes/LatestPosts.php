@@ -1,43 +1,114 @@
 <?php
-
 /**
- * LatestPosts.
+ * LatestPosts block.
  *
  * @package Magazine Blocks
  */
 
 namespace MagazineBlocks\BlockTypes;
 
-use WP_Query;
-
-use function MagazineBlocks\mzb_numbered_pagination;
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\PostRenderer;
 
 defined( 'ABSPATH' ) || exit;
 
-class LatestPosts extends AbstractBlock {
+/**
+ * LatestPosts block class.
+ */
+class LatestPosts extends Block {
 
+	use PostRenderer;
 
+	/**
+	 * Block name.
+	 *
+	 * @var string
+	 */
 	protected $block_name = 'latest-posts';
 
-	public function render( $attributes, $content, $block ) {
-
-		$excluded_category = magazine_blocks_array_get( $attributes, 'excludedCategory', '' );
-		$offset            = magazine_blocks_array_get( $attributes, 'offset', 0 );
+	/**
+	 * Render the block.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string Rendered HTML output.
+	 */
+	public function render( $attributes = array(), $content = '', $block = null ) {
+		$attrs = $this->extract_attributes( $attributes );
 
 		$categories = get_categories();
-		$posts      = $this->get_latest_posts_by_category( $categories, $excluded_category, $offset );
-		$output     = $this->render_block( $attributes, $posts );
+		$posts      = $this->get_latest_posts_by_category(
+			$categories,
+			$attrs['excluded_category'],
+			$attrs['offset'],
+			$attrs['post_type']
+		);
 
-		return $output;
+		$query = $this->query_builder->build_query( array( 'paged' => $attrs['paged'] ) );
+
+		$attrs['max_num_pages'] = $query->max_num_pages;
+
+		return $this->render_block( $posts, $attrs );
 	}
 
 	/**
-	 * Get Latest Posts.
+	 * Extract attributes.
 	 *
-	 * @param mixed $categories
-	 * @return array
+	 * @param array $attributes Original block attributes.
 	 */
-	protected function get_latest_posts_by_category( $categories, $excluded_category, $offset = 0 ) {
+	protected function extract_attributes( $attributes ) {
+		$client_id      = magazine_blocks_array_get( $attributes, 'clientId', '' );
+		$layout         = magazine_blocks_array_get( $attributes, 'layout', 'layout-1' );
+		$heading_layout = magazine_blocks_array_get( $attributes, 'headingLayout', '' );
+
+		// Get the specific advanced styles based on layout and heading layout.
+		$advanced_style = magazine_blocks_array_get( $attributes, magazine_get_style_key( $layout ), '' );
+		$heading_style  = magazine_blocks_array_get( $attributes, magazine_get_heading_style_key( $heading_layout ), '' );
+		return array(
+			'client_id'         => $client_id,
+			'class_name'        => magazine_blocks_array_get( $attributes, 'className', '' ),
+			'label'             => magazine_blocks_array_get( $attributes, 'label', '' ),
+			'layout'            => $layout,
+			'advanced_style'    => $advanced_style,
+			'heading_layout'    => $heading_layout,
+			'heading_style'     => $heading_style,
+			'column'            => magazine_blocks_array_get( $attributes, 'column', 2 ),
+			'post_type'         => magazine_blocks_array_get( $attributes, 'postType', 'post' ),
+			'excluded_category' => magazine_blocks_array_get( $attributes, 'excludedCategory', array() ),
+			'offset'            => magazine_blocks_array_get( $attributes, 'offset', 0 ),
+			// Display toggles.
+			'enable_heading'    => magazine_blocks_array_get( $attributes, 'enableHeading', true ),
+			'enable_post_title' => magazine_blocks_array_get( $attributes, 'enablePostTitle', true ),
+			'enable_excerpt'    => magazine_blocks_array_get( $attributes, 'enableExcerpt', false ),
+			'enable_read_more'  => magazine_blocks_array_get( $attributes, 'enableReadMore', false ),
+			'read_more_text'    => magazine_blocks_array_get( $attributes, 'readMoreText', '' ),
+			'excerpt_limit'     => magazine_blocks_array_get( $attributes, 'excerptLimit', '' ),
+			'enable_author'     => magazine_blocks_array_get( $attributes, 'enableAuthor', false ),
+			'enable_date'       => magazine_blocks_array_get( $attributes, 'enableDate', false ),
+			'enable_icon'       => magazine_blocks_array_get( $attributes, 'enableIcon', false ),
+			'meta_position'     => magazine_blocks_array_get( $attributes, 'metaPosition', 'bottom' ),
+			'hover_animation'   => magazine_blocks_array_get( $attributes, 'hoverAnimation', '' ),
+			'hide_on_desktop'   => magazine_blocks_array_get( $attributes, 'hideOnDesktop', false ),
+			// Style options.
+			'layout1_style'     => magazine_blocks_array_get( $attributes, 'layout1AdvancedStyle', '' ),
+			'layout2_style'     => magazine_blocks_array_get( $attributes, 'layout2AdvancedStyle', '' ),
+			'enable_pagination' => magazine_blocks_array_get( $attributes, 'enablePagination', false ),
+			// pagination.
+			'paged'             => isset( $_GET[ 'block_id_' . $client_id ], $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'mzb_latest_posts' ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1,
+
+		);
+	}
+
+	/**
+	 * Get latest posts grouped by category.
+	 *
+	 * @param mixed $categories The categories list.
+	 * @param mixed $excluded_category The excluded category list.
+	 * @param mixed $offset The offset.
+	 * @param mixed $post_type  Th post type.
+	 */
+	protected function get_latest_posts_by_category( $categories, $excluded_category, $offset, $post_type ) {
 		if ( ! is_array( $excluded_category ) ) {
 			$excluded_category = empty( $excluded_category ) ? array() : array( $excluded_category );
 		}
@@ -47,11 +118,11 @@ class LatestPosts extends AbstractBlock {
 
 		foreach ( $categories as $category ) {
 			if ( ! in_array( $category->term_id, $excluded_category, true ) ) {
-				$latest_post = $this->get_latest_post_in_category( $category->term_id, $excluded_category, $offset );
+				$post = $this->get_latest_post_in_category( $category->term_id, $excluded_category, $offset, $post_type );
 
-				if ( $latest_post && ! in_array( $latest_post->ID, $displayed_posts, true ) ) {
-					$displayed_posts[] = $latest_post->ID;
-					$latest_posts[]    = $latest_post;
+				if ( $post && ! in_array( $post->ID, $displayed_posts, true ) ) {
+					$displayed_posts[] = $post->ID;
+					$latest_posts[]    = $post;
 				}
 			}
 		}
@@ -60,14 +131,14 @@ class LatestPosts extends AbstractBlock {
 	}
 
 	/**
-	 * Latest Posts in Category.
+	 * Get single latest post in a category.
 	 *
-	 * @param mixed $category_id
-	 * @return mixed
+	 * @param mixed $category_id The categories ID.
+	 * @param mixed $excluded_category The excluded category list.
+	 * @param mixed $offset The offset.
+	 * @param mixed $post_type  Th post type.
 	 */
-	protected function get_latest_post_in_category( $category_id, $excluded_category, $offset = 0 ) {
-		$post_type = magazine_blocks_array_get( $this->attributes, 'postType', 'post' );
-
+	protected function get_latest_post_in_category( $category_id, $excluded_category, $offset, $post_type ) {
 		$latest_posts = get_posts(
 			array(
 				'post_type'        => $post_type,
@@ -84,175 +155,100 @@ class LatestPosts extends AbstractBlock {
 	}
 
 	/**
-	 * Render Block.
+	 * Render block wrapper.
 	 *
-	 * @param array $attributes
-	 * @param array $posts
-	 * @return string
+	 * @param mixed $posts The posts.
+	 * @param mixed $attrs The attributes.
 	 */
-	protected function render_block( $attributes, $posts ) {
-
-		ob_start();
-
-		$enable_heading         = magazine_blocks_array_get( $attributes, 'enableHeading', true );
-		$label                  = magazine_blocks_array_get( $attributes, 'label', '' );
-		$layout                 = magazine_blocks_array_get( $attributes, 'layout', 'layout-1' );
-		$column                 = magazine_blocks_array_get( $attributes, 'column', 2 );
-		$excerpt_limit          = magazine_blocks_array_get( $attributes, 'excerptLimit', '' );
-		$enable_excerpt         = magazine_blocks_array_get( $attributes, 'enableExcerpt', '' );
-		$enable_read_more       = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
-		$read_more_text         = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
-		$enable_pagination      = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
-		$meta_position          = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
-		$enable_post_title      = magazine_blocks_array_get( $attributes, 'enablePostTitle', '' );
-		$hover_animation        = magazine_blocks_array_get( $attributes, 'hoverAnimation', '' );
-		$hide_on_desktop        = magazine_blocks_array_get( $attributes, 'hideOnDesktop', '' );
-		$page                   = magazine_blocks_array_get( $attributes, 'page', '' );
-		$layout1_advanced_style = magazine_blocks_array_get( $attributes, 'layout1AdvancedStyle', '' );
-		$layout2_advanced_style = magazine_blocks_array_get( $attributes, 'layout2AdvancedStyle', '' );
-		$client_id              = magazine_blocks_array_get( $attributes, 'clientId', '' );
-
-		// Extract attributes
-		// extract( $attributes );
-
-		// Pagination.
-		$paged         = isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1;
-		$args['paged'] = $paged;
-
-		$type = get_query_var( 'mzb_template_type' );
-
-		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
-			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
-			$paged = get_query_var( 'paged' );
-			switch ( get_query_var( 'mzb_template_type' ) ) {
-				case 'archive':
-					if ( is_archive() ) {
-						if ( is_category() ) {
-							$args['category_name'] = get_query_var( 'category_name' );
-						} elseif ( is_tag() ) {
-							$args['tag'] = get_query_var( 'tag' );
-						} elseif ( is_author() ) {
-							$args['author'] = get_query_var( 'author' );
-						}
-					}
-					break;
-				case 'search':
-					$args['s'] = get_search_query();
-					break;
-			}
-		}
-
-		$query = new WP_Query( $args );
-
-		// Generate unique class names
-		$client_id   = uniqid( 'mzb-latest-posts-' );
-		$block_class = "mzb-latest-posts $client_id";
-		if ( $hide_on_desktop ) {
+	protected function render_block( $posts, $attrs ) {
+		$block_class = "mzb-latest-posts mzb-latest-posts-{$attrs['client_id']} {$attrs['class_name']}";
+		if ( $attrs['hide_on_desktop'] ) {
 			$block_class .= ' magazine-blocks-hide-on-desktop';
 		}
-		$posts_class = "mzb-posts mzb-$layout mzb-post-col--" . ( $column ? $column : 4 );
-		if ( 'layout-1' === $layout ) {
-			$posts_class .= " mzb-$layout1_advanced_style";
-		} elseif ( 'layout-2' === $layout ) {
-			$posts_class .= " mzb-$layout2_advanced_style";
+
+		$posts_class = "mzb-posts mzb-{$attrs['layout']} mzb-post-col--" . ( $attrs['column'] ? $attrs['column'] : 4 );
+		if ( 'layout-1' === $attrs['layout'] ) {
+			$posts_class .= " mzb-{$attrs['layout1_style']}";
+		} elseif ( 'layout-2' === $attrs['layout'] ) {
+			$posts_class .= " mzb-{$attrs['layout2_style']}";
 		}
 
+		ob_start();
 		?>
 		<div class="<?php echo esc_attr( $block_class ); ?>">
-			<?php if ( $enable_heading ) : ?>
-				<div class="mzb-post-heading">
-					<h2><?php echo esc_html( $label ); ?></h2>
+			<?php if ( $attrs['enable_heading'] ) : ?>
+				<div class="mzb-post-heading mzb-<?php echo esc_attr( $attrs['heading_layout'] ); ?> mzb-<?php echo esc_attr( $attrs['heading_style'] ); ?>">
+					<h2 class="mzb-heading-text"><?php echo esc_html( $attrs['label'] ); ?></h2>
 				</div>
 			<?php endif; ?>
 
 			<div class="<?php echo esc_attr( $posts_class ); ?>">
 				<?php foreach ( $posts as $post ) : ?>
 					<div class="mzb-post">
-						<?php if ( has_post_thumbnail( $post->ID ) ) : ?>
-							<div class="mzb-featured-image <?php echo esc_attr( $hover_animation ); ?>">
-								<?php echo get_the_post_thumbnail( $post->ID, 'full' ); ?>
-							</div>
-						<?php endif; ?>
+						<?php echo $this->render_featured_image( $post->ID, $attrs['hover_animation'] ); ?>
 
 						<div class="mzb-post-content">
-							<?php if ( 'top' === $meta_position ) : ?>
-								<?php $this->render_meta( $post, $attributes ); ?>
+							<?php if ( 'top' === $attrs['meta_position'] ) : ?>
+								<?php echo $this->render_meta_section( $post->ID, $attrs ); ?>
 							<?php endif; ?>
 
-							<?php if ( $enable_post_title ) : ?>
-								<h3 class="mzb-post-title">
-									<a href="<?php echo esc_url( get_permalink( $post->ID ) ); ?>">
-										<?php echo esc_html( get_the_title( $post->ID ) ); ?>
-									</a>
-								</h3>
+							<?php if ( $attrs['enable_post_title'] ) : ?>
+								<?php echo $this->render_post_title( $post->ID, 'h3' ); ?>
 							<?php endif; ?>
 
-							<?php if ( 'bottom' === $meta_position ) : ?>
-								<?php $this->render_meta( $post, $attributes ); ?>
+							<?php if ( 'bottom' === $attrs['meta_position'] ) : ?>
+								<?php echo $this->render_meta_section( $post->ID, $attrs ); ?>
 							<?php endif; ?>
 
-							<?php if ( $enable_excerpt || $enable_read_more ) : ?>
-								<div class="mzb-entry-content">
-									<?php if ( $enable_excerpt ) : ?>
-										<div class="mzb-entry-summary">
-											<?php echo esc_html( wp_trim_words( get_the_excerpt( $post->ID ), $excerpt_limit, '...' ) ); ?>
-										</div>
-									<?php endif; ?>
-									<?php if ( $enable_read_more ) : ?>
-										<div class="mzb-read-more">
-											<a href="<?php echo esc_url( get_permalink( $post->ID ) ); ?>">
-												<?php echo esc_html( $read_more_text ); ?>
-											</a>
-										</div>
-									<?php endif; ?>
-								</div>
+							<?php if ( $attrs['enable_excerpt'] || $attrs['enable_read_more'] ) : ?>
+								<?php
+								echo $this->render_excerpt_and_read_more(
+									$post->ID,
+									array(
+										'enable_excerpt'  => $attrs['enable_excerpt'],
+										'excerpt_limit'   => $attrs['excerpt_limit'],
+										'enable_readmore' => $attrs['enable_read_more'],
+										'read_more_text'  => $attrs['read_more_text'],
+									)
+								);
+								?>
 							<?php endif; ?>
 						</div>
 					</div>
 				<?php endforeach; ?>
-				<?php if ( $enable_pagination ) : ?>
+
+				<?php if ( $attrs['enable_pagination'] ) : ?>
 					<div class="mzb-pagination-numbers">
-						<h2><?php echo esc_html( mzb_numbered_pagination( $query->max_num_pages, $paged, $client_id ) ); ?></h2>
+						<h2><?php echo esc_html( mzb_numbered_pagination( $attrs['max_num_pages'], $attrs['paged'], $attrs['client_id'] ) ); ?></h2>
 					</div>
 				<?php endif; ?>
 			</div>
 		</div>
 		<?php
-
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render Meta.
+	 * Render meta section (author/date/icons).
 	 *
-	 * @param array $post
-	 * @param array $attributes
-	 * @return void
+	 * @param mixed $post_id The post id.
+	 * @param mixed $attrs The attributes.
 	 */
-	protected function render_meta( $post, $attributes ) {
-		$enable_author = magazine_blocks_array_get( $attributes, 'enableAuthor', '' );
-		$enable_date   = magazine_blocks_array_get( $attributes, 'enableDate', '' );
-		?>
-		<div class="mzb-post-entry-meta">
-			<?php if ( $enable_author ) : ?>
-				<span class="mzb-post-author">
-					<?php echo get_avatar( $post->post_author, 32 ); ?>
-					<a href="<?php echo esc_url( get_author_posts_url( $post->post_author ) ); ?>">
-						<?php echo esc_html( get_the_author_meta( 'display_name', $post->post_author ) ); ?>
-					</a>
-				</span>
-			<?php endif; ?>
-			<?php if ( $enable_date ) : ?>
-				<span class="mzb-post-date">
-					<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-						<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-					</svg>
-					<a href="<?php echo esc_url( get_permalink( $post->ID ) ); ?>">
-						<?php echo get_the_date( '', $post->ID ); ?>
-					</a>
-				</span>
-			<?php endif; ?>
-		</div>
-		<?php
+	protected function render_meta_section( $post_id, $attrs ) {
+		$meta_items = array();
+
+		if ( $attrs['enable_author'] ) {
+			$meta_items[] = $this->render_author( $post_id, $attrs['enable_icon'] );
+		}
+
+		if ( $attrs['enable_date'] ) {
+			$meta_items[] = $this->render_date( $post_id, $attrs['enable_icon'] );
+		}
+
+		if ( empty( $meta_items ) ) {
+			return '';
+		}
+
+		return sprintf( '<div class="mzb-post-entry-meta">%s</div>', implode( '', $meta_items ) );
 	}
 }

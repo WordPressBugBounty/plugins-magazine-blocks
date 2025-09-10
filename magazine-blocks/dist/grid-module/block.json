@@ -8,7 +8,7 @@
     "module",
     "grid-module"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -40,8 +40,7 @@
     "excerptTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -218,12 +217,22 @@
     "headingTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
           "selector": "{{WRAPPER}}.mzb-grid-module .mzb-post-heading h2.mzb-heading-text"
+        }
+      ]
+    },
+    "headingBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 .mzb-heading-text"
         }
       ]
     },
@@ -343,6 +352,42 @@
         }
       ]
     },
+    "lineAccent": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-8-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-2-style-1, {{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-3-style-1, {{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-4-style-1,{{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-5-style-1, {{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-6-style-1, {{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-7-style-1, {{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-9-style-1 {border-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-6-style-1::after, {{WRAPPER}}.mzb-grid-module .mzb-post-heading.mzb-heading-layout-6-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "headingBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-2-style-1 .mzb-heading-text"
+        }
+      ]
+    },
     "border": {
       "type": "object",
       "default": {
@@ -388,8 +433,7 @@
     "categoryTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -408,8 +452,7 @@
     "postTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -504,6 +547,20 @@
         }
       ]
     },
+    "cardPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-grid-module .mzb-posts .mzb-post { padding: {{VALUE}}; }"
+        }
+      ]
+    },
     "enableDate": {
       "type": "boolean",
       "default": true
@@ -554,7 +611,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-date svg, {{WRAPPER}} .mzb-layout-2 .mzb-post-date svg, {{WRAPPER}} .mzb-layout-2 .mzb-post-view-count svg, {{WRAPPER}} .mzb-layout-2 .mzb-post-read-time svg {fill: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-date svg, {{WRAPPER}}.mzb-layout-2 .mzb-post-date svg, {{WRAPPER}}.mzb-layout-2 .mzb-post-view-count svg, {{WRAPPER}}.mzb-layout-2 .mzb-post-read-time svg {fill: {{VALUE}}; }"
         }
       ]
     },
@@ -710,8 +767,7 @@
     "viewAllTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -1143,8 +1199,7 @@
     "numberListTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

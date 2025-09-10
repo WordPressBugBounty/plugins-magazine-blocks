@@ -8,15 +8,19 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\PostRenderer;
 use WP_Query;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Button block class.
+ * Slider block class.
  */
-class Slider extends AbstractBlock {
+class Slider extends Block {
 
+
+	use PostRenderer;
 
 	/**
 	 * Block name.
@@ -24,285 +28,567 @@ class Slider extends AbstractBlock {
 	 * @var string Block name.
 	 */
 	protected $block_name = 'slider';
-
-	public function render( $attributes, $content, $block ) {
-
-		$client_id = magazine_blocks_array_get( $attributes, 'clientId', '' );
-
-		$category          = magazine_blocks_array_get( $attributes, 'category', '' );
-		$excluded_category = magazine_blocks_array_get( $attributes, 'excludedCategory', '' );
-		$class_name        = magazine_blocks_array_get( $attributes, 'className', '' );
-		$post_count        = magazine_blocks_array_get( $attributes, 'postCount', '' );
-		$slider_style      = magazine_blocks_array_get( $attributes, 'sliderStyle', 'style1' );
-		$slides_per_view   = ( 'style3' === $slider_style || 'style4' === $slider_style ) ? intval( magazine_blocks_array_get( $attributes, 'slidesPerView', '1' ) ) : 1;
-		$slider_args       = array(
-			'speed'         => magazine_blocks_array_get( $attributes, 'sliderSpeed', '' ),
-			'autoplay'      => magazine_blocks_array_get( $attributes, 'enableAutoPlay', 'true' ),
-			'arrows'        => magazine_blocks_array_get( $attributes, 'enableArrow', '' ),
-			'pagination'    => magazine_blocks_array_get( $attributes, 'enableDot', '' ),
-			'pauseOnHover'  => magazine_blocks_array_get( $attributes, 'enablePauseOnHover', '' ),
-			'slidesPerView' => $slides_per_view,
-			'sliderStyle'   => $slider_style,
-		);
-
-		// Header Meta.
-		$enable_category = magazine_blocks_array_get( $attributes, 'enableCategory', '' );
-
-		// Meta.
-		$meta_position = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
-		$enable_author = magazine_blocks_array_get( $attributes, 'enableAuthor', '' );
-		$enable_date   = magazine_blocks_array_get( $attributes, 'enableDate', '' );
-		$enable_icon   = magazine_blocks_array_get( $attributes, 'enableIcon', '' );
-
-		// Excerpt.
-		$enable_excerpt = magazine_blocks_array_get( $attributes, 'enableExcerpt', '' );
-		$excerpt_limit  = magazine_blocks_array_get( $attributes, 'excerptLimit', '' );
-
-		// ReadMore.
-		$enable_readmore = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
-		$read_more_text  = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
-
-		// Hide on Desktop.
-		$hide_on_desktop = magazine_blocks_array_get( $attributes, 'hideOnDesktop', '' );
-
-		// Arrow Position.
-		$enable_arrow               = magazine_blocks_array_get( $attributes, 'enableArrow', '' );
-		$arrow_position             = magazine_blocks_array_get( $attributes, 'arrowPosition', 'center' );
-		$arrow_horizontal_placement = magazine_blocks_array_get( $attributes, 'arrowHorizontalPlacement', 'inside' );
-
-		// Pagination dots
-		$enable_pagination = magazine_blocks_array_get( $attributes, 'enableDot', '' );
-		$dot_position      = magazine_blocks_array_get( $attributes, 'dotPosition', '' );
-
-		//slider style
-		$slider_style = magazine_blocks_array_get( $attributes, 'sliderStyle', 'style1' );
-
-		// Post Title.
-		$post_title_markup = magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' );
-		$post_title_markup = magazine_blocks_sanitize_html_tag( $post_title_markup, 'h3' );
-
-		// Heading
-		$enable_heading                  = magazine_blocks_array_get( $attributes, 'enableHeading', '' );
-		$heading_layout                  = magazine_blocks_array_get( $attributes, 'headingLayout', '' );
-		$heading_layout_1_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout1AdvancedStyle', '' );
-		$heading_layout_2_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout2AdvancedStyle', '' );
-		$heading_layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout3AdvancedStyle', '' );
-		$heading_layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout4AdvancedStyle', '' );
-		$heading_layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout5AdvancedStyle', '' );
-		$heading_layout_6_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout6AdvancedStyle', '' );
-		$heading_layout_7_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout7AdvancedStyle', '' );
-		$heading_layout_8_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout8AdvancedStyle', '' );
-		$heading_layout_9_advanced_style = magazine_blocks_array_get( $attributes, 'headingLayout9AdvancedStyle', '' );
-		$label                           = magazine_blocks_array_get( $attributes, 'label', 'Latest' );
-
-		//View All
-		$enable_view_more      = magazine_blocks_array_get( $attributes, 'enableViewMore', '' );
-		$view_more_text        = magazine_blocks_array_get( $attributes, 'viewMoreText', '' );
-		$view_button_position  = magazine_blocks_array_get( $attributes, 'viewButtonPosition', '' );
-		$enable_view_more_icon = magazine_blocks_array_get( $attributes, 'enableViewMoreIcon', '' );
-		$view_more_icon        = magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' );
-		$get_icon              = magazine_blocks_get_icon( $view_more_icon, false );
-		$view_more_url         = magazine_blocks_array_get( $attributes, 'viewMoreLink', array() );
-
-		$href   = isset( $view_more_url['url'] ) ? esc_url( $view_more_url['url'] ) : '';
-		$target = ! empty( $view_more_url['newTab'] ) ? ' target="_blank"' : '';
-		$rel    = ! empty( $view_more_url['noFollow'] ) ? ' rel="nofollow"' : '';
-
-		// Define the custom excerpt length function as an anonymous function
-		$custom_excerpt_length = function ( $length ) use ( $excerpt_limit ) {
-			return $excerpt_limit; // Change this number to your desired word limit
-		};
-
-		// Query.
-		$category          = magazine_blocks_array_get( $attributes, 'category', '' );
-		$tag               = magazine_blocks_array_get( $attributes, 'tag', '' );
-		$excluded_category = magazine_blocks_array_get( $attributes, 'excludedCategory', '' );
-		$order_by          = magazine_blocks_array_get( $attributes, 'orderBy', '' );
-		$order_type        = magazine_blocks_array_get( $attributes, 'orderType', '' );
-		$author            = magazine_blocks_array_get( $attributes, 'authorName', '' );
-		$post_type         = magazine_blocks_array_get( $attributes, 'postType', 'post' );
-		$post_count        = magazine_blocks_array_get( $attributes, 'postCount', 4 );
-
-		// Add the filter to modify the excerpt length using the anonymous function
-		add_filter( 'excerpt_length', $custom_excerpt_length );
-
-		if ( 'heading-layout-1' === $heading_layout ) {
-			$heading_style = $heading_layout_1_advanced_style;
-		} elseif ( 'heading-layout-2' === $heading_layout ) {
-			$heading_style = $heading_layout_2_advanced_style;
-		} elseif ( 'heading-layout-3' === $heading_layout ) {
-			$heading_style = $heading_layout_3_advanced_style;
-		} elseif ( 'heading-layout-4' === $heading_layout ) {
-			$heading_style = $heading_layout_4_advanced_style;
-		} elseif ( 'heading-layout-5' === $heading_layout ) {
-			$heading_style = $heading_layout_5_advanced_style;
-		} elseif ( 'heading-layout-6' === $heading_layout ) {
-			$heading_style = $heading_layout_6_advanced_style;
-		} elseif ( 'heading-layout-7' === $heading_layout ) {
-			$heading_style = $heading_layout_7_advanced_style;
-		} elseif ( 'heading-layout-8' === $heading_layout ) {
-			$heading_style = $heading_layout_8_advanced_style;
-		} elseif ( 'heading-layout-9' === $heading_layout ) {
-			$heading_style = $heading_layout_9_advanced_style;
+	/**
+	 * Render the block.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string Rendered HTML output.
+	 */
+	public function render( $attributes = array(), $content = '', $block = null ) {
+		if ( magazine_blocks_is_rest_request() ) {
+			return $content;
 		}
 
+		$attrs = $this->extract_attributes( $attributes );
+		$query = $this->build_query( $attrs );
+
+		if ( $query->have_posts() ) {
+			return $this->render_block( $query, $attrs );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Extract and process block attributes.
+	 *
+	 * @param array $attributes Raw block attributes.
+	 * @return array Processed attributes.
+	 */
+	protected function extract_attributes( $attributes ) {
+		$client_id      = magazine_blocks_array_get( $attributes, 'clientId', '' );
+		$heading_layout = magazine_blocks_array_get( $attributes, 'headingLayout', '' );
+
+		// Get the specific advanced styles based on layout and heading layout.
+		$heading_style = magazine_blocks_array_get( $attributes, magazine_get_heading_style_key( $heading_layout ), '' );
+
+		$slider_style    = magazine_blocks_array_get( $attributes, 'sliderStyle', 'style1' );
+		$slides_per_view = ( 'style3' === $slider_style || 'style4' === $slider_style ) ?
+			intval( magazine_blocks_array_get( $attributes, 'slidesPerView', '1' ) ) : 1;
+
+		return array(
+			// General attributes.
+			'client_id'                      => $client_id,
+			'class_name'                     => magazine_blocks_array_get( $attributes, 'className', '' ),
+			'slider_style'                   => $slider_style,
+			'slides_per_view'                => $slides_per_view,
+			'hide_on_desktop'                => magazine_blocks_array_get( $attributes, 'hideOnDesktop', '' ),
+
+			// Slider settings.
+			'slider_args'                    => array(
+				'speed'         => magazine_blocks_array_get( $attributes, 'sliderSpeed', '' ),
+				'autoplay'      => magazine_blocks_array_get( $attributes, 'enableAutoPlay', 'true' ),
+				'arrows'        => magazine_blocks_array_get( $attributes, 'enableArrow', '' ),
+				'pagination'    => magazine_blocks_array_get( $attributes, 'enableDot', '' ),
+				'pauseOnHover'  => magazine_blocks_array_get( $attributes, 'enablePauseOnHover', '' ),
+				'slidesPerView' => $slides_per_view,
+				'sliderStyle'   => $slider_style,
+			),
+
+			// Arrow settings.
+			'enable_arrow'                   => magazine_blocks_array_get( $attributes, 'enableArrow', '' ),
+			'arrow_position'                 => magazine_blocks_array_get( $attributes, 'arrowPosition', 'center' ),
+			'arrow_horizontal_placement'     => magazine_blocks_array_get( $attributes, 'arrowHorizontalPlacement', 'inside' ),
+
+			// Pagination settings.
+			'enable_pagination'              => magazine_blocks_array_get( $attributes, 'enableDot', '' ),
+			'dot_position'                   => magazine_blocks_array_get( $attributes, 'dotPosition', '' ),
+
+			// Query parameters.
+			'category'                       => magazine_blocks_array_get( $attributes, 'category', '' ),
+			'tag'                            => magazine_blocks_array_get( $attributes, 'tag', '' ),
+			'excluded_category'              => magazine_blocks_array_get( $attributes, 'excludedCategory', '' ),
+			'order_by'                       => magazine_blocks_array_get( $attributes, 'orderBy', '' ),
+			'order_type'                     => magazine_blocks_array_get( $attributes, 'orderType', '' ),
+			'author'                         => magazine_blocks_array_get( $attributes, 'authorName', '' ),
+			'post_count'                     => magazine_blocks_array_get( $attributes, 'postCount', 4 ),
+			'post_type'                      => magazine_blocks_array_get( $attributes, 'postType', 'post' ),
+
+			// Heading settings.
+			'enable_heading'                 => magazine_blocks_array_get( $attributes, 'enableHeading', '' ),
+			'heading_layout'                 => $heading_layout,
+			'heading_style'                  => $heading_style,
+			'label'                          => magazine_blocks_array_get( $attributes, 'label', 'Latest' ),
+
+			// Category settings.
+			'enable_category'                => magazine_blocks_array_get( $attributes, 'enableCategory', '' ),
+			'category_position'              => magazine_blocks_array_get( $attributes, 'categoryPosition', '' ),
+			'header_meta_position'           => magazine_blocks_array_get( $attributes, 'headerMetaPosition', '' ),
+
+			// Meta settings.
+			'meta_position'                  => magazine_blocks_array_get( $attributes, 'metaPosition', '' ),
+			'enable_author'                  => magazine_blocks_array_get( $attributes, 'enableAuthor', '' ),
+			'enable_date'                    => magazine_blocks_array_get( $attributes, 'enableDate', '' ),
+			'enable_readtime'                => magazine_blocks_array_get( $attributes, 'enableReadTime', '' ),
+			'enable_viewcount'               => magazine_blocks_array_get( $attributes, 'enableViewCount', '' ),
+			'enable_icon'                    => magazine_blocks_array_get( $attributes, 'enableIcon', '' ),
+			'enable_meta_separator'          => magazine_blocks_array_get( $attributes, 'enableMetaSeparator', '' ),
+			'meta_separator_position'        => magazine_blocks_array_get( $attributes, 'metaSeparatorPosition', '' ),
+
+			// Excerpt settings.
+			'enable_excerpt'                 => magazine_blocks_array_get( $attributes, 'enableExcerpt', '' ),
+			'excerpt_limit'                  => magazine_blocks_array_get( $attributes, 'excerptLimit', '' ),
+
+			// Read more settings.
+			'enable_readmore'                => magazine_blocks_array_get( $attributes, 'enableReadMore', '' ),
+			'read_more_text'                 => magazine_blocks_array_get( $attributes, 'readMoreText', '' ),
+
+			// Post box settings.
+			'enable_post_box_border'         => magazine_blocks_array_get( $attributes, 'enablePostBoxBorder', 'true' ),
+
+			// Post title settings.
+			'post_title_markup'              => magazine_blocks_sanitize_html_tag(
+				magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' ),
+				'h3'
+			),
+			'enable_post_title_border'       => magazine_blocks_array_get( $attributes, 'enablePostTitleBorder', 'true' ),
+
+			// View more settings.
+			'enable_view_more'               => magazine_blocks_array_get( $attributes, 'enableViewMore', '' ),
+			'view_more_text'                 => magazine_blocks_array_get( $attributes, 'viewMoreText', '' ),
+			'view_button_position'           => magazine_blocks_array_get( $attributes, 'viewButtonPosition', '' ),
+			'enable_view_more_icon'          => magazine_blocks_array_get( $attributes, 'enableViewMoreIcon', '' ),
+			'view_more_icon'                 => magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' ),
+			'view_more_url'                  => magazine_blocks_array_get( $attributes, 'viewMoreLink', array() ),
+
+			// Theme override.
+			'enable_override_category_color' => get_theme_mod( 'colormag_enable_override_category_color', false ),
+		);
+	}
+
+	/**
+	 * Build WP_Query based on attributes.
+	 *
+	 * @param array $attrs Processed attributes.
+	 * @return WP_Query
+	 */
+	protected function build_query( $attrs ) {
 		$args = array(
-			'post_type'           => $post_type,
-			'posts_per_page'      => $post_count,
-			'status'              => 'publish',
-			'cat'                 => $category,
-			'tag_id'              => $tag,
-			'orderby'             => $order_by,
-			'order'               => $order_type,
-			'author'              => $author,
-			'category__not_in'    => $excluded_category,
+			'post_type'           => $attrs['post_type'],
+			'posts_per_page'      => $attrs['post_count'],
+			'post_status'         => 'publish',
+			'cat'                 => $attrs['category'],
+			'tag_id'              => $attrs['tag'],
+			'orderby'             => $attrs['order_by'],
+			'order'               => $attrs['order_type'],
+			'author'              => 'all' === $attrs['author'] ? '' : $attrs['author'],
+			'category__not_in'    => $attrs['excluded_category'],
 			'ignore_sticky_posts' => 1,
 		);
 
-		$cat_name = get_cat_name( $category );
+		return $this->query_builder->build_query( $args );
+	}
 
-		$cat_name = empty( $cat_name ) ? 'Latest' : $cat_name;
-
-		$type = get_query_var( 'mzb_template_type' );
-
-		if ( in_array( $type, array( 'archive', 'search', 'single', 'front' ), true ) ) {
-			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
-			switch ( get_query_var( 'mzb_template_type' ) ) {
-				case 'archive':
-					if ( is_archive() ) {
-						if ( is_category() ) {
-							$args['category_name'] = get_query_var( 'category_name' );
-						} elseif ( is_tag() ) {
-							$args['tag'] = get_query_var( 'tag' );
-						} elseif ( is_author() ) {
-							$args['author'] = get_query_var( 'author' );
-						}
-					}
-					break;
-				case 'search':
-					$args['s'] = get_search_query();
-					break;
-			}
-		}
-
-		$query = new WP_Query(
-			$args
+	/**
+	 * Render the main block HTML structure.
+	 *
+	 * @param WP_Query $query WP_Query object.
+	 * @param array    $attributes Block attributes.
+	 * @return string Rendered HTML.
+	 */
+	protected function render_block( $query, $attributes ) {
+		$classes = array(
+			'mzb-slider',
+			'mzb-slider-' . $attributes['client_id'],
+			$attributes['class_name'],
+			$attributes['hide_on_desktop'] ? 'magazine-blocks-hide-on-desktop' : '',
+			'mzb-arrow-position-' . $attributes['arrow_position'],
+			'mzb-arrow-horizontal-placement--' . $attributes['arrow_horizontal_placement'],
 		);
 
-		# The Loop.
-		$html = '';
+		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
 
-		if ( $query->have_posts() ) {
-			$html .= '<div class="mzb-slider mzb-slider-' . $client_id . ' ' . $class_name .
-				( $hide_on_desktop ? 'magazine-blocks-hide-on-desktop' : '' ) . 'mzb-arrow-position-' . $arrow_position . ' mzb-arrow-horizontal-placement--' . $arrow_horizontal_placement . '">';
-			if ( $enable_heading || ( $enable_view_more && 'top' === $view_button_position ) ) {
-				$html .= '<div class="mzb-post-heading mzb-' . $heading_layout . ' mzb-' . $heading_style . '">';
-				if ( $enable_heading ) {
-					$html .= '<h2 class="mzb-heading-text">' . esc_html( $label ) . '</h2>';
-				}
-				if ( $enable_view_more && 'top' === $view_button_position ) {
-					$html .= '<div class="mzb-view-more"><a href="' . $href . '"' . $target . $rel . '>';
-					$html .= '<p>' . $view_more_text . '</p>';
-					if ( $enable_view_more_icon ) {
-						$html .= $get_icon;
-					}
-					$html .= '</a></div>';
-				}
-				$html .= '</div>';
-			}
+		// Render heading section.
+		$html .= $this->render_heading_section( $attributes );
 
-			if ( 'top' === $arrow_position && $enable_arrow ) {
-				$html .= '<div class="swiper-button-prev"></div>';
-				$html .= '<div class="swiper-button-next"></div>';
-			}
-			$html .= '<div class="swiper" data-swiper=' . htmlspecialchars_decode( wp_json_encode( $slider_args ) ) . '>';
-			$html .= '<div class="swiper-wrapper">';
-
-			while ( $query->have_posts() ) {
-				$html .= '<div class="swiper-slide ' . ( $slider_style ? $slider_style : 'style1' ) . '">';
-				$query->the_post();
-				$id       = get_post_thumbnail_id();
-				$src      = wp_get_attachment_image_src( $id );
-				$src      = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-				$image    = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
-				$title    = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
-				$category = '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>';
-				$author   = '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' : '' ) . get_the_author_posts_link() . '</span>';
-				$date     = '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-								<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-							</svg>' : '' ) .
-					'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>';
-				$html    .= '';
-				$html    .= $image;
-				$html    .= ( 'style2' === $slider_style ) ? '<div class="mzb-overlay">' : '';
-				$html    .= '<div class="mzb-post-content">';
-				if ( $enable_category ) {
-					$html .= '<div class="mzb-post-meta">';
-					$html .= $category;
-					$html .= '</div>';
-				}
-				if ( 'top' === $meta_position ) {
-					if ( $enable_author || $enable_date ) {
-						$html .= '<div class="mzb-post-entry-meta">';
-						$html .= $enable_author ? $author : '';
-						$html .= '';
-						$html .= $enable_date ? $date : '';
-						$html .= '</div>';
-					}
-				}
-				$html .= $title;
-				if ( 'bottom' === $meta_position ) {
-					if ( $enable_author || $enable_date ) {
-						$html .= '<div class="mzb-post-entry-meta">';
-						$html .= $enable_author ? $author : '';
-						$html .= '';
-						$html .= $enable_date ? $date : '';
-						$html .= '</div>';
-					}
-				}
-				if ( $enable_excerpt || $enable_readmore ) {
-					$html .= '<div class="mzb-entry-content">';
-					$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-					$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-					$html .= '</div>';
-				}
-				$html .= ( 'style2' === $slider_style ) ? '</div>' : '';
-				$html .= '</div>';
-				$html .= '</div>';
-			}
-
-			$html .= '</div>';
-
-			if ( $enable_pagination && 'inside-swiper' === $dot_position ) {
-				$html .= '<div class="swiper-pagination"></div>';
-			}
-			if ( 'center' === $arrow_position && $enable_arrow && 'inside' === $arrow_horizontal_placement ) {
-				$html .= '<div class="swiper-button-prev"></div>';
-				$html .= '<div class="swiper-button-next"></div>';
-			}
-			$html .= '</div>';
-			if ( 'bottom' === $arrow_position && $enable_arrow ) {
-				$html .= '<div class="swiper-button-prev"></div>';
-				$html .= '<div class="swiper-button-next"></div>';
-			}
-			if ( $enable_view_more && 'bottom' === $view_button_position ) {
-				$html .= '<div class="mzb-view-more"><a href="' . esc_url( $view_more_url ) . '">';
-				$html .= '<p>' . $view_more_text . '</p>';
-				if ( $enable_view_more_icon ) {
-					$html .= $get_icon;
-				}
-				$html .= '</a></div>';
-			}
-			if ( 'center' === $arrow_position && $enable_arrow && ( 'outside' === $arrow_horizontal_placement || 'in-between' === $arrow_horizontal_placement ) ) {
-				$html .= '<div class="swiper-button-prev"></div>';
-				$html .= '<div class="swiper-button-next"></div>';
-			}
-			if ( $enable_pagination && 'outside-swiper' === $dot_position ) {
-				$html .= '<div class="swiper-pagination swiper-pagination--outside-swiper"></div>';
-			}
-			$html .= '</div>';
-			wp_reset_postdata();
+		// Render top arrows.
+		if ( 'top' === $attributes['arrow_position'] && $attributes['enable_arrow'] ) {
+			$html .= $this->render_arrows();
 		}
+
+		// Render slider.
+		$html .= $this->render_slider( $query, $attributes );
+
+		// Render bottom arrows.
+		if ( 'bottom' === $attributes['arrow_position'] && $attributes['enable_arrow'] ) {
+			$html .= $this->render_arrows();
+		}
+
+		// Render bottom view more link.
+		if ( $attributes['enable_view_more'] && 'bottom' === $attributes['view_button_position'] ) {
+			$html .= $this->render_view_more_link( $attributes, 'bottom' );
+		}
+
+		// Render outside arrows.
+		if (
+			'center' === $attributes['arrow_position'] && $attributes['enable_arrow'] &&
+			( 'outside' === $attributes['arrow_horizontal_placement'] || 'in-between' === $attributes['arrow_horizontal_placement'] )
+		) {
+			$html .= $this->render_arrows();
+		}
+
+		// Render outside pagination.
+		if ( $attributes['enable_pagination'] && 'outside-swiper' === $attributes['dot_position'] ) {
+			$html .= '<div class="swiper-pagination swiper-pagination--outside-swiper"></div>';
+		}
+
+		$html .= '</div>';
+
+		wp_reset_postdata();
 		return $html;
+	}
+
+	/**
+	 * Render heading section.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return string Heading HTML.
+	 */
+	protected function render_heading_section( $attributes ) {
+		if ( ! $attributes['enable_heading'] && ! ( $attributes['enable_view_more'] && 'top' === $attributes['view_button_position'] ) ) {
+			return '';
+		}
+
+		$html = sprintf(
+			'<div class="mzb-post-heading mzb-%s mzb-%s">',
+			esc_attr( $attributes['heading_layout'] ),
+			esc_attr( $attributes['heading_style'] )
+		);
+
+		if ( $attributes['enable_heading'] ) {
+			$html .= sprintf(
+				'<h2 class="mzb-heading-text">%s</h2>',
+				esc_html( $attributes['label'] )
+			);
+		}
+
+		if ( $attributes['enable_view_more'] && 'top' === $attributes['view_button_position'] ) {
+			$html .= $this->render_view_more_link( $attributes, 'top' );
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render slider container.
+	 *
+	 * @param WP_Query $query WP_Query object.
+	 * @param array    $attributes Block attributes.
+	 * @return string Slider HTML.
+	 */
+	protected function render_slider( $query, $attributes ) {
+		$html = sprintf(
+			'<div class="swiper" data-swiper=%s>',
+			htmlspecialchars_decode( wp_json_encode( $attributes['slider_args'] ) )
+		);
+
+		$html .= '<div class="swiper-wrapper">';
+
+		// Render slides.
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			$html .= $this->render_slide( get_the_ID(), $attributes );
+		}
+
+		$html .= '</div>';
+
+		// Render inside pagination.
+		if ( $attributes['enable_pagination'] && 'inside-swiper' === $attributes['dot_position'] ) {
+			$html .= '<div class="swiper-pagination"></div>';
+		}
+
+		// Render inside arrows.
+		if ( 'center' === $attributes['arrow_position'] && $attributes['enable_arrow'] && 'inside' === $attributes['arrow_horizontal_placement'] ) {
+			$html .= $this->render_arrows();
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render individual slide.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $attributes Block attributes.
+	 * @return string Slide HTML.
+	 */
+	protected function render_slide( $post_id, $attributes ) {
+		$classes = array(
+			'swiper-slide',
+			$attributes['slider_style'] ? $attributes['slider_style'] : 'style1',
+			$attributes['enable_post_box_border'] ? ' mzb-post-box-border' : '',
+		);
+
+		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+
+		// Render featured image.
+		$html .= $this->render_featured_image( $post_id, $attributes );
+
+		// Add overlay for style2.
+		if ( 'style2' === $attributes['slider_style'] ) {
+			$html .= '<div class="mzb-overlay">';
+		}
+
+		// Render content.
+		$html .= $this->render_slide_content( $post_id, $attributes );
+
+		// Close overlay for style2.
+		if ( 'style2' === $attributes['slider_style'] ) {
+			$html .= '</div>';
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render featured image.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $attributes Block attributes.
+	 * @return string Featured image HTML.
+	 */
+	protected function render_featured_image( $post_id, $attributes ) {
+		$src = has_post_thumbnail( $post_id ) ? get_the_post_thumbnail_url( $post_id ) : '';
+		if ( ! $src ) {
+			return '';
+		}
+
+		$classes = array( 'mzb-featured-image' );
+		if ( 'style3' === $attributes['slider_style'] && 'in-image' === $attributes['category_position'] ) {
+			$classes[] = 'mzb-category--inside-image';
+		}
+
+		$html = sprintf(
+			'<div class="%s"><a href="%s" alt="%s"><img src="%s" alt="%s"/></a>',
+			implode( ' ', $classes ),
+			esc_url( get_the_permalink( $post_id ) ),
+			esc_attr( get_the_title( $post_id ) ),
+			esc_url( $src ),
+			esc_attr( get_the_title( $post_id ) )
+		);
+
+		// Render in-image category meta.
+		if ( $attributes['enable_category'] && 'style3' === $attributes['slider_style'] && 'in-image' === $attributes['category_position'] ) {
+			$html .= '<div class="mzb-post-meta">';
+			$html .= $this->render_categories( $post_id, $attributes['enable_override_category_color'] );
+			$html .= '</div>';
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render slide content.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $attributes Block attributes.
+	 * @return string Content HTML.
+	 */
+	protected function render_slide_content( $post_id, $attributes ) {
+		$html = '<div class="mzb-post-content">';
+
+		// Render category meta.
+		if ( $attributes['enable_category'] && ( 'style3' !== $attributes['slider_style'] || 'out-image' === $attributes['category_position'] ) ) {
+			$html .= '<div class="mzb-post-meta">';
+			$html .= $this->render_categories( $post_id, $attributes['enable_override_category_color'] );
+			$html .= '</div>';
+		}
+
+		// Render top meta.
+		if ( 'top' === $attributes['meta_position'] ) {
+			$html .= $this->render_post_meta_info( $post_id, $attributes );
+		}
+		// Render title.
+		$title_classes = array(
+			'mzb-post-title',
+			$attributes['enable_post_title_border'] ? ' mzb-post-title-border' : '',
+		);
+		$html         .= sprintf(
+			'<%s class="%s"><a href="%s">%s</a></%s>',
+			$attributes['post_title_markup'],
+			implode( ' ', array_filter( $title_classes ) ),
+			esc_url( get_the_permalink( $post_id ) ),
+			get_the_title( $post_id ),
+			$attributes['post_title_markup']
+		);
+
+		// Render bottom meta.
+		if ( 'bottom' === $attributes['meta_position'] ) {
+			$html .= $this->render_post_meta_info( $post_id, $attributes );
+		}
+
+		// Render excerpt and read more.
+		if ( $attributes['enable_excerpt'] || $attributes['enable_readmore'] ) {
+			$html .= $this->render_excerpt_and_read_more( $post_id, $attributes );
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render post meta information.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $attributes Block attributes.
+	 * @return string Post meta HTML.
+	 */
+	protected function render_post_meta_info( $post_id, $attributes ) {
+		if (
+			! $attributes['enable_author'] && ! $attributes['enable_date'] &&
+			! $attributes['enable_readtime'] && ! $attributes['enable_viewcount']
+		) {
+			return '';
+		}
+
+		$classes = array( 'mzb-post-entry-meta' );
+		if ( $attributes['enable_meta_separator'] && $attributes['meta_separator'] ) {
+			$classes[] = 'mzb-meta-separator--' . $attributes['meta_separator_position'];
+		}
+
+		$html = sprintf( '<div class="%s">', implode( ' ', $classes ) );
+
+		if ( $attributes['enable_author'] ) {
+			$html .= $this->render_author( $post_id, $attributes['enable_icon'] );
+		}
+
+		if ( $attributes['enable_date'] ) {
+			$html .= $this->render_date( $post_id, $attributes['enable_icon'] );
+		}
+
+		if ( $attributes['enable_readtime'] ) {
+			$html .= $this->render_read_time( $post_id, $attributes['enable_icon'] );
+		}
+
+		if ( $attributes['enable_viewcount'] ) {
+			$html .= $this->render_view_count( $post_id, $attributes['enable_icon'] );
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render excerpt and read more content.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $attributes Block attributes.
+	 * @return string Excerpt and read more HTML.
+	 */
+	protected function render_excerpt_and_read_more( $post_id, $attributes ) {
+		$html = '<div class="mzb-entry-content">';
+
+		if ( $attributes['enable_excerpt'] ) {
+			// Set custom excerpt length.
+			add_filter(
+				'excerpt_length',
+				function () use ( $attributes ) {
+					return $attributes['excerpt_limit'];
+				}
+			);
+
+			$excerpt = get_the_excerpt( $post_id );
+			remove_filter( 'excerpt_length', function () {} );
+
+			$html .= sprintf( '<div class="mzb-entry-summary"><p>%s</p></div>', $excerpt );
+		}
+
+		if ( $attributes['enable_readmore'] ) {
+			$html .= sprintf(
+				'<div class="mzb-read-more"><a href="%s">%s</a></div>',
+				esc_url( get_the_permalink( $post_id ) ),
+				esc_html( $attributes['read_more_text'] )
+			);
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render view more link.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $position Link position.
+	 * @return string View more HTML.
+	 */
+	protected function render_view_more_link( $attributes, $position = '' ) {
+		if ( empty( $attributes['enable_view_more'] ) ) {
+			return '';
+		}
+
+		$href   = $attributes['view_more_url']['url'] ?? '';
+		$target = ! empty( $attributes['view_more_url']['newTab'] ) ? ' target="_blank"' : '';
+		$rel    = ! empty( $attributes['view_more_url']['noFollow'] ) ? ' rel="nofollow"' : '';
+		$icon   = $attributes['enable_view_more_icon'] ? magazine_blocks_get_icon( $attributes['view_more_icon'], false ) : '';
+
+		return sprintf(
+			'<div class="mzb-view-more%s"><a href="%s"%s%s>
+				<p>%s</p>%s
+			</a></div>',
+			$position ? ' mzb-view-more--' . $position : '',
+			esc_url( $href ),
+			$target,
+			$rel,
+			esc_html( $attributes['view_more_text'] ),
+			$icon
+		);
+	}
+
+	/**
+	 * Render navigation arrows.
+	 *
+	 * @return string Arrows HTML.
+	 */
+	protected function render_arrows() {
+		return '<div class="swiper-button-prev"></div><div class="swiper-button-next"></div>';
+	}
+
+	/**
+	 * Render categories with optional color override.
+	 *
+	 * @param int  $post_id Post ID.
+	 * @param bool $enable_override_color Whether to enable color override.
+	 * @return string Categories HTML.
+	 */
+	protected function render_categories( $post_id, $enable_override_color = false ) {
+		$categories = get_the_category_list( ' ', '', $post_id );
+		if ( ! $categories ) {
+			return '';
+		}
+
+		// Add category link classes for color override.
+		if ( $enable_override_color ) {
+			$categories = preg_replace_callback(
+				'/<a(.+?)href="([^"]+)"(.+?)>([^<]+)<\/a>/',
+				function ( $matches ) {
+					$cat_id = get_cat_ID( $matches[4] );
+					return sprintf(
+						'<a%shref="%s"%s style="%s">%s</a>',
+						$matches[1],
+						$matches[2],
+						$matches[3],
+						function_exists( 'colormag_category_color' ) ? 'background-color:' . colormag_category_color( $cat_id ) . ';' : '',
+						$matches[4]
+					);
+				},
+				$categories
+			);
+		}
+
+		return '<span class="mzb-post-categories">' . $categories . '</span>';
 	}
 }

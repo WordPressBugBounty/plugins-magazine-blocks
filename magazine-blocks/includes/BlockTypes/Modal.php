@@ -7,12 +7,17 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\HasRender;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Modal block.
  */
-class Modal extends AbstractBlock {
+class Modal extends Block {
+
+	use HasRender;
 
 	/**
 	 * Block name.

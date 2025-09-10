@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
 
 use MagazineBlocks\Traits\Singleton;
 use JsonMachine\Items;
+use MagazineBlocks\Services\OpenWeather;
 
 /**
  * Register and enqueue scripts for plugin.
@@ -78,7 +79,7 @@ class ScriptStyle {
 	/**
 	 * Get asset url.
 	 *
-	 * @param string $filename Asset filename.
+	 * @param string  $filename Asset filename.
 	 * @param boolean $dev Has dev url.
 	 * @return string
 	 */
@@ -214,7 +215,7 @@ class ScriptStyle {
 
 	/**
 	 * Register styles.
-	 *S
+	 *
 	 * @return void
 	 */
 	public function register_styles() {
@@ -323,21 +324,24 @@ class ScriptStyle {
 		$font_awesome_icons    = iterator_to_array( Items::fromFile( Icon::FONT_AWESOME_ICONS_PATH ) );
 		$magazine_blocks_icons = iterator_to_array( Items::fromFile( Icon::MAGAZINE_BLOCKS_ICONS_PATH ) );
 		$google_fonts          = Items::fromFile( MAGAZINE_BLOCKS_PLUGIN_DIR . '/assets/json/google-fonts.json' );
-		$localized_scripts     = apply_filters(
+		$open_weather          = OpenWeather::init();
+
+		$localized_scripts = apply_filters(
 			'magazine_blocks_localize_block_scripts',
 			array(
 				'name' => '_MAGAZINE_BLOCKS_',
 				'data' => array(
 					'isNotPostEditor' => 'widgets.php' === $pagenow || 'customize.php' === $pagenow,
 					'isWP59OrAbove'   => is_wp_version_compatible( '5.9' ),
-					'temperature'     => Helper::show_temp(),
-					'weather'         => Helper::show_weather(),
-					'location'        => Helper::show_location(),
+					'apiStatus'       => $open_weather->is_api_connected(),
+					'temperature'     => $open_weather->show_temp(),
+					'weather'         => $open_weather->show_weather(),
+					'location'        => $open_weather->show_location(),
 					'apiKey'          => get_option( 'dateWeatherApiKey' ),
 					'postalCode'      => get_option( 'dateWeatherZipCode' ),
 					'latitude'        => get_option( 'dateWeatherLatitude' ),
 					'longitude'       => get_option( 'dateWeatherLongitude' ),
-					'unit'            => get_option( 'integrations.dateWeatherUnit' ),
+					'unit'            => magazine_blocks_get_setting( 'integrations.dateWeatherUnit', 'imperial' ),
 					'nonce'           => wp_create_nonce( '_magazine_blocks_nonce' ),
 					'ajaxUrl'         => admin_url( 'admin-ajax.php' ),
 					'mediaItems'      => $this->get_media_items(),

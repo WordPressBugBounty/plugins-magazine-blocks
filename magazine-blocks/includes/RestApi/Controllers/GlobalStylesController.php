@@ -60,7 +60,6 @@ class GlobalStylesController extends \WP_REST_Controller {
 	/**
 	 * Create a single item.
 	 *
-	 *
 	 * @param \WP_REST_Request $request Full details about the request.
 	 *
 	 * @return WP_Error|WP_REST_Response
@@ -71,7 +70,7 @@ class GlobalStylesController extends \WP_REST_Controller {
 
 			unset( $styles['_locale'] );
 
-			$styles_json = json_encode( $styles );
+			$styles_json = wp_json_encode( $styles );
 			update_option( 'magazine-blocks_global_styles', $styles_json );
 			return new \WP_REST_Response( 'Styles updated successfully.', 200 );
 		} catch ( \Exception $e ) {
@@ -99,7 +98,6 @@ class GlobalStylesController extends \WP_REST_Controller {
 
 	/**
 	 * Check if a given request has access to update an item.
-	 *
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|boolean

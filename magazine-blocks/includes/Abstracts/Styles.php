@@ -66,7 +66,7 @@ abstract class Styles {
 	 * Constructor.
 	 */
 	public function __construct( $id ) {
-		$this->id      = $id;
+		$this->id = $id;
 
 		$this->maybe_generate();
 	}
@@ -158,7 +158,7 @@ abstract class Styles {
 
 		array_walk(
 			$this->fonts,
-			function( &$value, $key ) {
+			function ( &$value, $key ) {
 				$value = trim( $key ) . ':' . trim( rawurlencode( implode( ',', array_unique( $value ) ) ) );
 			}
 		);

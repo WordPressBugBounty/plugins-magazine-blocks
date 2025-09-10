@@ -7,7 +7,7 @@
   "keywords": [
     "breadcrumbs"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-utility-blocks",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -185,8 +185,7 @@
     "typography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 400
+        "typography": 1
       },
       "style": [
         {

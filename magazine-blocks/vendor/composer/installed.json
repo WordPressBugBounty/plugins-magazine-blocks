@@ -155,17 +155,17 @@
         },
         {
             "name": "halaxa/json-machine",
-            "version": "1.2.4",
-            "version_normalized": "1.2.4.0",
+            "version": "1.2.5",
+            "version_normalized": "1.2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/halaxa/json-machine.git",
-                "reference": "ca1e2fc61d3596655e5480e192ef30ad67478ad4"
+                "reference": "d0f84abf79ac98145d478b66d2bcf363d706477c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/ca1e2fc61d3596655e5480e192ef30ad67478ad4",
-                "reference": "ca1e2fc61d3596655e5480e192ef30ad67478ad4",
+                "url": "https://api.github.com/repos/halaxa/json-machine/zipball/d0f84abf79ac98145d478b66d2bcf363d706477c",
+                "reference": "d0f84abf79ac98145d478b66d2bcf363d706477c",
                 "shasum": ""
             },
             "require": {
@@ -181,7 +181,7 @@
                 "ext-json": "To run JSON Machine out of the box without custom decoders.",
                 "guzzlehttp/guzzle": "To run example with GuzzleHttp"
             },
-            "time": "2025-06-16T07:42:34+00:00",
+            "time": "2025-07-07T13:38:34+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -208,7 +208,7 @@
             "description": "Efficient, easy-to-use and fast JSON pull parser",
             "support": {
                 "issues": "https://github.com/halaxa/json-machine/issues",
-                "source": "https://github.com/halaxa/json-machine/tree/1.2.4"
+                "source": "https://github.com/halaxa/json-machine/tree/1.2.5"
             },
             "funding": [
                 {

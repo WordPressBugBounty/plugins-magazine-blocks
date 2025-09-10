@@ -1,253 +1,420 @@
-(function ($) {
+!(function (t, e) {
 	"use strict";
-	$.fn.MzbTicker = function (options) {
-		/*Merge options and default options*/
-		const opts = $.extend({}, $.fn.MzbTicker.defaults, options);
+	"object" == typeof module &&
+		"object" == typeof module.exports &&
+		(module.exports = t.document
+			? void 0
+			: function (t) {
+					if (!t.document)
+						throw new Error(
+							"jQuery requires a window with a document"
+						);
+			  });
+})("undefined" != typeof window ? window : this),
+	(function (t) {
+		"use strict";
 
-		/*Functions Scope*/
-		let thisTicker = $(this),
-			intervalID,
-			timeoutID,
-			isPause = false;
+		// Modern News Ticker Implementation
+		t.newsTickerInit = function (element, options = {}) {
+			const ticker = t(element);
+			if (!ticker.length) return;
 
-		/*Always wrap, used in many place*/
-		thisTicker.wrap("<div class='mzbticker-wrap'></div>");
+			const settings = {
+				effect: options.effect || "fade",
+				direction: options.direction || "ltr",
+				delayTimer: options.delayTimer || 4000,
+				play: options.play !== false,
+				scrollSpeed: options.scrollSpeed || 2,
+				stopOnHover: options.stopOnHover !== false,
+			};
 
-		/*Wrap is always relative*/
-		thisTicker.parent().css({
-			position: "relative",
-		});
-		/*Hide expect first*/
-		thisTicker.children("li").not(":first").hide();
+			const items = ticker.find(".mzb-news-ticker-list li");
+			const totalPosts = items.length;
 
-		/*Lets init*/
-		init();
+			if (totalPosts === 0) return;
 
-		// Add arrow click handlers when arrows are enabled
-		if (opts.controls.prev || opts.controls.next) {
-			// Previous button click handler
-			$(opts.controls.prev).on("click", function (e) {
-				e.preventDefault();
-				handleNavigation("prev");
-			});
+			let currentIndex = 0;
+			let intervalId = null;
+			let isPlaying = settings.play;
+			let animationFrameId = null;
+			let scrollPosition = 0;
+			let originalWidth = 0;
 
-			// Next button click handler
-			$(opts.controls.next).on("click", function (e) {
-				e.preventDefault();
-				handleNavigation("next");
-			});
+			// Initialize ticker based on effect
+			const initializeTicker = () => {
+				// Ensure we have items to work with
+				if (totalPosts === 0) return;
+				
+				// Mark as not initialized initially
+				ticker.attr("data-initialized", "false");
 
-			// Or use class-based selectors if controls are added directly in HTML
-			$(".mzb-news-ticker-nav-btn.prev").on("click", function (e) {
-				e.preventDefault();
-				handleNavigation("prev");
-			});
-
-			$(".mzb-news-ticker-nav-btn.next").on("click", function (e) {
-				e.preventDefault();
-				handleNavigation("next");
-			});
-		}
-
-		function handleNavigation(direction) {
-			// Clear any existing animations and intervals
-			clearInterval(intervalID);
-			intervalID = false;
-			thisTicker.find("li").stop(true, true);
-
-			// Trigger the animation
-			switch (opts.type) {
-				case "vertical":
-				case "horizontal":
-					vertiZontal(direction);
-					break;
-				case "typewriter":
-					typeWriter(direction);
-					break;
-			}
-		}
-
-		function init() {
-			switch (opts.type) {
-				case "vertical":
-				case "horizontal":
-					vertiZontal();
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		/*Vertical - horizontal
-		 * **Do not change code lines*/
-		function vertiZontal(prevNext = false) {
-			let speed = opts.speed,
-				autoplay = opts.autoplay,
-				direction = opts.direction;
-
-			if (prevNext) {
-				speed = 0;
-				autoplay = 0;
-				clearInterval(intervalID);
-				intervalID = false;
-			}
-
-			function play() {
-				if (isPause) {
-					clearInterval(intervalID);
-					intervalID = false;
-					return false;
-				}
-				let dChild, eqType, mType, mVal;
-
-				dChild = thisTicker.find("li:first");
-				if (direction === "up" || direction === "right") {
-					eqType = "-=";
-				} else {
-					eqType = "+=";
-				}
-				if (opts.type === "horizontal") {
-					mType = "left";
-					mVal = dChild.outerWidth(true);
-				} else {
-					mType = "margin-top";
-					mVal = dChild.outerHeight(true);
-				}
-				if (prevNext === "prev") {
-					thisTicker.find("li:last").detach().prependTo(thisTicker);
-				} else {
-					dChild.detach().appendTo(thisTicker);
-				}
-
-				thisTicker.find("li").css({
-					opacity: "0",
-					display: "none",
-				});
-				thisTicker.find("li:first").css({
-					opacity: "1",
-					position: "absolute",
-					display: "block",
-					width: "100%",
-					[mType]: eqType + mVal + "px",
-				});
-				thisTicker
-					.find("li:first")
-					.animate({ [mType]: "0px" }, speed, function () {
-						clearInterval(intervalID);
-						intervalID = false;
-						vertiZontal();
+				// First, hide ALL items completely
+				items.each(function (idx) {
+					const element = t(this);
+					element.css({
+						display: "none",
+						position: "relative",
+						left: "0",
+						top: "0",
+						opacity: "0",
+						transform: "translateX(0)",
+						transition: "none",
+						visibility: "hidden",
+						zIndex: "-1"
 					});
-			}
-			if (intervalID) {
-				return false;
-			}
-			intervalID = setInterval(play, autoplay);
-		}
+				});
 
-		/*Type-Writer
-		 * **Do not change code lines*/
-		function typeWriter(prevNext = false) {
-			if (isPause) {
-				return false;
-			}
-			if (prevNext) {
-				clearInterval(intervalID);
-				intervalID = false;
-
-				clearTimeout(timeoutID);
-				timeoutID = false;
-
-				if (prevNext === "prev") {
-					thisTicker.find("li:last").detach().prependTo(thisTicker);
-				} else {
-					thisTicker.find("li:first").detach().appendTo(thisTicker);
-				}
-			}
-
-			let speed = opts.speed,
-				autoplay = opts.autoplay,
-				typeEl = thisTicker.find("li:first"),
-				wrapEl = typeEl.children(),
-				count = 0;
-
-			if (typeEl.attr("data-text")) {
-				wrapEl.text(typeEl.attr("data-text"));
-			}
-
-			const allText = typeEl.text();
-
-			thisTicker.find("li").css({
-				opacity: "0",
-				display: "none",
-			});
-
-			function tNext() {
-				thisTicker.find("li:first").detach().appendTo(thisTicker);
-
-				clearTimeout(timeoutID);
-				timeoutID = false;
-
-				typeWriter();
-			}
-
-			function type() {
-				count++;
-				const typeText = allText.substring(0, count);
-				if (!typeEl.attr("data-text")) {
-					typeEl.attr("data-text", allText);
-				}
-
-				if (count <= allText.length) {
-					wrapEl.text(typeText);
-					typeEl.css({
-						opacity: "1",
+				if (settings.effect === "scroll") {
+					// For scroll effect, show all items and set up scrolling
+					items.css({
 						display: "block",
+						opacity: "1",
+						visibility: "visible",
+						zIndex: "1"
 					});
+					
+					// Calculate total width for seamless scrolling
+					const tickerList = ticker.find(".mzb-news-ticker-list");
+					if (tickerList.length) {
+						// Calculate original width of all items
+						originalWidth = 0;
+						items.each(function () {
+							originalWidth += t(this).outerWidth(true) + 20; // Add spacing
+						});
+						
+						// Only clone if we have enough content to scroll
+						if (originalWidth > 0) {
+							// Clone items for seamless infinite scroll
+							items.each(function () {
+								const clone = t(this).clone();
+								clone.css("display", "block");
+								tickerList.append(clone);
+							});
+						}
+					}
+					
+					if (isPlaying) {
+						startScrollAnimation();
+					}
 				} else {
-					clearInterval(intervalID);
-					intervalID = false;
-					timeoutID = setTimeout(tNext, autoplay);
+					// For other effects, show only current item
+					const currentItem = items.eq(currentIndex);
+					currentItem.css({
+						display: "block",
+						opacity: "1",
+						visibility: "visible",
+						zIndex: "1"
+					});
+					
+					if (isPlaying) {
+						startAutoPlay();
+					}
 				}
+
+				// Mark as initialized after setup
+				ticker.attr("data-initialized", "true");
+			};
+
+			// Scroll animation for continuous scrolling
+			const startScrollAnimation = () => {
+				if (settings.effect !== "scroll" || !isPlaying) return;
+
+				const tickerList = ticker.find(".mzb-news-ticker-list");
+				if (!tickerList.length) return;
+
+				const containerWidth = tickerList.parent().width() || 0;
+				
+				// Only scroll if we have enough content to scroll
+				if (originalWidth <= containerWidth) return;
+				
+				const direction = settings.direction === "rtl" ? 1 : -1;
+
+				// Calculate scroll speed based on scrollSpeed value (1-100)
+				// Higher scrollSpeed = faster scrolling
+				// Map scrollSpeed 1-100 to actual pixel speed 0.5-8 pixels per frame
+				const minSpeed = 0.5;
+				const maxSpeed = 8;
+				const actualScrollSpeed = minSpeed + (settings.scrollSpeed - 1) * (maxSpeed - minSpeed) / 99;
+
+				const animate = () => {
+					if (!isPlaying || settings.effect !== "scroll") return;
+
+					scrollPosition += actualScrollSpeed * direction;
+
+					// Reset position for seamless infinite scroll
+					if (direction === -1 && scrollPosition <= -originalWidth) {
+						scrollPosition = 0;
+					} else if (
+						direction === 1 &&
+						scrollPosition >= originalWidth
+					) {
+						scrollPosition = 0;
+					}
+
+					tickerList.css(
+						"transform",
+						`translateX(${scrollPosition}px)`
+					);
+
+					if (isPlaying) {
+						animationFrameId = requestAnimationFrame(animate);
+					}
+				};
+
+				animate();
+			};
+
+			// Auto play for fade and other effects
+			const startAutoPlay = () => {
+				if (settings.effect === "scroll") return;
+
+				intervalId = setInterval(() => {
+					if (isPlaying) {
+						nextItem();
+					}
+				}, settings.delayTimer);
+			};
+
+			// Show next item with animation
+			const nextItem = () => {
+				if (settings.effect === "scroll") return;
+
+				const currentItem = items.eq(currentIndex);
+				currentIndex = (currentIndex + 1) % totalPosts;
+				const nextItemElement = items.eq(currentIndex);
+
+				animateTransition(currentItem, nextItemElement);
+			};
+
+			// Show previous item with animation
+			const prevItem = () => {
+				if (settings.effect === "scroll") return;
+
+				const currentItem = items.eq(currentIndex);
+				currentIndex =
+					currentIndex === 0 ? totalPosts - 1 : currentIndex - 1;
+				const prevItemElement = items.eq(currentIndex);
+
+				animateTransition(currentItem, prevItemElement);
+			};
+
+			// Animate transition between items
+			const animateTransition = (fromItem, toItem) => {
+				// Calculate animation duration based on scrollSpeed (1-100)
+				// Higher scrollSpeed = faster animation, lower = slower
+				const baseDuration = 400; // Base duration in ms
+				const speedMultiplier = Math.max(
+					0.1,
+					(100 - settings.scrollSpeed) / 100
+				); // Invert so higher speed = faster
+				const animationDuration = Math.round(
+					baseDuration * speedMultiplier
+				);
+
+				// Set transition duration based on calculated speed
+				const transitionDuration = `${animationDuration}ms`;
+				fromItem.css(
+					"transition",
+					`opacity ${transitionDuration} ease-in-out, transform ${transitionDuration} ease-in-out`
+				);
+				toItem.css(
+					"transition",
+					`opacity ${transitionDuration} ease-in-out, transform ${transitionDuration} ease-in-out`
+				);
+
+				switch (settings.effect) {
+					case "fade":
+						fromItem.css("opacity", 0);
+						setTimeout(() => {
+							fromItem.css({
+								display: "none",
+								opacity: "0",
+								transform: "translateX(0)",
+								visibility: "hidden",
+								zIndex: "-1"
+							});
+							toItem.css({
+								display: "block",
+								opacity: "0",
+								visibility: "visible",
+								zIndex: "1"
+							});
+							setTimeout(() => {
+								toItem.css("opacity", 1);
+							}, 50);
+						}, animationDuration);
+						break;
+
+					case "slide-left":
+						fromItem.css({
+							opacity: 0,
+							transform: "translateX(-100%)",
+						});
+						setTimeout(() => {
+							fromItem.css({
+								display: "none",
+								transform: "translateX(0)",
+								opacity: "0",
+								visibility: "hidden",
+								zIndex: "-1"
+							});
+							toItem.css({
+								display: "block",
+								transform: "translateX(100%)",
+								opacity: "0",
+								visibility: "visible",
+								zIndex: "1"
+							});
+							setTimeout(() => {
+								toItem.css({
+									opacity: 1,
+									transform: "translateX(0)",
+								});
+							}, 50);
+						}, animationDuration);
+						break;
+
+					case "slide-right":
+						fromItem.css({
+							opacity: 0,
+							transform: "translateX(100%)",
+						});
+						setTimeout(() => {
+							fromItem.css({
+								display: "none",
+								transform: "translateX(0)",
+								opacity: "0",
+								visibility: "hidden",
+								zIndex: "-1"
+							});
+							toItem.css({
+								display: "block",
+								transform: "translateX(-100%)",
+								opacity: "0",
+								visibility: "visible",
+								zIndex: "1"
+							});
+							setTimeout(() => {
+								toItem.css({
+									opacity: 1,
+									transform: "translateX(0)",
+								});
+							}, 50);
+						}, animationDuration);
+						break;
+
+					case "none":
+						fromItem.css({
+							display: "none",
+							visibility: "hidden",
+							zIndex: "-1"
+						});
+						toItem.css({
+							display: "block",
+							visibility: "visible",
+							zIndex: "1"
+						});
+						break;
+
+					default:
+						fromItem.css({
+							display: "none",
+							visibility: "hidden",
+							zIndex: "-1"
+						});
+						toItem.css({
+							display: "block",
+							visibility: "visible",
+							zIndex: "1"
+						});
+				}
+			};
+
+			// Handle navigation clicks
+			ticker.on("click", ".mzb-news-ticker-nav-btn", function (e) {
+				e.preventDefault();
+				const action = t(this).data("action");
+
+				if (action === "prev") {
+					prevItem();
+				} else if (action === "next") {
+					nextItem();
+				}
+			});
+
+			// Handle hover events for stop on hover
+			if (settings.stopOnHover) {
+				ticker.on("mouseenter", function () {
+					isPlaying = false;
+					if (intervalId) {
+						clearInterval(intervalId);
+						intervalId = null;
+					}
+					if (animationFrameId) {
+						cancelAnimationFrame(animationFrameId);
+						animationFrameId = null;
+					}
+				});
+
+				ticker.on("mouseleave", function () {
+					if (settings.play) {
+						isPlaying = true;
+						if (settings.effect === "scroll") {
+							startScrollAnimation();
+						} else {
+							startAutoPlay();
+						}
+					}
+				});
 			}
-			if (!intervalID) {
-				intervalID = setInterval(type, speed);
-			}
-		}
 
-		return this;
-	};
+			// Initialize the ticker with a slight delay to ensure DOM is ready
+			setTimeout(() => {
+				initializeTicker();
+			}, 50);
 
-	// plugin defaults - added as a property on our plugin function
-	$.fn.MzbTicker.defaults = {
-		/*Note: Marquee only take speed not autoplay*/
-		type: "horizontal" /*vertical/horizontal/marquee/typewriter*/,
-		autoplay: 2000 /*true/false/number*/ /*For vertical/horizontal 4000*/ /*For typewriter 2000*/,
-		speed: 50 /*true/false/number*/ /*For vertical/horizontal 600*/ /*For marquee 0.05*/ /*For typewriter 50*/,
-		direction:
-			"up" /*up/down/left/right*/ /*For vertical up/down*/ /*For horizontal/marquee right/left*/ /*For typewriter direction doesnot work*/,
-		pauseOnFocus: true,
-		pauseOnHover: true,
-		controls: {
-			prev: "" /*Can be used for vertical/horizontal/typewriter*/ /*not work for marquee*/,
-			next: "" /*Can be used for vertical/horizontal/typewriter*/ /*not work for marquee*/,
-			toggle: "" /*Can be used for vertical/horizontal/marquee/typewriter*/,
-		},
-	};
-})(jQuery);
+			// Return API for external control
+			return {
+				play: () => {
+					isPlaying = true;
+					if (settings.effect === "scroll") {
+						startScrollAnimation();
+					} else {
+						startAutoPlay();
+					}
+				},
+				pause: () => {
+					isPlaying = false;
+					if (intervalId) {
+						clearInterval(intervalId);
+						intervalId = null;
+					}
+					if (animationFrameId) {
+						cancelAnimationFrame(animationFrameId);
+						animationFrameId = null;
+					}
+				},
+				next: nextItem,
+				prev: prevItem,
+			};
+		};
 
-(function ($) {
-	"use strict";
-	$(".mzb-news-ticker-list").each(function () {
-		$(this).MzbTicker({
-			type: "vertical",
-			direction: "up",
-			autoplay: 2000,
-			speed: 1000,
-			controls: {
-				prev: ".mzb-news-ticker-nav-btn.prev",
-				next: ".mzb-news-ticker-nav-btn.next",
-			},
+		// Initialize all news tickers on page load
+		t(document).ready(function () {
+			t(".mzb-news-ticker").each(function () {
+				const ticker = t(this);
+
+				// Get settings from data attributes
+				const options = {
+					effect: ticker.data("ticker-effect") || "scroll",
+					direction: ticker.data("ticker-direction") || "ltr",
+					delayTimer: ticker.data("delay-timer") || 4000,
+					play: ticker.data("auto-play") !== false,
+					scrollSpeed: ticker.data("scroll-speed") || 2,
+					stopOnHover: ticker.data("stop-on-hover") !== false,
+				};
+
+				t.newsTickerInit(this, options);
+			});
 		});
-	});
-})(jQuery);
+	})(jQuery);

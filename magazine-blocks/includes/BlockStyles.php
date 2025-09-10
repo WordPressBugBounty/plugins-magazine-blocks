@@ -343,7 +343,7 @@ class BlockStyles {
 			$attrs     = $block['attrs'];
 
 			if ( $this->has_old_button_markup ) {
-				$namespace = 'magazine-blocks/button' === $namespace ? 'magazine-blocks/button-inner' : $namespace;
+				$namespace = 'magazine-blocks/button' === $namespace ? 'magazine-blocks/button' : $namespace;
 			}
 
 			$name = explode( '/', $namespace )[1];
@@ -355,7 +355,7 @@ class BlockStyles {
 			}
 
 			if ( ! $this->has_old_button_markup ) {
-				$name = 'button-inner' === $name ? 'button' : ( 'button' === $name ? 'buttons' : $name );
+				$name = 'button' === $name ? 'button' : ( 'button' === $name ? 'buttons' : $name );
 			}
 
 			$wrapper_class = '.mzb-' . $name . '-' . $attrs['clientId'];
@@ -490,7 +490,15 @@ class BlockStyles {
 				$css['desktop'][ $selector ]['border-style'] = $style;
 
 				if ( isset( $value['color'] ) ) {
-					$css['desktop'][ $selector ]['border-color'] = $value['color'];
+					$color = is_string( $value['color'] ) ? trim( $value['color'] ) : $value['color'];
+					if ( is_string( $color ) && strpos( $color, 'linear-gradient' ) === 0 ) {
+						// Linear gradient: use border-image and border-image-slice
+						$css['desktop'][ $selector ]['border-image']       = $color . ' 1';
+						$css['desktop'][ $selector ]['border-image-slice'] = '1';
+					} else {
+						// Regular color
+						$css['desktop'][ $selector ]['border-color'] = $color;
+					}
 				}
 
 				$this->process_border_size_styles( $value, $selector, $css );
@@ -751,10 +759,10 @@ class BlockStyles {
 	/**
 	 * Generate separator css.
 	 *
-	 * @param array $value Separator value.
-	 * @param array $styles_def Styles definition.
-	 * @param array $attrs Saved attributes.
-	 * @param array $attrs_def Attributes definition.
+	 * @param array  $value Separator value.
+	 * @param array  $styles_def Styles definition.
+	 * @param array  $attrs Saved attributes.
+	 * @param array  $attrs_def Attributes definition.
 	 * @param string $wrapper_class Wrapper class.
 	 * @return void
 	 */

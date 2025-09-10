@@ -1,13 +1,13 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "name": "magazine-blocks/featured-categories",
-  "title": "Featured Categories",
+  "title": "Split Feed",
   "description": "Feature various categories and their posts",
   "keywords": [
     "featured",
     "featured-categories"
   ],
-  "category": "magazine-blocks",
+  "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {
     "className": false,
@@ -19,6 +19,14 @@
   "attributes": {
     "clientId": {
       "type": "string"
+    },
+    "authorName": {
+      "type": "string",
+      "default": ""
+    },
+    "authorName2": {
+      "type": "string",
+      "default": ""
     },
     "alignment": {
       "type": "object",
@@ -282,8 +290,7 @@
     "headingTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -396,6 +403,31 @@
         }
       ]
     },
+    "lineAccent": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-1-style-1 .mzb-heading-text::before {background-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-3-style-1::before {border-bottom-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-heading.mzb-heading-layout-8-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
+    "lineColor": {
+      "type": "string",
+      "style": [
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-2-style-1, {{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-3-style-1, {{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-4-style-1,{{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-5-style-1, {{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-6-style-1, {{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-7-style-1, {{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-9-style-1 {border-color: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-6-style-1::after, {{WRAPPER}}.mzb-featured-categories .mzb-post-heading.mzb-heading-layout-6-style-1::before {border-bottom-color: {{VALUE}}; }"
+        }
+      ]
+    },
     "featuredImageBorderRadius": {
       "type": "object",
       "default": {
@@ -413,8 +445,7 @@
     "highlightedPostTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -437,8 +468,7 @@
     "postTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -489,7 +519,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a"
+          "selector": "{{WRAPPER}} .mzb-post .mzb-post-meta .mzb-post-categories a"
         }
       ]
     },
@@ -497,7 +527,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover {fill: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}.mzb-post .mzb-post-meta .mzb-post-categories a:hover {fill: {{VALUE}}; }"
         }
       ]
     },
@@ -508,7 +538,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-categories a:hover"
+          "selector": "{{WRAPPER}} .mzb-post .mzb-post-meta .mzb-post-categories a:hover"
         }
       ]
     },
@@ -882,8 +912,7 @@
     "viewAllTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

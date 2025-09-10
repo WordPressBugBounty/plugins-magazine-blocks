@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Banner Posts block.
  *
@@ -8,18 +7,17 @@
 
 namespace MagazineBlocks\BlockTypes;
 
-use WP_Query;
-use function MagazineBlocks\mzb_numbered_pagination;
+use MagazineBlocks\Abstracts\Block;
+use MagazineBlocks\Traits\Blocks\PostRenderer;
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Button block class.
  */
-class BannerPosts extends AbstractBlock {
+class BannerPosts extends Block {
 
-
-
+	use PostRenderer;
 
 	/**
 	 * Block name.
@@ -28,442 +26,416 @@ class BannerPosts extends AbstractBlock {
 	 */
 	protected $block_name = 'banner-posts';
 
-	public function render( $attributes, $content, $block ) {
+	/**
+	 * Render the block.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string Rendered HTML output.
+	 */
+	public function render( $attributes = array(), $content = '', $block = null ) {
+		// Extract attributes.
+		$attrs = $this->extract_attributes( $attributes );
 
+		// Build the query.
+		$query = $this->build_query( $attrs );
+
+		return $this->render_block( $query, $attrs );
+	}
+
+	/**
+	 * Extracting the attributes.
+	 *
+	 * @param array $attributes The original attributes.
+	 */
+	protected function extract_attributes( $attributes ) {
 		$client_id  = magazine_blocks_array_get( $attributes, 'clientId', '' );
 		$class_name = magazine_blocks_array_get( $attributes, 'className', '' );
 
-		// General
-		$layout                  = magazine_blocks_array_get( $attributes, 'layout', '' );
-		$layout_1_advanced_style = magazine_blocks_array_get( $attributes, 'layout1AdvancedStyle', '' );
-		$layout_2_advanced_style = magazine_blocks_array_get( $attributes, 'layout2AdvancedStyle', '' );
-		$layout_3_advanced_style = magazine_blocks_array_get( $attributes, 'layout3AdvancedStyle', '' );
-		$layout_4_advanced_style = magazine_blocks_array_get( $attributes, 'layout4AdvancedStyle', '' );
-		$layout_5_advanced_style = magazine_blocks_array_get( $attributes, 'layout5AdvancedStyle', '' );
-		$container               = magazine_blocks_array_get( $attributes, 'container', '' );
+		$layout         = magazine_blocks_array_get( $attributes, 'layout', 'layout-1' );
+		$heading_layout = magazine_blocks_array_get( $attributes, 'headingLayout', 'heading-layout-1' );
 
-		// Query.
-		$category          = magazine_blocks_array_get( $attributes, 'category', '' );
-		$tag               = magazine_blocks_array_get( $attributes, 'tag', '' );
-		$excluded_category = magazine_blocks_array_get( $attributes, 'excludedCategory', '' );
-		$order_by          = magazine_blocks_array_get( $attributes, 'orderBy', '' );
-		$order_type        = magazine_blocks_array_get( $attributes, 'orderType', '' );
-		$author            = magazine_blocks_array_get( $attributes, 'authorName', '' );
-		$post_type         = magazine_blocks_array_get( $attributes, 'postType', 'post' );
+		// Get the specific advanced styles based on layout and heading layout.
+		$advanced_style = magazine_blocks_array_get( $attributes, magazine_get_style_key( $layout ), '' );
+		$heading_style  = magazine_blocks_array_get( $attributes, magazine_get_heading_style_key( $heading_layout ), '' );
 
-		// Post Title.
-		$post_title_markup = magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' );
-		$post_title_markup = magazine_blocks_sanitize_html_tag( $post_title_markup, 'h3' );
+		return array(
+			'client_id'                      => $client_id,
+			'class_name'                     => $class_name,
+			'layout'                         => $layout,
+			'advanced_style'                 => $advanced_style,
+			'heading_layout'                 => $heading_layout,
+			'heading_style'                  => $heading_style,
+			'container'                      => magazine_blocks_array_get( $attributes, 'container', '' ),
+			'category_background'            => magazine_blocks_array_get( $attributes, 'categoryBackground', '' )['color'] ?? '',
+			'enable_heading'                 => magazine_blocks_array_get( $attributes, 'enableHeading', false ),
+			'label'                          => magazine_blocks_array_get( $attributes, 'label', 'Latest' ),
+			'category'                       => magazine_blocks_array_get( $attributes, 'category', '' ),
+			'tag'                            => magazine_blocks_array_get( $attributes, 'tag', '' ),
+			'excluded_category'              => magazine_blocks_array_get( $attributes, 'excludedCategory', '' ),
+			'order_by'                       => magazine_blocks_array_get( $attributes, 'orderBy', '' ),
+			'order_type'                     => magazine_blocks_array_get( $attributes, 'orderType', '' ),
+			'author'                         => magazine_blocks_array_get( $attributes, 'authorName', '' ),
+			'post_type'                      => magazine_blocks_array_get( $attributes, 'postType', 'post' ),
+			'post_title_markup'              => magazine_blocks_sanitize_html_tag(
+				magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' ),
+				'h3'
+			),
+			'enable_category'                => magazine_blocks_array_get( $attributes, 'enableCategory', true ),
+			'enable_highlighted_category'    => magazine_blocks_array_get( $attributes, 'enableHighlightedCategory', true ),
+			'meta_position'                  => magazine_blocks_array_get( $attributes, 'metaPosition', '' ),
+			'enable_author'                  => magazine_blocks_array_get( $attributes, 'enableAuthor', '' ),
+			'enable_date'                    => magazine_blocks_array_get( $attributes, 'enableDate', '' ),
+			'enable_readtime'                => magazine_blocks_array_get( $attributes, 'enableReadTime', '' ),
+			'enable_viewcount'               => magazine_blocks_array_get( $attributes, 'enableViewCount', '' ),
+			'enable_icon'                    => magazine_blocks_array_get( $attributes, 'enableIcon', '' ),
+			'meta_separator'                 => magazine_blocks_array_get( $attributes, 'separatorType', 'none' ),
+			'enable_excerpt'                 => magazine_blocks_array_get( $attributes, 'enableExcerpt', '' ),
+			'excerpt_limit'                  => magazine_blocks_array_get( $attributes, 'excerptLimit', '' ),
+			'excerpt_position'               => magazine_blocks_array_get( $attributes, 'excerptPosition', '' ),
+			'enable_readmore'                => magazine_blocks_array_get( $attributes, 'enableReadMore', '' ),
+			'read_more_text'                 => magazine_blocks_array_get( $attributes, 'readMoreText', '' ),
+			'enable_pagination'              => magazine_blocks_array_get( $attributes, 'enablePagination', '' ),
+			'enable_view_more'               => magazine_blocks_array_get( $attributes, 'enableViewMore', '' ),
+			'view_more_text'                 => magazine_blocks_array_get( $attributes, 'viewMoreText', '' ),
+			'enable_view_more_icon'          => magazine_blocks_array_get( $attributes, 'enableViewMoreIcon', '' ),
+			'view_more_icon'                 => magazine_blocks_array_get( $attributes, 'viewMoreIcon', '' ),
+			'view_more_url'                  => magazine_blocks_array_get( $attributes, 'viewMoreLink', array() ),
+			'offset'                         => magazine_blocks_array_get( $attributes, 'offset', 0 ),
+			'hover_animation'                => magazine_blocks_array_get( $attributes, 'hoverAnimation', '' ),
+			'enable_override_category_color' => get_theme_mod( 'colormag_enable_override_category_color', false ),
+			'paged'                          => isset( $_GET[ 'block_id_' . $client_id ], $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'mzb_banner_posts' ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1,
+			'post_box_wrapper_border'        => isset( magazine_blocks_array_get( $attributes, 'postBoxWrapperBorder', '' )['border'] ) ?
+				magazine_blocks_array_get( $attributes, 'postBoxWrapperBorder', '' )['border'] : '',
+			'layout_2_advanced_style'        => 'layout-2' === $layout ?
+				magazine_blocks_array_get( $attributes, 'layout2AdvancedStyle', '' ) : '',
+		);
+	}
 
-		// Header Meta.
-		$enable_category = magazine_blocks_array_get( $attributes, 'enableCategory', true );
+	/**
+	 * Get posts per page based on layout.
+	 *
+	 * @param string $layout The layout slug.
+	 * @return int Number of posts.
+	 */
+	protected function get_posts_per_page_for_layout( $layout ) {
+		$layout_config = array(
+			'layout-1' => 4,
+			'layout-2' => 3,
+			'layout-3' => 2,
+			'layout-4' => 5,
+			'layout-5' => 4,
+		);
 
-		// Meta.
-		$meta_position    = magazine_blocks_array_get( $attributes, 'metaPosition', '' );
-		$enable_author    = magazine_blocks_array_get( $attributes, 'enableAuthor', '' );
-		$enable_date      = magazine_blocks_array_get( $attributes, 'enableDate', '' );
-		$enable_readtime  = magazine_blocks_array_get( $attributes, 'enableReadTime', '' );
-		$enable_viewcount = magazine_blocks_array_get( $attributes, 'enableViewCount', '' );
-		$enable_icon      = magazine_blocks_array_get( $attributes, 'enableIcon', '' );
-		$meta_separator   = magazine_blocks_array_get( $attributes, 'separatorType', 'none' );
+		return $layout_config[ $layout ] ?? 4;
+	}
 
-		// Excerpt.
-		$enable_excerpt   = magazine_blocks_array_get( $attributes, 'enableExcerpt', '' );
-		$excerpt_limit    = magazine_blocks_array_get( $attributes, 'excerptLimit', '' );
-		$excerpt_position = magazine_blocks_array_get( $attributes, 'excerptPosition', '' );
-
-		// ReadMore.
-		$enable_readmore = magazine_blocks_array_get( $attributes, 'enableReadMore', '' );
-		$read_more_text  = magazine_blocks_array_get( $attributes, 'readMoreText', '' );
-
-		// Pagination
-		$enable_pagination = magazine_blocks_array_get( $attributes, 'enablePagination', '' );
-
-		//offset
-		$offset = magazine_blocks_array_get( $attributes, 'offset', 0 );
-
-		// Featured Image.
-		$hover_animation = magazine_blocks_array_get( $attributes, 'hoverAnimation', '' );
-
-		// Pagination.
-		$paged         = isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1;
-		$args['paged'] = $paged;
-
-		$post_box_wrapper_border = magazine_blocks_array_get( $attributes, 'postBoxWrapperBorder', '' );
-		if ( isset( $post_box_wrapper_border['border'] ) ) {
-			$post_box_wrapper_border = $post_box_wrapper_border['border'];
-		} else {
-			$post_box_wrapper_border = '';
-		}
+	/**
+	 * Build the WP_Query based on attributes.
+	 *
+	 * @param array $attrs Processed attributes.
+	 * @return WP_Query The built query.
+	 */
+	protected function build_query( $attrs ) {
+		$attrs['post_per_page'] = $this->get_posts_per_page_for_layout( $attrs['layout'] );
 
 		$args = array(
-			'post_type'           => $post_type,
-			'posts_per_page'      => (
-				'layout-1' === $layout ? 4 : ( 'layout-2' === $layout ? 3 : ( 'layout-3' === $layout ? 2 : ( 'layout-4' === $layout ? 5 : 4 ) ) )
-			),
-			'status'              => 'publish',
-			'cat'                 => $category,
-			'tag_id'              => $tag,
-			'orderby'             => $order_by,
-			'order'               => $order_type,
-			'author'              => $author,
-			'category__not_in'    => $excluded_category,
+			'post_type'           => $attrs['post_type'],
+			'posts_per_page'      => $this->get_posts_per_page_for_layout( $attrs['layout'] ),
+			'post_status'         => 'publish',
+			'cat'                 => $attrs['category'],
+			'tag_id'              => $attrs['tag'],
+			'order_by'            => $attrs['order_by'],
+			'order'               => $attrs['order_type'],
+			'author'              => $attrs['author'],
+			'category__not_in'    => $attrs['excluded_category'],
 			'ignore_sticky_posts' => 1,
-			'offset'              => $offset,
-			'paged'               => $paged,
+			'offset'              => $attrs['offset'],
+			'paged'               => $attrs['paged'],
 		);
 
-		// Define the custom excerpt length function as an anonymous function
-		$custom_excerpt_length = function ( $length ) use ( $excerpt_limit ) {
-			return $excerpt_limit; // Change this number to your desired word limit
-		};
-
-		// Add the filter to modify the excerpt length using the anonymous function
-		add_filter( 'excerpt_length', $custom_excerpt_length );
-
-		if ( 'layout-1' === $layout ) {
-			$advanced_style = $layout_1_advanced_style;
-		} elseif ( 'layout-2' === $layout ) {
-			$advanced_style = $layout_2_advanced_style;
-		} elseif ( 'layout-3' === $layout ) {
-			$advanced_style = $layout_3_advanced_style;
-		} elseif ( 'layout-4' === $layout ) {
-			$advanced_style = $layout_4_advanced_style;
-		} elseif ( 'layout-5' === $layout ) {
-			$advanced_style = $layout_5_advanced_style;
+		if ( 'all' === $args['author'] ) {
+			unset( $args['author'] );
 		}
 
-		if ( 'layout-2' === $layout ) {
-			$args = array(
-				'posts_per_page'      => (
-					'layout-2' === $layout ? 3 : ( 'layout-3' === $layout ? 2 : ( 'layout-4' === $layout ? 5 : 4 )
-					)
-				),
-				'status'              => 'publish',
-				'cat'                 => $category,
-				'tag_id'              => $tag,
-				'orderby'             => $order_by,
-				'order'               => $order_type,
-				'author'              => $author,
-				'category__not_in'    => $excluded_category,
-				'ignore_sticky_posts' => 1,
-				'paged'               => $paged, // Use the paged parameter.
-				'offset'              => $offset,
-			);
-		}
+		return $this->query_builder->build_query( $args );
+	}
 
-		$type = get_query_var( 'mzb_template_type' );
-
-		if ( in_array( $type, [ 'archive', 'search', 'single', 'front' ], true ) ) {
-			unset( $args['cat'], $args['tag_id'], $args['orderby'], $args['order'], $args['author'], $args['category__not_in'], $args['ignore_sticky_posts'], $args['paged'], $args['offset'] );
-			$paged = get_query_var( 'paged' );
-			switch ( get_query_var( 'mzb_template_type' ) ) {
-				case 'archive':
-					if ( is_archive() ) {
-						if ( is_category() ) {
-							$args['category_name'] = get_query_var( 'category_name' );
-						} elseif ( is_tag() ) {
-							$args['tag'] = get_query_var( 'tag' );
-						} elseif ( is_author() ) {
-							$args['author'] = get_query_var( 'author' );
-						}
-					}
-					break;
-				case 'search':
-					$args['s'] = get_search_query();
-					break;
-			}
-		}
-
-		$query = new WP_Query(
-			$args
-		);
-
-		# The Loop.
-		$html = '';
+	/**
+	 * Render the block HTML.
+	 *
+	 * @param WP_Query $query The posts query.
+	 * @param array    $attributes Block attributes.
+	 * @return string Rendered HTML.
+	 */
+	protected function render_block( $query, $attributes ) {
+		$html           = '';
+		$heading_style  = $attributes['heading_style'];
+		$advanced_style = $attributes['advanced_style'];
 
 		if ( $query->have_posts() ) {
-			$html .= '<div class="mzb-banner-posts mzb-banner-posts-' . esc_attr( $client_id ) . ' ' . esc_attr( $class_name ) . ( 'layout-5' === $layout && 'layout-5-style-2' === $advanced_style && 'stretched' === $container ? 'mzb-alignfull' : '' ) . '">';
-			$html .= '<div class="mzb-posts mzb-' . esc_attr( $layout ) . ' mzb-' . esc_attr( $advanced_style ) . '">';
+			// Start block.
+			$html .= sprintf(
+				'<div class="mzb-banner-posts mzb-banner-posts-%s %s%s mzb-%s">',
+				esc_attr( $attributes['client_id'] ),
+				esc_attr( $attributes['class_name'] ),
+				( 'layout-5' === $attributes['layout'] && 'layout-5-style-2' === $advanced_style && 'stretched' === $attributes['container'] ) ? 'mzb-alignfull' : '',
+				esc_attr( $heading_style )
+			);
 
-			$index = 1;
+			// Render heading.
+			$html .= $this->render_heading( $attributes );
+
+			// Start posts container.
+			$html .= sprintf(
+				'<div class="mzb-posts mzb-%s mzb-%s">',
+				esc_attr( $attributes['layout'] ),
+				esc_attr( $advanced_style )
+			);
+
+			// Render posts based on layout.
 			if ( 'layout-5-style-2' === $advanced_style ) {
-				$query->the_post();
-				$id         = get_post_thumbnail_id();
-				$src        = wp_get_attachment_image_src( $id );
-				$src        = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-				$image      = $src ? ' <div class="mzb-featured-image ' . $hover_animation . '"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/></a></div>' : '';
-				$title      = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
-				$category   = ( true === $enable_category ) ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
-				$author     = ( true === $enable_author ) ? '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' : '' ) . get_the_author_posts_link() . '</span>' : '';
-				$date       = ( true === $enable_date ) ? '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-									<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-								</svg>' : '' ) .
-					'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
-				$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
-				$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">' .
-					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-								<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Z" clip-rule="evenodd"/>
-								<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
-								</svg>' : '' ) .
-					'<span>' .
-					self::calculate_read_time( $id ) . '
-								min
-								read
-								</span>
-								</span>' : '';
-				$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">' .
-					( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-								<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
-								</svg>' : '' ) .
-					'<span>' . $view . '
-																									views
-																								</span>
-																							</span>' : '';
-				$html      .= '<div class="mzb-post mzb-first-post--highlight">';
-				$html      .= '';
-				$html      .= $image;
-				$html      .= '<div class="mzb-post-content">';
-				if ( $enable_category ) {
-					$html .= '<div class="mzb-post-meta">';
-					$html .= $category;
-					$html .= '</div>';
-				}
-				if ( 'top' === $meta_position ) {
-
-					if (
-						'layout-2' !== $layout ||
-						'layout-2-style-3' !== $layout_2_advanced_style ||
-						( 'layout-2-style-3' === $layout_2_advanced_style && 1 === $index )
-					) {
-						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-						$html .= $enable_author ? $author : '';
-						$html .= $enable_date ? $date : '';
-						$html .= $enable_readtime ? $read_time : '';
-						$html .= $enable_viewcount ? $view_count : '';
-						$html .= '</div>';
-					}
-				}
-				$html .= $title;
-				if ( 'bottom' === $meta_position ) {
-					if ( ( $enable_excerpt || $enable_readmore ) && 'above-meta' === $excerpt_position && ( 'layout-4' !== $layout || 1 === $index ) && ( 'layout-5' !== $layout || 1 === $index ) ) {
-						$html .= '<div class="mzb-entry-content">';
-						$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-						$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-						$html .= '</div>';
-					}
-
-					if (
-						'layout-2' !== $layout ||
-						'layout-2-style-3' !== $layout_2_advanced_style ||
-						( 'layout-2-style-3' === $layout_2_advanced_style && 1 === $index )
-					) {
-						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-						$html .= $enable_author ? $author : '';
-						$html .= $enable_date ? $date : '';
-						$html .= $enable_readtime ? $read_time : '';
-						$html .= $enable_viewcount ? $view_count : '';
-						$html .= '</div>';
-					}
-
-					if ( ( $enable_excerpt || $enable_readmore ) && 'below-meta' === $excerpt_position && ( 'layout-4' !== $layout || 1 === $index ) && ( 'layout-5' !== $layout || 1 === $index ) ) {
-						$html .= '<div class="mzb-entry-content">';
-						$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-						$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-						$html .= '</div>';
-					}
-				}
-				if ( ( $enable_excerpt || $enable_readmore ) && 'bottom' !== $meta_position && ( 'layout-4' !== $layout || 1 === $index ) && ( 'layout-5' !== $layout || 1 === $index ) ) {
-					$html .= '<div class="mzb-entry-content">';
-					$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-					$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-					$html .= '</div>';
-				}
-				$html .= '</div>';
-				$html .= '</div>';
-				$html .= '<div class="mzb-bottom-posts-outer-wrapper">';
-				$html .= '<div class="mzb-bottom-posts-wrapper' . ( $post_box_wrapper_border ? ' mzb-bottom-posts-wrapper-border' : '' ) . '">';
-				while ( $query->have_posts() ) {
-					$query->the_post();
-					$id         = get_post_thumbnail_id();
-					$src        = wp_get_attachment_image_src( $id );
-					$src        = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-					$image      = $src ? ' <div class="mzb-featured-image ' . $hover_animation . '"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/></a></div>' : '';
-					$title      = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
-					$category   = ( true === $enable_category ) ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
-					$author     = ( true === $enable_author ) ? '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' : '' ) . get_the_author_posts_link() . '</span>' : '';
-					$date       = ( true === $enable_date ) ? '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-									<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-								</svg>' : '' ) .
-						'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
-					$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
-					$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">' .
-						( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-								<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Z" clip-rule="evenodd"/>
-								<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
-								</svg>' : '' ) .
-						'<span>' .
-						self::calculate_read_time( $id ) . '
-								min
-								read
-								</span>
-								</span>' : '';
-					$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">' .
-						( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-								<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
-								</svg>' : '' ) .
-						'<span>' . $view . '
-																									views
-																								</span>
-																							</span>' : '';
-					$html      .= '<div class="mzb-post">';
-					$html      .= '';
-					$html      .= $image;
-					$html      .= '<div class="mzb-post-content">';
-					if ( $enable_category ) {
-						$html .= '<div class="mzb-post-meta">';
-						$html .= $category;
-						$html .= '</div>';
-					}
-					if ( 'top' === $meta_position ) {
-						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-						$html .= $enable_author ? $author : '';
-						$html .= $enable_date ? $date : '';
-						$html .= $enable_readtime ? $read_time : '';
-						$html .= $enable_viewcount ? $view_count : '';
-						$html .= '</div>';
-					}
-					$html .= $title;
-					if ( 'bottom' === $meta_position ) {
-						$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-						$html .= $enable_author ? $author : '';
-						$html .= $enable_date ? $date : '';
-						$html .= $enable_readtime ? $read_time : '';
-						$html .= $enable_viewcount ? $view_count : '';
-						$html .= '</div>';
-					}
-					$html .= '</div>';
-					$html .= '</div>';
-					++$index;
-				}
-				$html .= '</div>';
-				$html .= '</div>';
+				$html .= $this->render_layout5_style2( $query, $attributes );
 			} else {
-				while ( $query->have_posts() ) {
-					$query->the_post();
-					$id         = get_post_thumbnail_id();
-					$src        = wp_get_attachment_image_src( $id );
-					$src        = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID() ) : '';
-					$image      = $src ? ' <div class="mzb-featured-image ' . $hover_animation . '"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/></a></div>' : '';
-					$title      = '<' . $post_title_markup . ' class="mzb-post-title"><a href="' . esc_url( get_the_permalink() ) . '">' . get_the_title() . '</a></' . $post_title_markup . '>';
-					$category   = ( true === $enable_category ) ? '<span class="mzb-post-categories">' . get_the_category_list( ' ' ) . '</span>' : '';
-					$author     = ( true === $enable_author ) ? '<span class="mzb-post-author" >' . ( ( true === $enable_icon ) ? '<img class="post-author-image" src="' . get_avatar_url( get_the_author_meta( 'ID' ) ) . ' "/>' : '' ) . get_the_author_posts_link() . '</span>' : '';
-					$date       = ( true === $enable_date ) ? '<span class ="mzb-post-date">' . ( ( true === $enable_icon ) ? '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-									<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-								</svg>' : '' ) .
-						'<a href="' . esc_url( get_the_permalink() ) . '"> ' . get_the_date() . '</a></span>' : '';
-					$view       = get_post_meta( get_the_ID(), '_mzb_post_view_count', true );
-					$read_time  = $enable_readtime ? '<span class="mzb-post-read-time">' .
-						( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-								<path fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM1 12C1 5.925 5.925 1 12 1s11 4.925 11 11-4.925 11-11 11S1 18.075 1 12Z" clip-rule="evenodd"/>
-								<path fill-rule="evenodd" d="M12 5a1 1 0 0 1 1 1v5.382l3.447 1.724a1 1 0 1 1-.894 1.788l-4-2A1 1 0 0 1 11 12V6a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
-								</svg>' : '' ) .
-						'<span>' .
-						self::calculate_read_time( $id ) . '
-								min
-								read
-								</span>
-								</span>' : '';
-					$view_count = $enable_viewcount ? '<span class="mzb-post-view-count">' .
-						( ( true === $enable_icon ) ? '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-								<path d="M12 17.9c-4.2 0-7.9-2.1-9.9-5.5-.2-.3-.2-.6 0-.9C4.1 8.2 7.8 6 12 6s7.9 2.1 9.9 5.5c.2.3.2.6 0 .9-2 3.4-5.7 5.5-9.9 5.5zM3.9 12c1.6 2.6 4.8 4.2 8.1 4.2s6.4-1.6 8.1-4.2c-1.6-2.6-4.7-4.2-8.1-4.2S5.6 9.4 3.9 12zm8.1 3.3c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3zm0-4.9c-.9 0-1.6.8-1.6 1.6 0 .9.8 1.6 1.6 1.6s1.6-.8 1.6-1.6c0-.9-.7-1.6-1.6-1.6z" />
-								</svg>' : '' ) .
-						'<span>' . $view . '
-																									views
-																								</span>
-																							</span>' : '';
-					$html      .= '<div class="mzb-post">';
-					$html      .= '';
-					$html      .= $image;
-					$html      .= '<div class="mzb-post-content">';
-					if ( $enable_category ) {
-						$html .= '<div class="mzb-post-meta">';
-						$html .= $category;
-						$html .= '</div>';
-					}
-					if ( 'top' === $meta_position ) {
-
-						if (
-							'layout-2' !== $layout ||
-							'layout-2-style-3' !== $layout_2_advanced_style ||
-							( 'layout-2-style-3' === $layout_2_advanced_style && 1 === $index )
-						) {
-							$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-							$html .= $enable_author ? $author : '';
-							$html .= $enable_date ? $date : '';
-							$html .= $enable_readtime ? $read_time : '';
-							$html .= $enable_viewcount ? $view_count : '';
-							$html .= '</div>';
-						}
-					}
-					$html .= $title;
-					if ( 'bottom' === $meta_position ) {
-						if ( ( $enable_excerpt || $enable_readmore ) && 'above-meta' === $excerpt_position && ( 'layout-4' !== $layout || 1 === $index ) && ( 'layout-5' !== $layout || 1 === $index ) ) {
-							$html .= '<div class="mzb-entry-content">';
-							$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-							$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-							$html .= '</div>';
-						}
-
-						if (
-							'layout-2' !== $layout ||
-							'layout-2-style-3' !== $layout_2_advanced_style ||
-							( 'layout-2-style-3' === $layout_2_advanced_style && 1 === $index )
-						) {
-							$html .= '<div class="mzb-post-entry-meta mzb-meta-separator--' . $meta_separator . '">';
-							$html .= $enable_author ? $author : '';
-							$html .= $enable_date ? $date : '';
-							$html .= $enable_readtime ? $read_time : '';
-							$html .= $enable_viewcount ? $view_count : '';
-							$html .= '</div>';
-						}
-
-						if ( ( $enable_excerpt || $enable_readmore ) && 'below-meta' === $excerpt_position && ( 'layout-4' !== $layout || 1 === $index ) && ( 'layout-5' !== $layout || 1 === $index ) ) {
-							$html .= '<div class="mzb-entry-content">';
-							$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-							$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-							$html .= '</div>';
-						}
-					}
-					if ( ( $enable_excerpt || $enable_readmore ) && 'bottom' !== $meta_position && ( 'layout-4' !== $layout || 1 === $index ) && ( 'layout-5' !== $layout || 1 === $index ) ) {
-						$html .= '<div class="mzb-entry-content">';
-						$html .= $enable_excerpt ? '<div class="mzb-entry-summary"><p> ' . get_the_excerpt() . '</p></div>' : '';
-						$html .= $enable_readmore ? '<div class="mzb-read-more"><a href="' . esc_url( get_the_permalink() ) . '">' . $read_more_text . ' </a></div>' : '';
-						$html .= '</div>';
-					}
-					$html .= '</div>';
-					$html .= '</div>';
-					++$index;
-				}
-			}
-			$html .= '</div>';
-
-			// Custom pagination function.
-			if ( $enable_pagination ) {
-				$html .= mzb_numbered_pagination( $query->max_num_pages, $paged, $client_id );
+				$html .= $this->render_default_layout( $query, $attributes );
 			}
 
+			// Close posts container.
 			$html .= '</div>';
+
+			// Render pagination if enabled.
+			if ( $attributes['enable_pagination'] ) {
+				$html .= mzb_numbered_pagination( $query->max_num_pages, $attributes['paged'], $attributes['client_id'] );
+			}
+
+			// Close block container.
+			$html .= '</div>';
+
 			$query->reset_postdata();
 		}
+
 		return $html;
 	}
 
-	public function calculate_read_time( $post_id ) {
-		$words_per_minute = 200;
-		$content          = get_post_field( 'post_content', $post_id );
-		$word_count       = str_word_count( wp_strip_all_tags( $content ) );
-		$read_time        = ceil( $word_count / $words_per_minute );
-		return $read_time;
+	/**
+	 * Render posts for layout-5-style-2.
+	 *
+	 * @param WP_Query $query The posts query.
+	 * @param array    $attributes Block attributes.
+	 * @return string Posts HTML.
+	 */
+	protected function render_layout5_style2( $query, $attributes ) {
+		$html = '';
+		$query->the_post();
+
+		// Render the first highlighted post.
+		$html .= $this->render_post( get_post(), $attributes, true );
+
+		// Start bottom posts wrapper.
+		$html .= '<div class="mzb-bottom-posts-outer-wrapper">';
+		$html .= sprintf(
+			'<div class="mzb-bottom-posts-wrapper%s">',
+			$attributes['post_box_wrapper_border'] ? ' mzb-bottom-posts-wrapper-border' : ''
+		);
+
+		// Render remaining posts.
+		$index = 2;
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			$html .= $this->render_post( get_post(), $attributes, false, $index );
+			++$index;
+		}
+
+		$html .= '</div></div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render posts for default layout.
+	 *
+	 * @param WP_Query $query The posts query.
+	 * @param array    $attributes Block attributes.
+	 * @return string Posts HTML.
+	 */
+	protected function render_default_layout( $query, $attributes ) {
+		$html  = '';
+		$index = 1;
+
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			$is_highlighted = ( 1 === $index && true === $attributes['enable_highlighted_category'] );
+			$html          .= $this->render_post( get_post(), $attributes, $is_highlighted, $index );
+			++$index;
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Render a single post.
+	 *
+	 * @param WP_Post $post The post object.
+	 * @param array   $attributes Block attributes.
+	 * @param bool    $is_highlighted Whether the post is highlighted.
+	 * @param int     $index Post index.
+	 * @return string Post HTML.
+	 */
+	protected function render_post( $post, $attributes, $is_highlighted = false, $index = 1 ) {
+		setup_postdata( $post );
+
+		$post_id = $post->ID;
+		$html    = '';
+
+		// Get featured image.
+		$image = $this->render_featured_image( $post_id, $attributes['hover_animation'] );
+
+		// Get post title.
+		$title = sprintf(
+			'<%s class="mzb-post-title"><a href="%s">%s</a></%s>',
+			$attributes['post_title_markup'],
+			esc_url( get_the_permalink( $post_id ) ),
+			get_the_title( $post_id ),
+			$attributes['post_title_markup']
+		);
+
+		// Get categories if enabled.
+		$category = '';
+		if ( ( $is_highlighted && $attributes['enable_highlighted_category'] ) ||
+			( ! $is_highlighted && $attributes['enable_category'] )
+		) {
+			$category = $this->render_categories( $post_id, true );
+		}
+
+		// Get author if enabled.
+		$author = $attributes['enable_author'] ? $this->render_author( $post_id, $attributes['enable_icon'] ) : '';
+
+		// Get date if enabled.
+		$date = $attributes['enable_date'] ? $this->render_date( $post_id, $attributes['enable_icon'] ) : '';
+
+		// Get read time if enabled.
+		$read_time = $attributes['enable_readtime'] ? $this->render_read_time( $post_id, $attributes['enable_icon'] ) : '';
+
+		// Get view count if enabled.
+		$view_count = $attributes['enable_viewcount'] ? $this->render_view_count( $post_id, $attributes['enable_icon'] ) : '';
+
+		// Get excerpt and read more if enabled.
+		$excerpt_content = '';
+		if ( $attributes['enable_excerpt'] || $attributes['enable_readmore'] ) {
+			$excerpt_content = $this->render_excerpt_and_read_more( $post_id, $attributes );
+		}
+
+		// Start post HTML.
+		$html .= sprintf(
+			'<div class="mzb-post%s">',
+			$is_highlighted ? ' mzb-first-post--highlight' : ''
+		);
+
+		// Add featured image.
+		$html .= $image;
+
+		// Start post content.
+		$html .= '<div class="mzb-post-content">';
+
+		// Add categories if available.
+		if ( $category ) {
+			$html .= '<div class="mzb-post-meta">' . $category . '</div>';
+		}
+
+		// Add meta at top if configured.
+		if ( 'top' === $attributes['meta_position'] ) {
+			$html .= $this->render_post_meta(
+				$author,
+				$date,
+				$read_time,
+				$view_count,
+				$attributes['meta_separator'],
+				$attributes['layout'],
+				$attributes['layout_2_advanced_style'],
+				$index
+			);
+		}
+
+		// Add post title.
+		$html .= $title;
+
+		// Add meta at bottom if configured.
+		if ( 'bottom' === $attributes['meta_position'] ) {
+			// Add excerpt above meta if configured.
+			if ( ( $attributes['enable_excerpt'] || $attributes['enable_readmore'] ) &&
+				'above-meta' === $attributes['excerpt_position']
+			) {
+				$html .= $excerpt_content;
+			}
+
+			$html .= $this->render_post_meta(
+				$author,
+				$date,
+				$read_time,
+				$view_count,
+				$attributes['meta_separator'],
+				$attributes['layout'],
+				$attributes['layout_2_advanced_style'],
+				$index
+			);
+
+			// Add excerpt below meta if configured.
+			if ( ( $attributes['enable_excerpt'] || $attributes['enable_readmore'] ) &&
+				'below-meta' === $attributes['excerpt_position']
+			) {
+				$html .= $excerpt_content;
+			}
+		}
+
+		// Add excerpt if not handled by meta position.
+		if ( ( $attributes['enable_excerpt'] || $attributes['enable_readmore'] ) &&
+			'bottom' !== $attributes['meta_position']
+		) {
+			$html .= $excerpt_content;
+		}
+
+		// Close post content and post.
+		$html .= '</div></div>';
+
+		return $html;
+	}
+
+	/**
+	 * Render post meta.
+	 *
+	 * @param string $author Author HTML.
+	 * @param string $date Date HTML.
+	 * @param string $read_time Read time HTML.
+	 * @param string $view_count View count HTML.
+	 * @param string $meta_separator Separator type.
+	 * @param string $layout Layout type.
+	 * @param string $layout_style Layout style.
+	 * @param int    $index Post index.
+	 * @return string Post meta HTML.
+	 */
+	protected function render_post_meta(
+		$author,
+		$date,
+		$read_time,
+		$view_count,
+		$meta_separator,
+		$layout,
+		$layout_style,
+		$index
+	) {
+		// Skip for certain layout conditions.
+		if ( 'layout-2' === $layout && 'layout-2-style-3' === $layout_style && $index > 1 ) {
+			return '';
+		}
+
+		$html  = '<div class="mzb-post-entry-meta mzb-meta-separator--' . esc_attr( $meta_separator ) . '">';
+		$html .= $author;
+		$html .= $date;
+		$html .= $read_time;
+		$html .= $view_count;
+		$html .= '</div>';
+
+		return $html;
 	}
 }

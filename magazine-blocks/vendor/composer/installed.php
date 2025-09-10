@@ -20,12 +20,12 @@
             'dev_requirement' => false,
         ),
         'halaxa/json-machine' => array(
-            'pretty_version' => '1.2.4',
-            'version' => '1.2.4.0',
+            'pretty_version' => '1.2.5',
+            'version' => '1.2.5.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../halaxa/json-machine',
             'aliases' => array(),
-            'reference' => 'ca1e2fc61d3596655e5480e192ef30ad67478ad4',
+            'reference' => 'd0f84abf79ac98145d478b66d2bcf363d706477c',
             'dev_requirement' => false,
         ),
         'roundcube/plugin-installer' => array(

@@ -139,7 +139,7 @@
       ]
     },
     "opacity": {
-      "type": "string",
+      "type": "number",
       "default": 1,
       "style": [
         {

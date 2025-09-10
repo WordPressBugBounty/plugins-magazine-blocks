@@ -1,9 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "name": "magazine-blocks/modal",
-  "title": "Modal",
+  "title": "Pop Up",
   "description": "Add Popup Modal on click.",
-  "keywords": ["modal", "popup"],
+  "keywords": [
+    "modal",
+    "popup"
+  ],
   "category": "magazine-blocks",
   "textdomain": "magazine-blocks",
   "supports": {
@@ -164,7 +167,23 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-modal-popup-wrap { flex-basis: {{VALUE}}%; width: {{VALUE}}%; }"
+          "selector": "{{WRAPPER}} .mzb-modal-popup-wrap { width: {{VALUE}}%; }"
+        }
+      ]
+    },
+    "buttonIconSize": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-modal-trigger svg { width: {{VALUE}}; height: auto;  }"
+        }
+      ]
+    },
+    "buttonImageSize": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-modal-trigger img { width: {{VALUE}}; height: auto;  }"
         }
       ]
     },
@@ -172,7 +191,7 @@
       "type": "object",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-modal-popup-content { max-height: {{VALUE}} }"
+          "selector": "{{WRAPPER}} .mzb-modal-popup-wrap { max-height: {{VALUE}} }"
         }
       ]
     },
@@ -280,8 +299,7 @@
     "triggerTextTypography": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {
@@ -300,8 +318,7 @@
     "triggerBtnTextTypo": {
       "type": "object",
       "default": {
-        "typography": 1,
-        "weight": 500
+        "typography": 1
       },
       "style": [
         {

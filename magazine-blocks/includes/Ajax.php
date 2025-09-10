@@ -71,11 +71,10 @@ class Ajax {
 		} else {
 			delete_post_meta( $post_id, '_magazine_blocks_active' );
 			delete_post_meta( $post_id, '_magazine_blocks_css' );
-			file_exists( "$dir$filename" ) && unlink( "$dir$filename" );
+			file_exists( "$dir$filename" ) && wp_delete_file( "$dir$filename" );
 		}
 
 		wp_send_json_success();
-
 	}
 
 	/**

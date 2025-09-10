@@ -8,13 +8,14 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Category block.
  */
-class Category extends AbstractBlock {
-
+class Category extends Block {
 
 	/**
 	 * Block name.
@@ -23,7 +24,15 @@ class Category extends AbstractBlock {
 	 */
 	protected $block_name = 'category';
 
-	public function render( $attributes, $content, $block ) {
+	/**
+	 * Render the block.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string Rendered HTML output.
+	 */
+	public function render( $attributes = array(), $content = '', $block = null ) {
 
 		$client_id = magazine_blocks_array_get( $attributes, 'clientId', '' );
 
@@ -31,9 +40,10 @@ class Category extends AbstractBlock {
 
 		$selected_category = isset( $attributes['category'] ) ? (int) $attributes['category'] : 0;
 
-		$assigned_categories = [];
+		$assigned_categories = array();
+
 		if ( $current_post_id ) {
-			$assigned_categories = wp_get_post_categories( $current_post_id, [ 'fields' => 'all' ] );
+			$assigned_categories = wp_get_post_categories( $current_post_id, array( 'fields' => 'all' ) );
 		}
 
 		if ( ! $selected_category && ! empty( $assigned_categories ) ) {
@@ -50,18 +60,18 @@ class Category extends AbstractBlock {
 
 		ob_start();
 		?>
-	<div class="mzb-category mzb-category-<?php echo esc_attr( $client_id ); ?>">
-		<div className="mzb-category-list">
-		<?php if ( $category_name ) : ?>
-			<span class="mzb-category-item">
-				<?php
-				/* translators: %s: Category name. */
-				echo esc_html( sprintf( __( '%s', 'magazine-blocks' ), $category_name ) );
-				?>
-			</span>
-		<?php endif; ?>
+		<div class="mzb-category mzb-category-<?php echo esc_attr( $client_id ); ?>">
+			<div class="mzb-category-list">
+			<?php if ( $category_name ) : ?>
+				<span class="mzb-category-item">
+					<?php
+					/* translators: %s: Category name. */
+					echo esc_html( sprintf( __( '%s', 'magazine-blocks' ), $category_name ) ); //phpcs:ignore.
+					?>
+				</span>
+			<?php endif; ?>
+			</div>
 		</div>
-	</div>
 		<?php
 
 		return ob_get_clean();

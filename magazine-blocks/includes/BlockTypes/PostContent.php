@@ -8,14 +8,14 @@
 
 namespace MagazineBlocks\BlockTypes;
 
+use MagazineBlocks\Abstracts\Block;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Heading block.
  */
-class PostContent extends AbstractBlock {
-
-
+class PostContent extends Block {
 
 	/**
 	 * Block name.
@@ -24,20 +24,28 @@ class PostContent extends AbstractBlock {
 	 */
 	protected $block_name = 'post-content';
 
-	public function render( $attributes, $content, $block ) {
-		// Get client ID for unique class
+	/**
+	 * Render the block.
+	 *
+	 * @param array  $attributes Block attributes.
+	 * @param string $content    Block content.
+	 * @param object $block      Block object.
+	 * @return string Rendered HTML output.
+	 */
+	public function render( $attributes = array(), $content = '', $block = null ) {
+		// Get client ID for unique class.
 		$client_id = magazine_blocks_array_get( $attributes, 'clientId', '' );
 
-		// Start output div
+		// Start output div.
 		$html = '<div class="mzb-post-content mzb-post-content-' . esc_attr( $client_id ) . '">';
 
 		if ( is_singular( 'post' ) ) {
-			// Output the post content
+			// Output the post content.
 			ob_start();
 			the_content();
 			$html .= ob_get_clean();
 		} else {
-			// Optionally, show a message or nothing
+			// Optionally, show a message or nothing.
 			$html .= esc_html__( 'No post content available.', 'magazine-blocks' );
 		}
 
