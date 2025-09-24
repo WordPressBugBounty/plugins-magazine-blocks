@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.8.2
 Requires PHP: 7.0
-Stable tag: 1.8.0
+Stable tag: 1.8.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,7 +163,10 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
-= 1.8.0 - 10/09/2025 =
+= 1.8.1 - 24-09-2025 =
+* Added - Theme Palette addition in color picker pop over.
+
+= 1.8.0 - 10-09-2025 =
 * Renamed - Featured Categories block to Split feed.
 * Renamed - Slider block to Post Slider.
 * Renamed - Modal Block to Pop up.
@@ -175,9 +178,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Improved - Section & column block UI and UX.
 * Improved - Block grouping in the block inserter area.
 * Improved - Only shown styling settings for enabled elements for all blocks.
-* Improved - UI/UX for weather block.
+* Improved - UI-UX for weather block.
 * Improved - Z index input type.
-* Improved - UI/UX for the news ticker block.
+* Improved - UI-UX for the news ticker block.
 * Improved - Max value of range sliders for font size.
 * Improved - Default typography font weight from 500 to default (theme inherited).
 * Improved - Disabled link clicked in the builder area.
@@ -227,7 +230,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Fix - PopUp Block height option issue.
 * Fix - Link clickable issue in editor.
 
-= 1.7.2 - 04/07/2025 =
+= 1.7.2 - 04-07-2025 =
 * Added - Separator header meta styles for highlighted post and post box in featured posts block.
 * Added - Meta Typography option for highlighted post in featured posts block.
 * Added - Typography option for read more in featured posts block.
@@ -246,14 +249,14 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Fix - Post content issue in frontend in post list block.
 * Fix - Update featured image block name to post image.
 
-= 1.7.1 - 30/06/2025 =
+= 1.7.1 - 30-06-2025 =
 * Added - New Category Block.
 * Added - New Featured Image Block.
 * Added - New Post Title Block.
 * Added - New Post Content Block.
 * Added - New Post Meta Block.
 
-= 1.7.0 - 24/06/2025 =
+= 1.7.0 - 24-06-2025 =
 * Fix - Image hover animation issue in frontend of banner posts block.
 * Fix - Heading Border option not working properly for all presets in heading block.
 * Fix - Style option in typography default not working issue.
@@ -261,7 +264,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Added - Template Library implementation.
 * Added - New Breadcrumbs Block.
 * Added - Typography option for excerpt in grid module block.
-* Added - Enable/disable comment and meta position option for header meta in grid module block.
+* Added - Enable-disable comment and meta position option for header meta in grid module block.
 * Added - Number list option along with its presets in grid module block.
 * Added - Post card background, padding and border options in featured posts block.
 * Added - Separate style options for highlighted post and post box header meta in featured posts block.
@@ -295,7 +298,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhancement - Grid Module Block.
 * Enhancement - Update the Facebook Community link on Join Our Community section dashboard.
 
-= 1.6.0 - 19/05/2025 =
+= 1.6.0 - 19-05-2025 =
 * Added - Post Type select control on Slider block.
 * Added - View All text Typography controls on Featured Posts Block.
 * Added - View All text Typography controls on Grid Module Block.
@@ -303,7 +306,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Added - Heading layout 6 preset in all posts blocks heading.
 * Added - Option to change orientation, justification, alignment and row gap in section block.
 
-= 1.5.0 - 13/05/2025 =
+= 1.5.0 - 13-05-2025 =
 * Added - Highlighted post height option on post video block.
 * Added - New Heading Presets and controls on Heading block and all post blocks heading.
 * Added - Color and hover color options for icon in Social Icon block.
@@ -311,12 +314,12 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Added - Header Meta Typography option on Featured Categories block.
 * Added - Post box padding option on Featured Categories block.
 * Added - View All Typography option on Featured Categories block.
-* Added - Enable/disable option for author and date on Featured Categories block.
+* Added - Enable-disable option for author and date on Featured Categories block.
 * Enhancement - Mobile Responsiveness on Post List Layout 1 Style 1 preset.
 * Enhancement - Responsiveness on featured categories block for tablet and mobile view.
 * Enhancement - Tablet and Mobile Responsiveness on post video style 1 preset for.
 
-= 1.4.3 - 08/05/2025 =
+= 1.4.3 - 08-05-2025 =
 * Fix - Post title markup line height issue in slider block.
 * Fix - Meta link color issue on Grid module block preset layout 2.
 * Fix - Heading Typography option not working issue in heading block.
@@ -331,7 +334,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Added - Posts Separator option on Post List block.
 * Added - View All Button Icon spacing settings.
 * Added - Background color and padding option in slider block for style3 preset.
-* Added - Icon enable/disable option for meta in all posts block.
+* Added - Icon enable-disable option for meta in all posts block.
 * Added - Typography option for meta in all posts block.
 * Added - Meta separator color option in all posts block.
 * Added - Heading Layout 6 preset in heading block.
@@ -351,10 +354,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhancement - Content overlay visibility of post content on highlight post of Post Video block.
 * Enhancement - Display meta fields only on highlighted post for Preset2 Style3 on Banner Posts block.
 
-= 1.4.2 - 25/04/2025 =
+= 1.4.2 - 25-04-2025 =
 * Enhancement - Revert Site Builder due to some issues.
 
-= 1.4.1 - 24/04/2025 =
+= 1.4.1 - 24-04-2025 =
 * Fix - Frontend rendering of presets in Post Video block.
 * Fix - Gap issue on Grid Module block.
 * Fix - Background color of arrows in Slider block.
@@ -371,7 +374,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Added - Border Option for Heading Layouts in post blocks.
 * Added - Width options for posts and highlighted posts in post video block.
 * Added - Meta Style options for Post video block.
-* Added - Category enable/disable option for Highlight Post in Post Video block.
+* Added - Category enable-disable option for Highlight Post in Post Video block.
 * Added - Padding option for post content in Grid Module block.
 * Added - Column option for Grid Module block.
 * Added - Offset option on each Post blocks frontend.
@@ -394,13 +397,13 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhancement - Compatibility with WordPress version 6.8.
 * Enhancement - Frontend rendering for Latest Posts Block.
 
-= 1.3.32 - 04/04/2025 =
+= 1.3.32 - 04-04-2025 =
 * Fix - Post query based on categories in News Ticker block.
 * Fix - Icon type in News Ticker block frontend.
 * Added - Ticker label and body color on News Ticker block.
 * Enhancement - Z-index property for popover drawer.
 
-= 1.3.31 - 01/04/2025 =
+= 1.3.31 - 01-04-2025 =
 * Fix - Post Title Markup issue on Slider Block.
 * Fix - Meta position issue in frontend of Slider Block.
 * Fix - Slider height issue in all slider styles of Slider Block.
@@ -427,7 +430,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhancement - Icons updated for meta position on Slider Block.
 * Enhancement - Icons updated for meta position on Featured Categories Block.
 
-= 1.3.30 - 25/03/2025 =
+= 1.3.30 - 25-03-2025 =
 * Fix - Top Bottom Separator on Section Block.
 * Fix - Wrap Columns in frontend.
 * Fix - Subheading default color on Heading Block.
@@ -445,7 +448,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Added - Preset Styles on Post Video block.
 * Added - Preset Styles on Featured Posts block.
 
-= 1.3.29 - 18/03/2025 =
+= 1.3.29 - 18-03-2025 =
 * Fix - Box Shadow spacing.
 * Fix - Heading Layout background color on Featured Posts block.
 * Fix - Layout Styles of Grid Module block.
@@ -461,7 +464,7 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhancement - Add reset button on Grid Module margin settings.
 * Enhancement - Inspector Settings Label color.
 
-= 1.3.28 - 13/03/2025 =
+= 1.3.28 - 13-03-2025 =
 * Fix - Title markup change on banner posts.
 * Fix - Typography for posts in Banner Post block.
 * Fix - Hover color and hover background color in Banner Post.
@@ -477,10 +480,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhancement - Add "Read More" and "Excerpt" options for all posts in the Banner Post block.
 * Enhancement - Reduce font size of inputs in Dimension Control.
 
-= 1.3.27 - 05/03/2025 =
+= 1.3.27 - 05-03-2025 =
 * Fix - Arrows style on news ticker block.
 
-= 1.3.25 - 05/03/2025 =
+= 1.3.25 - 05-03-2025 =
 * Fix - Post Lists block layout in frontend.
 * Fix - Grid Module block column styles.
 * Feature - View All Button Option in Post Blocks.
@@ -490,11 +493,11 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 * Enhancement - Advertisement Block.
 * Enhancement - Refine block lists on dashboard.
 
-= 1.3.24 - 13/02/2025 =
+= 1.3.24 - 13-02-2025 =
 * Fix         - Add link to the posts count in Category List block.
 * Enhancement - Option to add longitude and latitude for Date and Weather block .
 
-= 1.3.23 - 29/01/2025 =
+= 1.3.23 - 29-01-2025 =
 * Tweak - Update `Tested up to`.
 
 = 1.3.22 - 28-01-2025 =

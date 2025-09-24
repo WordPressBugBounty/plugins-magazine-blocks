@@ -150,6 +150,20 @@ final class Blocks {
 			'enqueue_block_editor_assets',
 			array( $this, 'mzb_post_type' ),
 		);
+
+		add_action('enqueue_block_editor_assets', function () {
+			$palette = get_theme_support('editor-color-palette');
+
+			if ( empty( $palette)) return;
+
+			$styles = sprintf( ':root{%s}', array_reduce( current( $palette ), function ( $acc, $curr ) {
+					$acc .= "--{$curr['slug']}: {$curr['color']};\n";
+					return $acc;
+				}, '')
+			);
+
+			wp_add_inline_style( 'wp-block-library', $styles );
+		});
 	}
 
 	/**
@@ -158,11 +172,14 @@ final class Blocks {
 	 * Makes the post type available to JavaScript via the magazinePostTypeSettings object.
 	 */
 	public function mzb_post_type() {
+		$current_post = get_post();
+		$post_type = $current_post ? $current_post->post_type : 'post';
+		
 		wp_localize_script(
 			'magazine-blocks-blocks',
 			'magazinePostTypeSettings',
 			array(
-				'postType' => get_post()->post_type,
+				'postType' => $post_type,
 			)
 		);
 	}
