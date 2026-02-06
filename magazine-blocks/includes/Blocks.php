@@ -112,6 +112,8 @@ final class Blocks {
 	 * @since 1.0.0
 	 */
 	private function init_hooks() {
+		global $pagenow;
+
 		$block_categories_hook   = version_compare( get_bloginfo( 'version' ), '5.8', '>=' ) ?
 			'block_categories_all' :
 			'block_categories';
@@ -151,19 +153,32 @@ final class Blocks {
 			array( $this, 'mzb_post_type' ),
 		);
 
-		add_action('enqueue_block_editor_assets', function () {
-			$palette = get_theme_support('editor-color-palette');
+		if ( 'customize.php' !== $pagenow ) {
+			add_action(
+				'enqueue_block_editor_assets',
+				function () {
+					$palette = get_theme_support( 'editor-color-palette' );
 
-			if ( empty( $palette)) return;
+					if ( empty( $palette ) ) {
+						return;
+					}
 
-			$styles = sprintf( ':root{%s}', array_reduce( current( $palette ), function ( $acc, $curr ) {
-					$acc .= "--{$curr['slug']}: {$curr['color']};\n";
-					return $acc;
-				}, '')
+					$styles = sprintf(
+						':root{%s}',
+						array_reduce(
+							current( $palette ),
+							function ( $acc, $curr ) {
+								$acc .= "--{$curr['slug']}: {$curr['color']};\n";
+								return $acc;
+							},
+							''
+						)
+					);
+
+					wp_add_inline_style( 'wp-block-library', $styles );
+				}
 			);
-
-			wp_add_inline_style( 'wp-block-library', $styles );
-		});
+		}
 	}
 
 	/**
@@ -173,8 +188,8 @@ final class Blocks {
 	 */
 	public function mzb_post_type() {
 		$current_post = get_post();
-		$post_type = $current_post ? $current_post->post_type : 'post';
-		
+		$post_type    = $current_post ? $current_post->post_type : 'post';
+
 		wp_localize_script(
 			'magazine-blocks-blocks',
 			'magazinePostTypeSettings',

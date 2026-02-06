@@ -1,4 +1,10 @@
 == Changelog ==
+= 1.8.3 - 03-11-2025 =
+* Update   - Readme update.
+
+= 1.8.2 - 15-10-2025 =
+* Fix   - Block editor CSS loading in the customizer area.
+
 = 1.8.1 - 24-09-2025 =
 * Added - Theme Palette addition in color picker pop over.
 

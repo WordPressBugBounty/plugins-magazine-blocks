@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.8.2
 Requires PHP: 7.0
-Stable tag: 1.8.1
+Stable tag: 1.8.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,8 +14,8 @@ A collection of dynamic post blocks to quickly build stunning news, magazine, an
 
 ### Magazine Blocks
 
-👉 [Magazine Blocks Site](https://wpblockart.com/magazine-blocks/)
-👉 [Documentation](https://docs.wpblockart.com/magazine-blocks/)
+👉 [Magazine Blocks Site](https://wpblockart.com/magazine-blocks/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc)
+👉 [Documentation](https://docs.wpblockart.com/magazine-blocks/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc)
 👉 [Roadmap](https://magazineblocks.productlift.dev/)
 👉 [Give a Try](https://tastewp.com/template/magazineblocks) (Clicking this link creates a demo where you can test Magazine Blocks.)
 
@@ -103,22 +103,22 @@ Magazine Blocks is optimized for seamless performance across all devices, such a
 ### MAGAZINE BLOCKS COMPATIBILITY WITH WORDPRESS THEMES
 Magazine Blocks is compatible with most WordPress themes in the market. A few popular ones are listed below:
 
-* [Zakra](https://zakratheme.com/)
-* [ColorMag](https://themegrill.com/themes/colormag/)
+* [Zakra](https://zakratheme.com/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc)
+* [ColorMag](https://themegrill.com/themes/colormag/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc)
 * Astra
 * Kadence
 
 ### MAGAZINE BLOCKS COMPATIBILITY WITH WORDPRESS PLUGINS
 Magazine Blocks works with most other WordPress plugins. Below are some popular ones:
 
-* [Everest Forms](https://everestforms.net/)
-* [User Registration](https://wpuserregistration.com/)
-* [Masteriyo](https://masteriyo.com/)
+* [Everest Forms](https://everestforms.net/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc)
+* [User Registration](https://wpuserregistration.com/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc)
+* [Masteriyo](https://masteriyo.com/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc)
 
 ### DOCUMENTATION AND SUPPORT
-👉 Refer to our [Documentation](https://docs.wpblockart.com/magazine-blocks/) for self-help
+👉 Refer to our [Documentation](https://docs.wpblockart.com/magazine-blocks/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) for self-help
 👉 Have more questions, visit our Plugin's [Support Forum](https://wordpress.org/support/plugin/magazine-blocks/)
-👉 Visit our [Website](https://wpblockart.com/magazine-blocks/) to contact us directly via the contact form
+👉 Visit our [Website](https://wpblockart.com/magazine-blocks/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) to contact us directly via the contact form
 👉 We’d love to hear your feedback. Please consider [ leaving us a rating](https://wordpress.org/support/plugin/magazine-blocks/)!
 
 ### GET IN TOUCH WITH US
@@ -127,12 +127,12 @@ Magazine Blocks works with most other WordPress plugins. Below are some popular 
 [YouTube](https://www.youtube.com/@ThemeGrillOfficial)
 
 ### EXPLORE MORE PRODUCTS FROM OUR TEAM
-[Masteriyo](https://masteriyo.com/) – A Powerful and Easy WordPress LMS Plugin.
-[User Registration](https://wpuserregistration.com/) – #1 Best WordPress User Registration Plugin.
-[BlockArt Blocks](https://wpblockart.com/blockart-blocks/) – Highly Customizable Gutenberg Blocks to Create Websites.
-[Zakra](https://wpblockart.com/blockart-blocks/) – Best WordPress Multipurpose Theme Powering 60K+ Websites.
-[ColorMag](https://themegrill.com/themes/colormag/) – #1 Magazine & News Style WordPress Theme.
-[Everest Forms](https://everestforms.net/) – Flexible WordPress Form Builder Plugin.
+[Masteriyo](https://masteriyo.com/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) – A Powerful and Easy WordPress LMS Plugin.
+[User Registration](https://wpuserregistration.com/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) – #1 Best WordPress User Registration Plugin.
+[BlockArt Blocks](https://wpblockart.com/blockart-blocks/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) – Highly Customizable Gutenberg Blocks to Create Websites.
+[Zakra](https://wpblockart.com/blockart-blocks/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) – Best WordPress Multipurpose Theme Powering 60K+ Websites.
+[ColorMag](https://themegrill.com/themes/colormag/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) – #1 Magazine & News Style WordPress Theme.
+[Everest Forms](https://everestforms.net/?utm_source=wp-org&utm_medium=mzb-org-page&utm_campaign=org-desc) – Flexible WordPress Form Builder Plugin.
 
 You can see how each blocks look in the Screenshots area below: 👇
 
@@ -163,6 +163,12 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.3 - 03-11-2025 =
+* Update   - Readme update.
+
+= 1.8.2 - 15-10-2025 =
+* Fix   - Block editor CSS loading in the customizer area.
+
 = 1.8.1 - 24-09-2025 =
 * Added - Theme Palette addition in color picker pop over.
 
