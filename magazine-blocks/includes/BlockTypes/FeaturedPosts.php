@@ -257,7 +257,7 @@ class FeaturedPosts extends Block {
 			$classes[] = 'mzb-post-col--full';
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		// Render posts.
 		$index = 1;
@@ -295,7 +295,7 @@ class FeaturedPosts extends Block {
 			$html .= $this->render_featured_image_with_meta( $post_id, $attributes, $index, $is_highlighted );
 		}
 
-		$html .= '<div class="mzb-post-content' . ( $attributes['meta_position'] ? ' mzb-meta-position--' . $attributes['meta_position'] : '' ) . '">';
+		$html .= '<div class="mzb-post-content' . ( $attributes['meta_position'] ? ' mzb-meta-position--' . esc_attr( $attributes['meta_position'] ) : '' ) . '">';
 
 		// Render out-image meta.
 		$html .= $this->render_out_image_meta( $post_id, $attributes, $index, $is_highlighted );
@@ -371,7 +371,7 @@ class FeaturedPosts extends Block {
 
 		$html = sprintf(
 			'<div class="%s"><a href="%s" title="%s"><img src="%s" alt="%s"/></a>',
-			implode( ' ', array_filter( $classes ) ),
+			esc_attr( implode( ' ', array_filter( $classes ) ) ),
 			esc_url( get_the_permalink( $post_id ) ),
 			esc_attr( get_the_title( $post_id ) ),
 			esc_url( $src ),
@@ -474,7 +474,7 @@ class FeaturedPosts extends Block {
 			$classes[] = 'mzb-meta-separator--' . $attributes['meta_separator'];
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', $classes ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
 
 		if ( $attributes['enable_author'] ) {
 			$html .= $this->render_author( $post_id, $attributes['enable_icon'] );

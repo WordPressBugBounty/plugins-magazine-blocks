@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 5.4
 Tested up to: 6.8.2
 Requires PHP: 7.0
-Stable tag: 1.8.3
+Stable tag: 1.8.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,9 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.4 - 02-04-2026 =
+* Security - Fixed authenticated stored XSS vulnerability in block attributes.
+
 = 1.8.3 - 03-11-2025 =
 * Update   - Readme update.
 

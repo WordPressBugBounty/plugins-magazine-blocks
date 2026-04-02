@@ -201,7 +201,7 @@ class FeaturedCategories extends Block {
 
 		$html = sprintf(
 			'<div class="mzb-category-%d-posts mzb-%s">',
-			$category_num,
+			esc_attr( $category_num ),
 			esc_attr( $attributes['post_box_style'] )
 		);
 

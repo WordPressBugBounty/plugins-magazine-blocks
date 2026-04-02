@@ -1,4 +1,7 @@
 == Changelog ==
+= 1.8.4 - 02-04-2026 =
+* Security - Fixed authenticated stored XSS vulnerability in block attributes.
+
 = 1.8.3 - 03-11-2025 =
 * Update   - Readme update.
 

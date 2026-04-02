@@ -198,7 +198,7 @@ class Slider extends Block {
 			'mzb-arrow-horizontal-placement--' . $attributes['arrow_horizontal_placement'],
 		);
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		// Render heading section.
 		$html .= $this->render_heading_section( $attributes );
@@ -325,7 +325,7 @@ class Slider extends Block {
 			$attributes['enable_post_box_border'] ? ' mzb-post-box-border' : '',
 		);
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		// Render featured image.
 		$html .= $this->render_featured_image( $post_id, $attributes );
@@ -368,7 +368,7 @@ class Slider extends Block {
 
 		$html = sprintf(
 			'<div class="%s"><a href="%s" alt="%s"><img src="%s" alt="%s"/></a>',
-			implode( ' ', $classes ),
+			esc_attr( implode( ' ', $classes ) ),
 			esc_url( get_the_permalink( $post_id ) ),
 			esc_attr( get_the_title( $post_id ) ),
 			esc_url( $src ),
@@ -413,13 +413,15 @@ class Slider extends Block {
 			'mzb-post-title',
 			$attributes['enable_post_title_border'] ? ' mzb-post-title-border' : '',
 		);
-		$html         .= sprintf(
+		$tag           = tag_escape( $attributes['post_title_markup'] );
+
+		$html .= sprintf(
 			'<%s class="%s"><a href="%s">%s</a></%s>',
-			$attributes['post_title_markup'],
-			implode( ' ', array_filter( $title_classes ) ),
+			$tag,
+			esc_attr( implode( ' ', array_filter( $title_classes ) ) ),
 			esc_url( get_the_permalink( $post_id ) ),
-			get_the_title( $post_id ),
-			$attributes['post_title_markup']
+			esc_html( get_the_title( $post_id ) ),
+			$tag
 		);
 
 		// Render bottom meta.
@@ -457,7 +459,7 @@ class Slider extends Block {
 			$classes[] = 'mzb-meta-separator--' . $attributes['meta_separator_position'];
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', $classes ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
 
 		if ( $attributes['enable_author'] ) {
 			$html .= $this->render_author( $post_id, $attributes['enable_icon'] );
@@ -539,7 +541,7 @@ class Slider extends Block {
 			'<div class="mzb-view-more%s"><a href="%s"%s%s>
 				<p>%s</p>%s
 			</a></div>',
-			$position ? ' mzb-view-more--' . $position : '',
+			$position ? ' mzb-view-more--' . esc_attr( $position ) : '',
 			esc_url( $href ),
 			$target,
 			$rel,

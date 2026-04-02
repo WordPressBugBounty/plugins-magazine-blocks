@@ -169,7 +169,7 @@ class PostVideo extends Block {
 			$classes[] = 'mzb-layout-4-bottom-row-' . $attributes['layout4_bottom_row_count'];
 		}
 
-		$html  = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html  = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 		$html .= $this->render_posts_container( $query, $attributes );
 		$html .= '</div>';
 
@@ -195,7 +195,7 @@ class PostVideo extends Block {
 			$classes[] = 'mzb-post-col--full';
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		// Render posts.
 		$index      = 1;
@@ -234,7 +234,7 @@ class PostVideo extends Block {
 			$classes[] = 'mzb-first-video--highlight';
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		// Render video section.
 		$html .= $this->render_video_section( $post_id, $attributes );
@@ -385,7 +385,7 @@ class PostVideo extends Block {
 			$classes[] = 'mzb-meta-separator--' . $attributes['meta_separator'];
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', $classes ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
 
 		if ( $attributes['enable_author'] ) {
 			$html .= $this->render_author( $post_id, $attributes['enable_icon'] );

@@ -58,13 +58,13 @@ class Archive extends Block {
 			}
 		} elseif ( is_author() ) {
 			// For author archives.
-			$html .= '<h2>' . get_the_author() . '</h2>';
+			$html .= '<h2>' . esc_html( get_the_author() ) . '</h2>';
 		} elseif ( is_date() ) {
 			// For date archives.
-			$html .= '<h2>' . get_the_archive_title() . '</h2>';
+			$html .= '<h2>' . esc_html( get_the_archive_title() ) . '</h2>';
 		} else {
 			// For other archive types.
-			$html .= '<h2>' . get_the_archive_title() . '</h2>';
+			$html .= '<h2>' . esc_html( get_the_archive_title() ) . '</h2>';
 		}
 
 		// Close the div.

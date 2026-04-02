@@ -265,7 +265,7 @@ class TabPost extends Block {
 			$classes[] = 'mzb-meta-separator--' . $attributes['meta_separator'];
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', $classes ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
 
 		if ( $attributes['enable_author'] ) {
 			$html .= $this->render_author( $post_id, $attributes['enable_icon'] );

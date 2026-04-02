@@ -42,7 +42,7 @@ class DateWeather extends Block {
 		// The Loop.
 		$html = '';
 
-		$html .= '<div class="mzb-date-weather mzb-date-weather-' . $client_id . '">';
+		$html .= '<div class="mzb-date-weather mzb-date-weather-' . esc_attr( $client_id ) . '">';
 		$html .= '<span class="mzb-weather-icon">' . $get_icon . '</span>';
 
 		// Temperature with default.

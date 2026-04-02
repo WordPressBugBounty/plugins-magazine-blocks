@@ -70,12 +70,12 @@ class NewsTicker extends Block {
 				$id    = get_post_thumbnail_id();
 				$src   = wp_get_attachment_image_src( $id );
 				$src   = has_post_thumbnail( get_the_ID() ) ? get_the_post_thumbnail_url( get_the_ID(), 'thumbnail' ) : '';
-				$image = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . get_the_title() . '"/><img src="' . esc_url( $src ) . '" alt="' . get_the_title() . '"/> </a></div>' : '';
+				$image = $src ? '<div class="mzb-featured-image"><a href="' . esc_url( get_the_permalink() ) . '"alt="' . esc_attr( get_the_title() ) . '"/><img src="' . esc_url( $src ) . '" alt="' . esc_attr( get_the_title() ) . '"/> </a></div>' : '';
 				// Limit title to 60 characters.
 				$title_text      = get_the_title();
 				$truncated_title = strlen( $title_text ) > 60 ? substr( $title_text, 0, 60 ) . '...' : $title_text;
 
-				$title = '<li><a href="' . esc_url( get_the_permalink() ) . '">' . $truncated_title . '</a></li>';
+				$title = '<li><a href="' . esc_url( get_the_permalink() ) . '">' . esc_html( $truncated_title ) . '</a></li>';
 				$html .= $title;
 			}
 			$html .= '</ul>';

@@ -222,7 +222,7 @@ class PostList extends Block {
 			$classes[] = 'mzb-number-list__' . $attributes['number_position'];
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		// Render posts.
 		$index = 1;
@@ -260,7 +260,7 @@ class PostList extends Block {
 			$html .= $this->render_featured_image_with_meta( $post_id, $attributes, $index, false );
 		}
 
-		$html .= '<div class="mzb-post-content' . ( $attributes['meta_position'] ? ' mzb-meta-position--' . $attributes['meta_position'] : '' ) . '">';
+		$html .= '<div class="mzb-post-content' . ( $attributes['meta_position'] ? ' mzb-meta-position--' . esc_attr( $attributes['meta_position'] ) : '' ) . '">';
 
 		// Render out-image meta.
 		$html .= $this->render_out_image_meta( $post_id, $attributes, $index, false );
@@ -311,7 +311,7 @@ class PostList extends Block {
 
 		$html = sprintf(
 			'<div class="%s"><a href="%s" title="%s"><img src="%s" alt="%s"/></a>',
-			implode( ' ', array_filter( $classes ) ),
+			esc_attr( implode( ' ', array_filter( $classes ) ) ),
 			esc_url( get_the_permalink( $post_id ) ),
 			esc_attr( get_the_title( $post_id ) ),
 			esc_url( $src ),
@@ -410,7 +410,7 @@ class PostList extends Block {
 			$classes[] = 'mzb-meta-separator--' . $attributes['meta_separator'];
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', $classes ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
 
 		if ( $attributes['enable_date'] ) {
 			$html .= $this->render_date( $post_id, $attributes['enable_icon'] );

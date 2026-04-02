@@ -158,7 +158,7 @@ class CategoryList extends Block {
 			$classes[] = 'separator';
 		}
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		foreach ( $categories as $category ) {
 			$html .= $this->render_category( $category, $attributes );
@@ -180,7 +180,7 @@ class CategoryList extends Block {
 		$cat_id         = $category->term_id;
 		$advanced_style = $attributes['advanced_style'];
 
-		$html = sprintf( '<div class="mzb-post mzb-%s">', $cat_id );
+		$html = sprintf( '<div class="mzb-post mzb-%s">', esc_attr( $cat_id ) );
 
 		// Handle different layout styles.
 		if ( 'layout-1-style-2' === $advanced_style ) {
@@ -213,18 +213,18 @@ class CategoryList extends Block {
 
 		$color_style = '';
 		if ( function_exists( 'colormag_category_color' ) ) {
-			$color_style = 'style="background-color:' . colormag_category_color( $cat_id ) . ';"';
+			$color_style = 'style="background-color:' . esc_attr( colormag_category_color( $cat_id ) ) . ';"';
 		}
 
 		return '
 			<div class="mzb-title-wrapper" ' . $background_style . '>
 				<div class="mzb-title" ' . $color_style . '>
 					<span class="mzb-post-categories">
-						<a href="' . get_category_link( $cat_id ) . '">' . esc_html( $category->name ) . '</a>
+						<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->name ) . '</a>
 					</span>
 					<div class="mzb-post-count-wrapper">
 						<div class="mzb-post-count">
-							<a href="' . get_category_link( $cat_id ) . '">' . $category->category_count . ' Posts</a>
+							<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' Posts</a>
 						</div>
 					</div>
 				</div>
@@ -246,24 +246,24 @@ class CategoryList extends Block {
 
 		$color_style = '';
 		if ( function_exists( 'colormag_category_color' ) ) {
-			$color_style = 'style="background-color:' . colormag_category_color( $cat_id ) . ';"';
+			$color_style = 'style="background-color:' . esc_attr( colormag_category_color( $cat_id ) ) . ';"';
 		}
 
 		$html  = '<div class="mzb-title-wrapper" ' . $background_style . '>';
 		$html .= '<div class="mzb-title">';
 		$html .= '<span class="mzb-post-categories">';
-		$html .= '<a href="' . get_category_link( $cat_id ) . '">' . esc_html( $category->name ) . '</a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->name ) . '</a>';
 		$html .= '</span>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
-		$html .= '<a href="' . get_category_link( $cat_id ) . '">' . $category->category_count . ' Posts</a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' Posts</a>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div class="mzb-overlay"></div>';
 		if ( $attributes['enable_icon'] ) {
 			$html .= '<div class="mzb-list-icon">';
-			$html .= '<a href="' . get_category_link( $cat_id ) . '">' . $attributes['icon'] . '</a>';
+			$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . $attributes['icon'] . '</a>';
 			$html .= '</div>';
 		}
 		$html .= '</div>';
@@ -290,17 +290,17 @@ class CategoryList extends Block {
 		$html .= '<div class="mzb-title-with-icon">';
 		$html .= '<div class="mzb-title">';
 		$html .= '<span class="mzb-post-categories">';
-		$html .= '<a href="' . get_category_link( $cat_id ) . '">' . esc_html( $category->name ) . '</a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->name ) . '</a>';
 		$html .= '</span>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
-		$html .= '<a href="' . get_category_link( $cat_id ) . '">' . $category->category_count . ' Posts</a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' Posts</a>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
 		if ( $attributes['enable_icon'] ) {
 			$html .= '<div class="mzb-list-icon">';
-			$html .= '<a href="' . get_category_link( $cat_id ) . '">' . $attributes['icon'] . '</a>';
+			$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . $attributes['icon'] . '</a>';
 			$html .= '</div>';
 		}
 		$html .= '</div>';
@@ -322,18 +322,18 @@ class CategoryList extends Block {
 
 		$color_style = '';
 		if ( function_exists( 'colormag_category_color' ) ) {
-			$color_style = 'style="background-color:' . colormag_category_color( $cat_id ) . ';"';
+			$color_style = 'style="background-color:' . esc_attr( colormag_category_color( $cat_id ) ) . ';"';
 		}
 
 		$html  = '<div class="mzb-title-wrapper" ' . $background_style . '>';
 		$html .= '<span class="mzb-post-categories">';
 		// $html .= $attributes['enable_icon'] ? '<span class="mzb-list-icon">' . $attributes['icon'] . '</span>' : '';
-		$html .= '<a href="' . get_category_link( $cat_id ) . '" ' . $color_style . '>' . esc_html( $category->name ) . '</a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '" ' . $color_style . '>' . esc_html( $category->name ) . '</a>';
 		$html .= '</span>';
 		$html .= '</div>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
-		$html .= '<a href="' . get_category_link( $cat_id ) . '">' . $category->category_count . ' <span class="mzb-post-count-text">Posts</span></a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' <span class="mzb-post-count-text">Posts</span></a>';
 		$html .= '</div>';
 		$html .= '</div>';
 

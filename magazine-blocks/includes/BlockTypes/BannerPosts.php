@@ -292,12 +292,13 @@ class BannerPosts extends Block {
 		$image = $this->render_featured_image( $post_id, $attributes['hover_animation'] );
 
 		// Get post title.
+		$tag   = tag_escape( $attributes['post_title_markup'] );
 		$title = sprintf(
 			'<%s class="mzb-post-title"><a href="%s">%s</a></%s>',
-			$attributes['post_title_markup'],
+			$tag,
 			esc_url( get_the_permalink( $post_id ) ),
-			get_the_title( $post_id ),
-			$attributes['post_title_markup']
+			esc_html( get_the_title( $post_id ) ),
+			$tag
 		);
 
 		// Get categories if enabled.

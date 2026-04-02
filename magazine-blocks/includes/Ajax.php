@@ -55,8 +55,16 @@ class Ajax {
 	public function save_block_css() {
 		check_ajax_referer( '_magazine_blocks_nonce', 'security', false );
 
-		$css            = isset( $_POST['css'] ) ? sanitize_text_field( wp_unslash( $_POST['css'] ) ) : '';
-		$post_id        = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+		$css     = isset( $_POST['css'] ) ? sanitize_text_field( wp_unslash( $_POST['css'] ) ) : '';
+		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			wp_send_json_error(
+				array( 'message' => __( 'You are not allowed to edit this post.', 'magazine-blocks' ) ),
+				403
+			);
+		}
+
 		$has_blocks     = isset( $_POST['has_blocks'] ) && wp_unslash( $_POST['has_blocks'] );
 		$filename       = "magazine-blocks-css-$post_id.css";
 		$upload_dir_url = wp_upload_dir();

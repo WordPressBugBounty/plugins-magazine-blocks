@@ -208,9 +208,11 @@ class GridModule extends Block {
 			'mzb-' . $attributes['advanced_style'],
 		);
 		// Render start.
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 		// Render heading section.
-		$html .= $this->render_heading( $attributes, 'top' );
+		if ( $attributes['enable_view_more'] && 'top' === $attributes['view_button_position'] ) {
+			$html .= $this->render_heading( $attributes, 'top' );
+		}
 
 		// Render posts container.
 		$html .= $this->render_posts_container( $query, $attributes );
@@ -249,7 +251,7 @@ class GridModule extends Block {
 			'mzb-number-list__' . $attributes['number_position_style'],
 		);
 
-		$html = sprintf( '<div class="%s">', implode( ' ', array_filter( $classes ) ) );
+		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 
 		// Render posts.
 		while ( $query->have_posts() ) {
@@ -317,7 +319,7 @@ class GridModule extends Block {
 
 		$html = sprintf(
 			'<div class="%s"><a href="%s" title="%s"><img src="%s" alt="%s"/><div class="mzb-overlay"></div></a>',
-			implode( ' ', $classes ),
+			esc_attr( implode( ' ', $classes ) ),
 			esc_url( get_the_permalink( $post_id ) ),
 			esc_attr( get_the_title( $post_id ) ),
 			esc_url( $src ),
@@ -384,36 +386,6 @@ class GridModule extends Block {
 		// Render title.
 		if ( $attributes['enable_post_title'] ) {
 			$html .= $this->render_post_title( $post_id, $attributes['tag_name'] );
-		}
-
-		$html .= '</div>';
-
-		return $html;
-	}
-
-	/**
-	 * Render post content with meta at bottom.
-	 *
-	 * @param int   $post_id Post ID.
-	 * @param array $attributes Block attributes.
-	 * @return string Post content HTML.
-	 */
-	protected function render_post_content_bottom_meta( $post_id, $attributes ) {
-		$html = '<div class="mzb-post-content">';
-
-		// Render out-image meta for layout-2.
-		if ( 'layout-2' !== $attributes['layout'] || 'out-image' === $attributes['category_position'] ) {
-			$html .= $this->render_out_image_meta( $post_id, $attributes );
-		}
-
-		// Render title.
-		if ( $attributes['enable_post_title'] ) {
-			$html .= $this->render_post_title( $post_id, $attributes['tag_name'] );
-		}
-
-		// Render meta information.
-		if ( $this->has_meta_content( $attributes ) ) {
-			$html .= $this->render_meta_section( $post_id, $attributes );
 		}
 
 		$html .= '</div>';
@@ -494,5 +466,35 @@ class GridModule extends Block {
 			esc_attr( $attributes['meta_separator'] ),
 			implode( '', $meta_items )
 		);
+	}
+
+	/**
+	 * Render post content with meta at bottom.
+	 *
+	 * @param int   $post_id Post ID.
+	 * @param array $attributes Block attributes.
+	 * @return string Post content HTML.
+	 */
+	protected function render_post_content_bottom_meta( $post_id, $attributes ) {
+		$html = '<div class="mzb-post-content">';
+
+		// Render out-image meta for layout-2.
+		if ( 'layout-2' !== $attributes['layout'] || 'out-image' === $attributes['category_position'] ) {
+			$html .= $this->render_out_image_meta( $post_id, $attributes );
+		}
+
+		// Render title.
+		if ( $attributes['enable_post_title'] ) {
+			$html .= $this->render_post_title( $post_id, $attributes['tag_name'] );
+		}
+
+		// Render meta information.
+		if ( $this->has_meta_content( $attributes ) ) {
+			$html .= $this->render_meta_section( $post_id, $attributes );
+		}
+
+		$html .= '</div>';
+
+		return $html;
 	}
 }
