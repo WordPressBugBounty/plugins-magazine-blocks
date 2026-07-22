@@ -121,11 +121,6 @@ class ScriptStyle {
 				'deps'    => array(),
 				'version' => MAGAZINE_BLOCKS_VERSION,
 			),
-			'frontend-common' => array(
-				'src'     => $this->get_asset_url( 'common.js', false ),
-				'deps'    => array( 'magazine-blocks-frontend-utils' ),
-				'version' => MAGAZINE_BLOCKS_VERSION,
-			),
 			'news-ticker'     => array(
 				'src'     => plugins_url( 'assets/js/news-ticker.js', MAGAZINE_BLOCKS_PLUGIN_FILE ),
 				'deps'    => array( 'jquery' ),

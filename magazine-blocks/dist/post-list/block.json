@@ -1,13 +1,10 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/post-list",
   "title": "Post List",
   "description": "Display posts in small list design",
-  "keywords": [
-    "post-list",
-    "post",
-    "list"
-  ],
+  "keywords": ["post-list", "post", "list"],
   "category": "magazine-blocks-post-category",
   "textdomain": "magazine-blocks",
   "supports": {

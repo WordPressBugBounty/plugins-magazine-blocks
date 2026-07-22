@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/category-list",
   "title": "Category List",
   "description": "Showcase categories so that readers can browse by interested category",

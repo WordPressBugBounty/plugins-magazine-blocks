@@ -176,7 +176,7 @@ function magazine_blocks_array_first( $array, $callback = null, $default = null 
  * @param mixed         $default Default.
  * @return mixed
  */
-function magazine_blocks_array_last( array $array, callable $callback = null, $default = null ) {
+function magazine_blocks_array_last( array $array, $callback = null, $default = null ) {
 	if ( is_null( $callback ) ) {
 		return empty( $array ) ? magazine_blocks_value( $default ) : end( $array );
 	}
@@ -467,7 +467,7 @@ function magazine_blocks_array_set( &$array, $key, $value ): array {
  * @param int|null $seed Seed.
  * @return array
  */
-function magazine_blocks_array_shuffle( array $array, int $seed = null ): array {
+function magazine_blocks_array_shuffle( array $array, $seed = null ): array {
 	if ( is_null( $seed ) ) {
 		shuffle( $array );
 	} else {

@@ -35,6 +35,9 @@ importers:
       '@types/micromodal':
         specifier: ^0.3.5
         version: 0.3.5
+      '@wordpress/html-entities':
+        specifier: ^4.48.1
+        version: 4.48.1
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -2814,6 +2817,10 @@ packages:
   '@wordpress/html-entities@3.58.0':
     resolution: {integrity: sha512-FU7b6QZdwTCuLKq6wCl0IZqqOMcMRxMcekVVytzTse7hYk9dvL1qQL/U4eQ/CNyKqiT9u7fb5NKTQILOzoolVQ==}
     engines: {node: '>=12'}
+
+  '@wordpress/html-entities@4.48.1':
+    resolution: {integrity: sha512-Gq6j3yl+m0pc0989jFjAgYbtdwHyUS/5PR39zg+hQfq1IWiqCwfhFlJAqc8ymwx/gSklrxf9mmyhBwmUPWtMcw==}
+    engines: {node: '>=18.12.0', npm: '>=8.19.2'}
 
   '@wordpress/i18n@4.58.0':
     resolution: {integrity: sha512-VfvS3BWv/RDjRKD6PscIcvYfWKnGJcI/DEqyDgUMhxCM6NRwoL478CsUKTiGJIymeyRodNRfprdcF086DpGKYw==}
@@ -12829,6 +12836,8 @@ snapshots:
   '@wordpress/html-entities@3.58.0':
     dependencies:
       '@babel/runtime': 7.27.3
+
+  '@wordpress/html-entities@4.48.1': {}
 
   '@wordpress/i18n@4.58.0':
     dependencies:

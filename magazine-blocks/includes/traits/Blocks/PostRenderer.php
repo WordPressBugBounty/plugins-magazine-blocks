@@ -20,12 +20,17 @@ trait PostRenderer {
 	 */
 	protected function render_post_title( $post_id, $markup = 'h6' ) {
 		$markup = magazine_blocks_sanitize_html_tag( $markup, 'h3' );
+		$title  = get_the_title( $post_id );
+
+		if ( empty( $title ) ) {
+			$title = __( '(Untitled)', 'magazine-blocks' );
+		}
 
 		return sprintf(
 			'<%s class="mzb-post-title"><a href="%s">%s</a></%s>',
 			$markup,
 			esc_url( get_the_permalink( $post_id ) ),
-			get_the_title( $post_id ),
+			esc_html( $title ),
 			$markup
 		);
 	}
@@ -64,18 +69,22 @@ trait PostRenderer {
 			return '';
 		}
 
-		// Add category link classes for color override.
-		if ( $enable_override_color ) {
+		// Only override with the theme's per-category color when it can actually supply one,
+		// so the badge never ends up with a class but no matching color (inline style guarantees
+		// it wins over the block's own default/custom color on both the editor and the frontend).
+		if ( $enable_override_color && function_exists( 'colormag_category_color' ) ) {
 			$categories = preg_replace_callback(
 				'/<a(.+?)href="([^"]+)"(.+?)>([^<]+)<\/a>/',
 				function ( $matches ) {
 					$cat_id = get_cat_ID( $matches[4] );
+					$color  = colormag_category_color( $cat_id );
 					return sprintf(
-						'<a%shref="%s"%s class="category-link category-link-%s">%s</a>',
+						'<a%shref="%s"%s class="category-link category-link-%s" style="color: %s;">%s</a>',
 						$matches[1],
 						$matches[2],
 						$matches[3],
 						$cat_id,
+						esc_attr( $color ),
 						$matches[4]
 					);
 				},
@@ -95,15 +104,17 @@ trait PostRenderer {
 	 */
 	protected function render_date( $post_id, $enable_icon ) {
 		$date = '';
+
 		if ( $enable_icon ) {
 			$date = '<svg class="mzb-icon mzb-icon--calender" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-                <path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
-            </svg>';
+				<path d="M1.892 12.929h10.214V5.5H1.892v7.429zm2.786-8.822v-2.09a.226.226 0 00-.066-.166.226.226 0 00-.166-.065H3.98a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.022.122.065.166.044.044.1.065.167.065h.465a.226.226 0 00.166-.065.226.226 0 00.066-.167zm5.571 0v-2.09a.226.226 0 00-.065-.166.226.226 0 00-.167-.065h-.464a.226.226 0 00-.167.065.226.226 0 00-.065.167v2.09c0 .067.021.122.065.166.043.044.099.065.167.065h.464a.226.226 0 00.167-.065.226.226 0 00.065-.167zm2.786-.464v9.286c0 .251-.092.469-.276.652a.892.892 0 01-.653.276H1.892a.892.892 0 01-.653-.275.892.892 0 01-.276-.653V3.643c0-.252.092-.47.276-.653a.892.892 0 01.653-.276h.929v-.696c0-.32.113-.593.34-.82.228-.227.501-.34.82-.34h.465c.319 0 .592.113.82.34.227.227.34.5.34.82v.696h2.786v-.696c0-.32.114-.593.34-.82.228-.227.501-.34.82-.34h.465c.32 0 .592.113.82.34.227.227.34.5.34.82v.696h.93c.25 0 .468.092.652.276a.892.892 0 01.276.653z" />
+			</svg>';
 		}
+
 		$date .= sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( get_the_permalink( $post_id ) ),
-			get_the_date()
+			esc_html( get_the_date( '', $post_id ) )
 		);
 
 		return '<span class="mzb-post-date">' . $date . '</span>';
@@ -140,14 +151,25 @@ trait PostRenderer {
 	 * @return string Author HTML.
 	 */
 	protected function render_author( $post_id, $enable_icon ) {
+		$author_id   = (int) get_post_field( 'post_author', $post_id );
+		$author_name = get_the_author_meta( 'display_name', $author_id );
+		$author_url  = get_author_posts_url( $author_id );
+
 		$author = '';
+
 		if ( $enable_icon ) {
-			$author = sprintf(
-				'<img class="post-author-image" src="%s"/>',
-				esc_url( get_avatar_url( get_the_author_meta( 'ID' ) ) )
+			$author .= sprintf(
+				'<img class="post-author-image" src="%s" alt="%s"/>',
+				esc_url( get_avatar_url( $author_id ) ),
+				esc_attr( $author_name )
 			);
 		}
-		$author .= get_the_author_posts_link();
+
+		$author .= sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( $author_url ),
+			esc_html( $author_name )
+		);
 
 		return '<span class="mzb-post-author">' . $author . '</span>';
 	}

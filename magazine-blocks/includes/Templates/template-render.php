@@ -39,7 +39,7 @@
 
 	// Render header
 	if ( $use_custom_header ) {
-		echo wp_kses_post( magazine_blocks()->render_template( $header[0]->ID ) );
+		echo wp_kses_post( magazine_blocks()->render_template_to_string( $header[0]->ID ) );
 	} else {
 		get_header();
 	}
@@ -49,7 +49,7 @@
 
 	if ( $template_id && function_exists( 'magazine_blocks' ) ) {
 		// Custom page template exists, render it
-		echo wp_kses_post( magazine_blocks()->render_template( $template_id ) );
+		echo wp_kses_post( magazine_blocks()->render_template_to_string( $template_id ) );
 	} else {
 		// Determine the template WordPress would normally use
 		if ( is_front_page() ) {
@@ -144,7 +144,7 @@
 
 	// Render footer
 	if ( $use_custom_footer ) {
-		echo wp_kses_post( magazine_blocks()->render_template( $footer[0]->ID ) );
+		echo wp_kses_post( magazine_blocks()->render_template_to_string( $footer[0]->ID ) );
 	} else {
 		get_footer();
 	}

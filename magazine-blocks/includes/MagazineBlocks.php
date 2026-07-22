@@ -262,6 +262,8 @@ final class MagazineBlocks {
 		if ( function_exists( 'has_blocks' ) && has_blocks( $content ) && function_exists( 'parse_blocks' ) && function_exists( 'render_block' ) ) {
 			return do_blocks( $content );
 		}
+
+		return '';
 	}
 
 	/**

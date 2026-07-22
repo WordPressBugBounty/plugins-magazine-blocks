@@ -420,7 +420,7 @@ class Slider extends Block {
 			$tag,
 			esc_attr( implode( ' ', array_filter( $title_classes ) ) ),
 			esc_url( get_the_permalink( $post_id ) ),
-			esc_html( get_the_title( $post_id ) ),
+			esc_html( get_the_title( $post_id ) ? get_the_title( $post_id ) : __( '(Untitled)', 'magazine-blocks' ) ),
 			$tag
 		);
 

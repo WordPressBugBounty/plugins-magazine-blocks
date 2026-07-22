@@ -80,6 +80,13 @@ class BlockStyles {
 	private $fonts = array();
 
 	/**
+	 * Whether a magazine block was found unregistered during generation.
+	 *
+	 * @var bool Whether a magazine block was found unregistered during generation.
+	 */
+	private $has_registration_gap = false;
+
+	/**
 	 * Settings.
 	 *
 	 * @var \MagazineBlocks\Setting
@@ -249,6 +256,12 @@ class BlockStyles {
 			$this->create_style_file();
 			$this->generate();
 			$this->make_styles();
+
+			// Don't cache an incomplete run so the next request retries.
+			if ( $this->has_registration_gap ) {
+				return;
+			}
+
 			$this->update_styles();
 			$this->write();
 		} catch ( \Exception $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
@@ -350,7 +363,12 @@ class BlockStyles {
 
 			$attrs_def = $this->get_attribute_def( $namespace );
 
-			if ( ! $attrs_def || ! isset( $attrs['clientId'] ) ) {
+			if ( ! $attrs_def ) {
+				$this->has_registration_gap = true;
+				continue;
+			}
+
+			if ( ! isset( $attrs['clientId'] ) ) {
 				continue;
 			}
 
@@ -358,7 +376,8 @@ class BlockStyles {
 				$name = 'button' === $name ? 'button' : ( 'button' === $name ? 'buttons' : $name );
 			}
 
-			$wrapper_class = '.mzb-' . $name . '-' . $attrs['clientId'];
+			// Selector, not a declaration value, so sanitize_value() below never sees it - strip here too.
+			$wrapper_class = $this->sanitize_value( '.mzb-' . $name . '-' . $attrs['clientId'] );
 
 			foreach ( $attrs_def as $setting_id => $data ) {
 				$styles_def = $data['style'] ?? false;
@@ -372,6 +391,8 @@ class BlockStyles {
 				if ( empty( $value ) ) {
 					continue;
 				}
+
+				$value = $this->sanitize_value( $value );
 
 				$this->css = magazine_blocks_parse_args(
 					$this->css,
@@ -1111,6 +1132,28 @@ class BlockStyles {
 			$css[ $selector ] = $properties;
 		}
 		return $css;
+	}
+
+	/**
+	 * Strips characters that would let a block attribute value break out of the
+	 * `<style>` tag the generated stylesheet is ultimately printed inside (see
+	 * MagazineBlocks::render_template_to_string() and core's wp_add_inline_style()),
+	 * neither of which escapes this stylesheet. Applied once at the point every
+	 * attribute value enters style generation so every builder (border, background,
+	 * typography, dimension, box_shadow, separator, general) receives safe input.
+	 *
+	 * @param mixed $value Setting value, scalar or (nested) array.
+	 *
+	 * @return mixed
+	 */
+	private function sanitize_value( $value ) {
+		if ( is_array( $value ) ) {
+			return array_map( array( $this, 'sanitize_value' ), $value );
+		}
+		if ( is_string( $value ) ) {
+			return str_replace( array( '<', '>', '"' ), '', $value );
+		}
+		return $value;
 	}
 
 	/**

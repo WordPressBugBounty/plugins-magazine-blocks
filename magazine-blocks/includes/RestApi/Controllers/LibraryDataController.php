@@ -95,9 +95,9 @@ class LibraryDataController extends \WP_REST_Controller {
 
 			if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
 				return new \WP_Error(
-					'rest_forbidden',
-					esc_html__( 'You are not allowed to access this resource.', 'magazine-blocks' ),
-					array( 'status' => rest_authorization_required_code() )
+					'mzb_library_data_fetch_failed',
+					esc_html__( 'Unable to fetch the library data. Please try again later.', 'magazine-blocks' ),
+					array( 'status' => 502 )
 				);
 			}
 
@@ -105,11 +105,11 @@ class LibraryDataController extends \WP_REST_Controller {
 
 			$decoded = json_decode( $data, true );
 
-			if ( json_last_error() === $decoded ) {
+			if ( JSON_ERROR_NONE !== json_last_error() ) {
 				return new \WP_Error(
-					'rest_forbidden',
-					esc_html__( 'You are not allowed to access this resource.', 'magazine-blocks' ),
-					array( 'status' => rest_authorization_required_code() )
+					'mzb_library_data_invalid_response',
+					esc_html__( 'The library data response was invalid. Please try again later.', 'magazine-blocks' ),
+					array( 'status' => 502 )
 				);
 			}
 			$data = $decoded;
@@ -122,8 +122,8 @@ class LibraryDataController extends \WP_REST_Controller {
 	/**
 	 * Prepare items for response.
 	 *
-	 * @param array       $data
-	 * @param \WP_Request $request
+	 * @param array            $data Raw library data keyed by post type slug.
+	 * @param \WP_REST_Request $request Full data about the request.
 	 * @return array
 	 */
 	protected function prepare_items_for_response( $data, $request ) {
@@ -139,7 +139,18 @@ class LibraryDataController extends \WP_REST_Controller {
 					);
 				}
 				$item['slug'] = $item['post_name'];
-				foreach ( $item['category'] ?? array() as $cat ) {
+
+				// Items without a category would otherwise be dropped entirely, hiding them from every tab's total count.
+				$categories = ! empty( $item['category'] )
+					? $item['category']
+					: array(
+						array(
+							'name' => esc_html__( 'Uncategorized', 'magazine-blocks' ),
+							'slug' => 'uncategorized',
+						),
+					);
+
+				foreach ( $categories as $cat ) {
 					if ( isset( $result[ $cat['slug'] ] ) ) {
 						++$result[ $cat['slug'] ]['count'];
 						$result[ $cat['slug'] ]['items'][] = $item;

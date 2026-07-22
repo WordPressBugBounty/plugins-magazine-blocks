@@ -28,6 +28,8 @@ class MetadataValidator {
 	 * @since x.x.x
 	 */
 	public function validate( $metadata ) {
+		// Avoid stale stat cache causing false negatives for a file that does exist.
+		clearstatcache( true, $metadata );
 		return file_exists( $metadata );
 	}
 }

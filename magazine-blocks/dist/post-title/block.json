@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/post-title",
   "title": "Post Title",
   "description": "Create stylish title for each section with various markups from H1 to H6.",

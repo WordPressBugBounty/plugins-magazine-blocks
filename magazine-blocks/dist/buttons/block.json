@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/buttons",
   "title": "Buttons",
   "description": "Redirect users to your important pages or websites by clicking button.",
@@ -182,6 +183,5 @@
   },
   "style": "magazine-blocks-blocks",
   "editorScript": "magazine-blocks-blocks",
-  "editorStyle": "magazine-blocks-blocks-editor",
-  "viewScript": "magazine-blocks-frontend-common"
+  "editorStyle": "magazine-blocks-blocks-editor"
 }

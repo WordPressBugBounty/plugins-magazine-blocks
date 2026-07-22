@@ -4,8 +4,8 @@
  * Description: Craft your beautifully unique and dynamic Magazine, Newspaper website with various beautiful and advanced posts related blocks like Featured Posts, Banner Posts, Grid Module, Tab Posts, and more.
  * Author: WPBlockArt
  * Author URI: https://wpblockart.com/
- * Version: 1.8.4
- * Requires at least: 5.4
+ * Version: 1.8.5
+ * Requires at least: 6.3
  * Requires PHP: 7.0
  * Text Domain: magazine-blocks
  * Domain Path: /languages
@@ -21,7 +21,7 @@ use MagazineBlocks\MagazineBlocks;
 
 defined( 'ABSPATH' ) || exit;
 
-! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.4' );
+! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.5' );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_FILE' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_FILE', __FILE__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR', __DIR__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
@@ -114,6 +114,20 @@ function magazine_blocks_register_rest_fields() {
 				),
 			)
 		);
+
+		// Video post format URL.
+		register_rest_field(
+			$value['value'],
+			'videoUrl',
+			array(
+				'get_callback'    => 'magazine_blocks_get_video_url',
+				'update_callback' => null,
+				'schema'          => array(
+					'description' => esc_html__( 'Video URL from the video post format meta' ),
+					'type'        => 'string',
+				),
+			)
+		);
 	}
 }
 
@@ -160,6 +174,11 @@ function magazine_blocks_get_author_image( $object ) {
 	return $author_image;
 }
 
+// Video post format URL.
+function magazine_blocks_get_video_url( $object ) {
+	return get_post_meta( $object['id'], 'video_url', true );
+}
+
 // Category list.
 if ( ! function_exists( 'magazine_blocks_get_category_list' ) ) {
 	function magazine_blocks_get_category_list( $object ) {
@@ -189,38 +208,48 @@ if ( ! function_exists( 'magazine_blocks_get_category_list' ) ) {
 add_action( 'rest_api_init', 'magazine_blocks_register_rest_fields' );
 
 add_action(
-	'enqueue_block_editor_assets',
+	'enqueue_block_assets',
 	function () {
-		$categories = get_categories();
-		echo '<style id="magazine-blocks-category-colors">';
+		// Frontend output is handled separately via the wp_head callback below.
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$categories                     = get_categories();
 		$enable_override_category_color = get_theme_mod( 'colormag_enable_override_category_color', false );
+		$css                            = '';
+
 		if ( function_exists( 'colormag_category_color' ) && $enable_override_category_color ) {
 			foreach ( $categories as $category ) {
 				$color = colormag_category_color( $category->term_id );
 				if ( $color ) {
-					echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $color ) . ';}';
+					$css .= '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $color ) . ';}';
 				}
 			}
 		} else {
 			foreach ( $categories as $category ) {
-				echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: var(--mzb-categories-colors-' . esc_attr( $category->term_id ) . ');}';
+				$css .= '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: var(--mzb-categories-colors-' . esc_attr( $category->term_id ) . ');}';
 			}
 		}
-		echo '</style>';
+
+		if ( $css && wp_style_is( 'magazine-blocks-blocks-editor', 'registered' ) ) {
+			wp_add_inline_style( 'magazine-blocks-blocks-editor', $css );
+		}
 	}
 );
 
 add_action(
 	'wp_head',
 	function () {
-		$categories = get_categories();
-		echo '<style id="magazine-blocks-category-colors">';
+		$categories                     = get_categories();
 		$enable_override_category_color = get_theme_mod( 'colormag_enable_override_category_color', false );
+		$css                            = '';
+
 		if ( function_exists( 'colormag_category_color' ) && $enable_override_category_color ) {
 			foreach ( $categories as $category ) {
 				$color = colormag_category_color( $category->term_id );
 				if ( $color ) {
-					echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $color ) . ';}';
+					$css .= '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $color ) . ';}';
 				}
 			}
 		} else {
@@ -231,13 +260,16 @@ add_action(
 				if ( ! empty( $color ) ) {
 					foreach ( $color as $setting => $value ) {
 						if ( isset( $value['id'], $value['value'] ) && $value['id'] == $category->term_id ) {
-							echo '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $value['value'] ) . ';}';
+							$css .= '.mzb-post-meta .mzb-post-categories .category-link-' . esc_attr( $category->term_id ) . '{background-color: ' . esc_attr( $value['value'] ) . ';}';
 						}
 					}
 				}
 			}
 		}
-		echo '</style>';
+
+		if ( $css ) {
+			echo '<style id="magazine-blocks-category-colors">' . $css . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
 	}
 );
 

@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/featured-posts",
   "title": "Featured Posts",
   "description": "Feature posts from selected category",

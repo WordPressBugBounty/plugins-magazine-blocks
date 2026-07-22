@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/featured-categories",
   "title": "Split Feed",
   "description": "Feature various categories and their posts",

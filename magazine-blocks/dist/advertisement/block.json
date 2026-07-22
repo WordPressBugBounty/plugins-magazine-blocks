@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/advertisement",
   "title": "Advertisement",
   "description": "Upload advertisement images of various standard ad display sizes",

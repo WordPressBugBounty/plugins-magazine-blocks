@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/date-weather",
   "title": "Date & Weather",
   "description": "Setup API to display current date and weather information",

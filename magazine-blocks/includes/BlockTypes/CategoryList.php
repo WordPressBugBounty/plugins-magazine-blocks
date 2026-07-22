@@ -224,7 +224,7 @@ class CategoryList extends Block {
 					</span>
 					<div class="mzb-post-count-wrapper">
 						<div class="mzb-post-count">
-							<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' Posts</a>
+							<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' ' . esc_html( $this->get_post_count_label( $category->category_count ) ) . '</a>
 						</div>
 					</div>
 				</div>
@@ -256,7 +256,7 @@ class CategoryList extends Block {
 		$html .= '</span>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
-		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' Posts</a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' ' . esc_html( $this->get_post_count_label( $category->category_count ) ) . '</a>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
@@ -294,7 +294,7 @@ class CategoryList extends Block {
 		$html .= '</span>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
-		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' Posts</a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' ' . esc_html( $this->get_post_count_label( $category->category_count ) ) . '</a>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';
@@ -333,11 +333,21 @@ class CategoryList extends Block {
 		$html .= '</div>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
-		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' <span class="mzb-post-count-text">Posts</span></a>';
+		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . '<span class="mzb-post-count-text"> ' . esc_html( $this->get_post_count_label( $category->category_count ) ) . '</span></a>';
 		$html .= '</div>';
 		$html .= '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Get the singular/plural post count label for a category.
+	 *
+	 * @param int $count Category post count.
+	 * @return string Translated "Post"/"Posts" label.
+	 */
+	protected function get_post_count_label( $count ) {
+		return _n( 'Post', 'Posts', $count, 'magazine-blocks' );
 	}
 
 	/**

@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/social-icon",
   "title": "Social Icon",
   "description": "An advanced single social icon within section block.",

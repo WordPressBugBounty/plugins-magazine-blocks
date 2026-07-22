@@ -53,7 +53,12 @@ class Ajax {
 	 * @retun void
 	 */
 	public function save_block_css() {
-		check_ajax_referer( '_magazine_blocks_nonce', 'security', false );
+		if ( ! check_ajax_referer( '_magazine_blocks_nonce', 'security', false ) ) {
+			wp_send_json_error(
+				array( 'message' => __( 'Invalid request.', 'magazine-blocks' ) ),
+				403
+			);
+		}
 
 		$css     = isset( $_POST['css'] ) ? sanitize_text_field( wp_unslash( $_POST['css'] ) ) : '';
 		$post_id = isset( $_POST['post_id'] ) ? absint( wp_unslash( $_POST['post_id'] ) ) : 0;
@@ -91,7 +96,12 @@ class Ajax {
 	 * @return void
 	 */
 	public function get_widget_blocks() {
-		check_ajax_referer( '_magazine_blocks_nonce', 'security', false );
+		if ( ! check_ajax_referer( '_magazine_blocks_nonce', 'security', false ) ) {
+			wp_send_json_error(
+				array( 'message' => __( 'Invalid request.', 'magazine-blocks' ) ),
+				403
+			);
+		}
 		wp_send_json_success( array( 'blocks' => magazine_blocks()->utils->get_widget_blocks() ) );
 	}
 }

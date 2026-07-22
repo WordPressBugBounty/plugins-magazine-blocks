@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/section",
   "title": "Section",
   "description": "Add Rows and Columns inside rows to create various layouts.",

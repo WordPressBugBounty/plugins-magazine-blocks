@@ -1,10 +1,10 @@
 === Magazine Blocks – Blog Designer, Magazine & Newspaper Website Builder, Page Builder with Posts Blocks, Post Grid  ===
 Contributors: WPBlockArt
 Tags: gutenberg, editor, news, magazine blocks, post blocks
-Requires at least: 5.4
-Tested up to: 6.8.2
+Requires at least: 6.3
+Tested up to: 7.0.2
 Requires PHP: 7.0
-Stable tag: 1.8.4
+Stable tag: 1.8.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,15 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.5 - 22-07-2026 =
+* Improved - Migrated all blocks to the latest block API version for better compatibility with the WordPress block editor.
+* Improved - General code quality, PHP 8.4 compatibility, and minor block display fixes across the plugin.
+* Security - Sanitized block style values to prevent malicious code from running via unescaped style output.
+* Security - Enforced AJAX nonce verification to block forged requests when saving block CSS.
+* Fix - Fixed a bug where importing the ColorMag Starter Templates demo could crash the block editor.
+* Fix - Fixed custom header, footer, and page templates not being sanitized correctly in the Template Builder.
+* Fix - Fixed duplicate confirmation dialogs appearing when deleting a template in the Template Builder.
+
 = 1.8.4 - 02-04-2026 =
 * Security - Fixed authenticated stored XSS vulnerability in block attributes.
 

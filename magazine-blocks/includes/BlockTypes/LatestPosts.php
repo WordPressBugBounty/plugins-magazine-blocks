@@ -37,15 +37,20 @@ class LatestPosts extends Block {
 	public function render( $attributes = array(), $content = '', $block = null ) {
 		$attrs = $this->extract_attributes( $attributes );
 
-		$categories = get_categories();
+		$categories = 'all' === $attrs['category'] ? get_categories() : array( get_category( $attrs['category'] ) );
 		$posts      = $this->get_latest_posts_by_category(
 			$categories,
 			$attrs['excluded_category'],
 			$attrs['offset'],
-			$attrs['post_type']
+			$attrs['post_type'],
+			$attrs['author']
 		);
 
-		$query = $this->query_builder->build_query( array( 'paged' => $attrs['paged'] ) );
+		$query = $this->query_builder->build_query(
+			array(
+				'paged' => $attrs['paged'],
+			)
+		);
 
 		$attrs['max_num_pages'] = $query->max_num_pages;
 
@@ -74,8 +79,14 @@ class LatestPosts extends Block {
 			'heading_layout'    => $heading_layout,
 			'heading_style'     => $heading_style,
 			'column'            => magazine_blocks_array_get( $attributes, 'column', 2 ),
+			// Query parameters.
+			'category'          => magazine_blocks_array_get( $attributes, 'category', '' ),
+			'tag'               => magazine_blocks_array_get( $attributes, 'tag', '' ),
+			'excluded_category' => magazine_blocks_array_get( $attributes, 'excludedCategory', '' ),
+			'order_by'          => magazine_blocks_array_get( $attributes, 'orderBy', '' ),
+			'order_type'        => magazine_blocks_array_get( $attributes, 'orderType', '' ),
+			'author'            => magazine_blocks_array_get( $attributes, 'authorName', '' ),
 			'post_type'         => magazine_blocks_array_get( $attributes, 'postType', 'post' ),
-			'excluded_category' => magazine_blocks_array_get( $attributes, 'excludedCategory', array() ),
 			'offset'            => magazine_blocks_array_get( $attributes, 'offset', 0 ),
 			// Display toggles.
 			'enable_heading'    => magazine_blocks_array_get( $attributes, 'enableHeading', true ),
@@ -107,8 +118,9 @@ class LatestPosts extends Block {
 	 * @param mixed $excluded_category The excluded category list.
 	 * @param mixed $offset The offset.
 	 * @param mixed $post_type  Th post type.
+	 * @param mixed $author     The author.
 	 */
-	protected function get_latest_posts_by_category( $categories, $excluded_category, $offset, $post_type ) {
+	protected function get_latest_posts_by_category( $categories, $excluded_category, $offset, $post_type, $author ) {
 		if ( ! is_array( $excluded_category ) ) {
 			$excluded_category = empty( $excluded_category ) ? array() : array( $excluded_category );
 		}
@@ -118,7 +130,7 @@ class LatestPosts extends Block {
 
 		foreach ( $categories as $category ) {
 			if ( ! in_array( $category->term_id, $excluded_category, true ) ) {
-				$post = $this->get_latest_post_in_category( $category->term_id, $excluded_category, $offset, $post_type );
+				$post = $this->get_latest_post_in_category( $category->term_id, $excluded_category, $offset, $post_type, $author );
 
 				if ( $post && ! in_array( $post->ID, $displayed_posts, true ) ) {
 					$displayed_posts[] = $post->ID;
@@ -137,8 +149,9 @@ class LatestPosts extends Block {
 	 * @param mixed $excluded_category The excluded category list.
 	 * @param mixed $offset The offset.
 	 * @param mixed $post_type  Th post type.
+	 * @param mixed $author     The author.
 	 */
-	protected function get_latest_post_in_category( $category_id, $excluded_category, $offset, $post_type ) {
+	protected function get_latest_post_in_category( $category_id, $excluded_category, $offset, $post_type, $author ) {
 		$latest_posts = get_posts(
 			array(
 				'post_type'        => $post_type,
@@ -148,6 +161,7 @@ class LatestPosts extends Block {
 				'order'            => 'DESC',
 				'category__not_in' => $excluded_category,
 				'offset'           => $offset,
+				'author'           => 'all' === $author ? '' : $author,
 			)
 		);
 

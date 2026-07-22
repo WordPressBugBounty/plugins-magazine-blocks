@@ -1,5 +1,5 @@
 {
-  "apiVersion": 2,
+  "apiVersion": 3,
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "name": "magazine-blocks/button",
   "title": "Button",
@@ -548,6 +548,5 @@
   },
   "style": "magazine-blocks-blocks",
   "editorScript": "magazine-blocks-blocks",
-  "editorStyle": "magazine-blocks-blocks-editor",
-  "viewScript": "magazine-blocks-frontend-common"
+  "editorStyle": "magazine-blocks-blocks-editor"
 }

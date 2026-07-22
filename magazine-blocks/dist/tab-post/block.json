@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/tab-post",
   "title": "Tab Post",
   "description": "Display the latest and popular posts in tabbed design",
@@ -27,7 +28,7 @@
     },
     "postType": {
       "type": "string",
-      "default": "Post"
+      "default": "post"
     },
     "category": {
       "type": "string",

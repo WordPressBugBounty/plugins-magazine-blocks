@@ -297,7 +297,7 @@ class BannerPosts extends Block {
 			'<%s class="mzb-post-title"><a href="%s">%s</a></%s>',
 			$tag,
 			esc_url( get_the_permalink( $post_id ) ),
-			esc_html( get_the_title( $post_id ) ),
+			esc_html( get_the_title( $post_id ) ? get_the_title( $post_id ) : __( '(Untitled)', 'magazine-blocks' ) ),
 			$tag
 		);
 

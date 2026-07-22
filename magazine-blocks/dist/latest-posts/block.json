@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/latest-posts",
   "title": "Latest Posts",
   "description": "Full-width block to showcase latest posts of each categories",

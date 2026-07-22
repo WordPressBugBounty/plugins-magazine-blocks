@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/modal",
   "title": "Pop Up",
   "description": "Add Popup Modal on click.",

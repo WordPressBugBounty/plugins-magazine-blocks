@@ -48,8 +48,8 @@ class BlockRegistrar {
 	 * @return bool True on successful registration, false on failure.
 	 * @since x.x.x
 	 */
-	public function register( $block_name, callable $render_callback = null ) {
-		$metadata = $this->get_metadata_base_dir( $block_name ) . "/$block_name/block.json";
+	public function register( $block_name, $render_callback = null ) {
+		$metadata = trailingslashit( $this->get_metadata_base_dir( $block_name ) ) . $block_name . '/block.json';
 
 		if ( ! $this->validator->validate( $metadata ) ) {
 			_doing_it_wrong(
@@ -78,6 +78,6 @@ class BlockRegistrar {
 	 * @since x.x.x
 	 */
 	protected function get_metadata_base_dir( $block_name ) {
-		return apply_filters( 'magazine_blocks_get_metadata_base_dir', MAGAZINE_BLOCKS_PLUGIN_DIR . '/dist', $block_name );
+		return apply_filters( 'magazine_blocks_get_metadata_base_dir', wp_normalize_path( MAGAZINE_BLOCKS_PLUGIN_DIR . '/dist' ), $block_name );
 	}
 }

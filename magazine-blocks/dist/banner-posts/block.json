@@ -1,5 +1,6 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
   "name": "magazine-blocks/banner-posts",
   "title": "Banner Posts",
   "description": "Show banner image behind the post content",

@@ -117,8 +117,8 @@ class Admin {
 				'position'   => 40,
 			),
 			'free-vs-pro'  => array(
-				'page_title' => __( 'Free Vs pro', 'magazine-blocks' ),
-				'menu_title' => __( 'Free Vs pro', 'magazine-blocks' ),
+				'page_title' => __( 'Free vs Pro', 'magazine-blocks' ),
+				'menu_title' => __( 'Free vs Pro', 'magazine-blocks' ),
 				'position'   => 45,
 			),
 			'help'         => array(
@@ -174,7 +174,8 @@ class Admin {
 	 * @return string Admin footer text.
 	 */
 	public function admin_footer_text( string $text ): string {
-		if ( 'toplevel_page_magazine_blocks' !== get_current_screen()->id ) {
+		$screen = get_current_screen();
+		if ( ! $screen || 'toplevel_page_magazine_blocks' !== $screen->id ) {
 			return $text;
 		}
 
@@ -189,7 +190,13 @@ class Admin {
 	 * @return string Version text.
 	 */
 	public function admin_footer_version( string $version ): string {
-		return 'toplevel_page_magazine_blocks' !== get_current_screen()->id ? $version : __( 'Version ', 'magazine-blocks' ) . MAGAZINE_BLOCKS_VERSION;
+		$screen = get_current_screen();
+		if ( ! $screen || 'toplevel_page_magazine_blocks' !== $screen->id ) {
+			return $version;
+		}
+
+		/* translators: %s: Plugin version number */
+		return sprintf( __( 'Version %s', 'magazine-blocks' ), MAGAZINE_BLOCKS_VERSION );
 	}
 
 	/**
