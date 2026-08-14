@@ -82,6 +82,62 @@ function magazine_blocks_is_magazine_blocks_block( array $block ): bool {
 }
 
 /**
+ * Get WP_Query args to order posts by view count, treating unviewed posts as zero.
+ *
+ * Uses a query-var marker consumed by `magazine_blocks_join_popular_order_meta()`
+ * and `magazine_blocks_orderby_popular_order_meta()` rather than `meta_key`/`meta_query`,
+ * since an `EXISTS` meta clause builds an INNER JOIN that would silently exclude every
+ * post without a recorded view before a `NOT EXISTS` OR clause ever gets a chance to
+ * include it.
+ *
+ * @since x.x.x
+ * @return array
+ */
+function magazine_blocks_get_popular_order_args(): array {
+	return array(
+		'mzb_order_by_popular' => true,
+	);
+}
+
+/**
+ * LEFT JOIN the view-count meta table when ordering by popularity.
+ *
+ * @since x.x.x
+ * @param string    $join  SQL JOIN clause.
+ * @param \WP_Query $query The query.
+ * @return string
+ */
+function magazine_blocks_join_popular_order_meta( $join, $query ) {
+	global $wpdb;
+
+	if ( ! $query->get( 'mzb_order_by_popular' ) ) {
+		return $join;
+	}
+
+	$join .= " LEFT JOIN {$wpdb->postmeta} AS mzb_popular_meta ON ( {$wpdb->posts}.ID = mzb_popular_meta.post_id AND mzb_popular_meta.meta_key = '_mzb_post_view_count' )"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+	return $join;
+}
+
+/**
+ * Order by view count, treating posts with no recorded views as zero.
+ *
+ * @since x.x.x
+ * @param string    $orderby SQL ORDER BY clause.
+ * @param \WP_Query $query   The query.
+ * @return string
+ */
+function magazine_blocks_orderby_popular_order_meta( $orderby, $query ) {
+	if ( ! $query->get( 'mzb_order_by_popular' ) ) {
+		return $orderby;
+	}
+
+	$order = 'ASC' === strtoupper( (string) $query->get( 'order' ) ) ? 'ASC' : 'DESC';
+
+	return "CAST( COALESCE( mzb_popular_meta.meta_value, 0 ) AS UNSIGNED ) {$order}";
+}
+
+/**
  * Get public post types.
  *
  * @return array

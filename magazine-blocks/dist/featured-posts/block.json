@@ -53,6 +53,9 @@
     "excludedCategory": {
       "type": "array"
     },
+    "excludedTag": {
+      "type": "array"
+    },
     "layout": {
       "type": "string",
       "default": "layout-1"
@@ -1631,6 +1634,121 @@
       "style": [
         {
           "selector": "{{WRAPPER}} .mzb-posts.mzb-post-card-border .mzb-post:hover"
+        }
+      ]
+    },
+    "highlightedPostCardBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post.mzb-first-post--highlight"
+        }
+      ]
+    },
+    "highlightedPostCardHoverBackground": {
+      "type": "object",
+      "default": {
+        "background": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts .mzb-post.mzb-first-post--highlight:hover"
+        }
+      ]
+    },
+    "highlightedPostCardPadding": {
+      "type": "object",
+      "default": {
+        "dimension": 1,
+        "desktop": {
+          "lock": true
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-1.mzb-none .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-1.mzb-border .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-1.mzb-boxed .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-2.mzb-none .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-2.mzb-border .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-2.mzb-boxed .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-3.mzb-none .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-3.mzb-border .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-3.mzb-boxed .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-4.mzb-none .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-4.mzb-border .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-4.mzb-boxed .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-5.mzb-none .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-5.mzb-border .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-5.mzb-boxed .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-layout-6.mzb-none .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-6.mzb-border .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; } {{WRAPPER}} .mzb-posts.mzb-layout-6.mzb-boxed .mzb-post.mzb-first-post--highlight { padding: {{VALUE}}; }"
+        }
+      ]
+    },
+    "highlightedPostCardBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-post-card-border .mzb-post.mzb-first-post--highlight"
+        }
+      ]
+    },
+    "highlightedPostCardHoverBorder": {
+      "type": "object",
+      "default": {
+        "border": 1,
+        "radius": {
+          "desktop": {
+            "lock": true
+          }
+        },
+        "size": {
+          "desktop": {
+            "lock": true
+          }
+        }
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-post-card-border .mzb-post.mzb-first-post--highlight:hover"
+        }
+      ]
+    },
+    "highlightedPostCardBoxShadow": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-post-card-border .mzb-post.mzb-first-post--highlight"
+        }
+      ]
+    },
+    "highlightedPostCardBoxShadowHover": {
+      "type": "object",
+      "default": {
+        "boxShadow": 1
+      },
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-posts.mzb-post-card-border .mzb-post.mzb-first-post--highlight:hover"
         }
       ]
     },

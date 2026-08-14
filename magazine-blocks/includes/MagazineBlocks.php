@@ -12,6 +12,8 @@ namespace MagazineBlocks;
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
+use MagazineBlocks\Analytics\BlockUsageTracker;
+use MagazineBlocks\Analytics\UsageTracking;
 use MagazineBlocks\RestApi\RestApi;
 use MagazineBlocks\Traits\Singleton;
 
@@ -51,6 +53,8 @@ final class MagazineBlocks {
 		ScriptStyle::init();
 		Review::init();
 		MaintenanceMode::init();
+		UsageTracking::init();
+		BlockUsageTracker::init();
 		$this->init_hooks();
 	}
 
@@ -178,6 +182,9 @@ final class MagazineBlocks {
 			add_action(
 				'wp_enqueue_scripts',
 				function () use ( $header_template, $footer_template ) {
+					// wp_head() runs before block markup exists here, so core's render-time style auto-enqueue never fires.
+					wp_enqueue_style( 'magazine-blocks-blocks' );
+
 					if ( ! class_exists( '\MagazineBlocks\BlockStyles' ) ) {
 						return;
 					}

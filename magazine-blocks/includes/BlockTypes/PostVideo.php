@@ -350,12 +350,13 @@ class PostVideo extends Block {
 				'/<a(.+?)href="([^"]+)"(.+?)>([^<]+)<\/a>/',
 				function ( $matches ) {
 					$cat_id = get_cat_ID( $matches[4] );
+					$color  = function_exists( 'colormag_category_color' ) ? colormag_category_color( $cat_id ) : '';
 					return sprintf(
 						'<a%shref="%s"%s style="%s">%s</a>',
 						$matches[1],
 						$matches[2],
 						$matches[3],
-						function_exists( 'colormag_category_color' ) ? 'background-color:' . colormag_category_color( $cat_id ) . ';' : '',
+						$color ? 'background-color:' . esc_attr( $color ) . ';' : '',
 						$matches[4]
 					);
 				},

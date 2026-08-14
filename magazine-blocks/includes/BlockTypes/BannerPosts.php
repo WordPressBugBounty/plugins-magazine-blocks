@@ -74,6 +74,7 @@ class BannerPosts extends Block {
 			'category'                       => magazine_blocks_array_get( $attributes, 'category', '' ),
 			'tag'                            => magazine_blocks_array_get( $attributes, 'tag', '' ),
 			'excluded_category'              => magazine_blocks_array_get( $attributes, 'excludedCategory', '' ),
+			'excluded_tag'                   => magazine_blocks_array_get( $attributes, 'excludedTag', '' ),
 			'order_by'                       => magazine_blocks_array_get( $attributes, 'orderBy', '' ),
 			'order_type'                     => magazine_blocks_array_get( $attributes, 'orderType', '' ),
 			'author'                         => magazine_blocks_array_get( $attributes, 'authorName', '' ),
@@ -96,7 +97,6 @@ class BannerPosts extends Block {
 			'excerpt_position'               => magazine_blocks_array_get( $attributes, 'excerptPosition', '' ),
 			'enable_readmore'                => magazine_blocks_array_get( $attributes, 'enableReadMore', '' ),
 			'read_more_text'                 => magazine_blocks_array_get( $attributes, 'readMoreText', '' ),
-			'enable_pagination'              => magazine_blocks_array_get( $attributes, 'enablePagination', '' ),
 			'enable_view_more'               => magazine_blocks_array_get( $attributes, 'enableViewMore', '' ),
 			'view_more_text'                 => magazine_blocks_array_get( $attributes, 'viewMoreText', '' ),
 			'enable_view_more_icon'          => magazine_blocks_array_get( $attributes, 'enableViewMoreIcon', '' ),
@@ -105,7 +105,6 @@ class BannerPosts extends Block {
 			'offset'                         => magazine_blocks_array_get( $attributes, 'offset', 0 ),
 			'hover_animation'                => magazine_blocks_array_get( $attributes, 'hoverAnimation', '' ),
 			'enable_override_category_color' => get_theme_mod( 'colormag_enable_override_category_color', false ),
-			'paged'                          => isset( $_GET[ 'block_id_' . $client_id ], $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'mzb_banner_posts' ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1,
 			'post_box_wrapper_border'        => isset( magazine_blocks_array_get( $attributes, 'postBoxWrapperBorder', '' )['border'] ) ?
 				magazine_blocks_array_get( $attributes, 'postBoxWrapperBorder', '' )['border'] : '',
 			'layout_2_advanced_style'        => 'layout-2' === $layout ?
@@ -146,13 +145,13 @@ class BannerPosts extends Block {
 			'post_status'         => 'publish',
 			'cat'                 => $attrs['category'],
 			'tag_id'              => $attrs['tag'],
-			'order_by'            => $attrs['order_by'],
+			'orderby'             => $attrs['order_by'],
 			'order'               => $attrs['order_type'],
 			'author'              => $attrs['author'],
 			'category__not_in'    => $attrs['excluded_category'],
+			'tag__not_in'         => $attrs['excluded_tag'],
 			'ignore_sticky_posts' => 1,
 			'offset'              => $attrs['offset'],
-			'paged'               => $attrs['paged'],
 		);
 
 		if ( 'all' === $args['author'] ) {
@@ -203,11 +202,6 @@ class BannerPosts extends Block {
 
 			// Close posts container.
 			$html .= '</div>';
-
-			// Render pagination if enabled.
-			if ( $attributes['enable_pagination'] ) {
-				$html .= mzb_numbered_pagination( $query->max_num_pages, $attributes['paged'], $attributes['client_id'] );
-			}
 
 			// Close block container.
 			$html .= '</div>';

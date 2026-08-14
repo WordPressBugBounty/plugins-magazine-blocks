@@ -78,6 +78,11 @@ trait PostRenderer {
 				function ( $matches ) {
 					$cat_id = get_cat_ID( $matches[4] );
 					$color  = colormag_category_color( $cat_id );
+
+					if ( ! $color ) {
+						return $matches[0];
+					}
+
 					return sprintf(
 						'<a%shref="%s"%s class="category-link category-link-%s" style="color: %s;">%s</a>',
 						$matches[1],
@@ -185,16 +190,8 @@ trait PostRenderer {
 		$html = '<div class="mzb-entry-content">';
 
 		if ( $attributes['enable_excerpt'] ) {
-			// Set custom excerpt length.
-			add_filter(
-				'excerpt_length',
-				function () use ( $attributes ) {
-					return $attributes['excerpt_limit'];
-				}
-			);
-
-			$excerpt = get_the_excerpt( $post_id );
-			remove_filter( 'excerpt_length', function () {} );
+			// wp_trim_words() is used directly since get_the_excerpt() ignores excerpt_length for manual excerpts.
+			$excerpt = wp_trim_words( get_the_excerpt( $post_id ), $attributes['excerpt_limit'] );
 
 			$html .= sprintf( '<div class="mzb-entry-summary"><p>%s</p></div>', $excerpt );
 		}

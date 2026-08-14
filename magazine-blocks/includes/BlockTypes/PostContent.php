@@ -33,6 +33,13 @@ class PostContent extends Block {
 	 * @return string Rendered HTML output.
 	 */
 	public function render( $attributes = array(), $content = '', $block = null ) {
+		// the_content() re-parses the post body, including this same block; bail out on re-entry to avoid infinite recursion.
+		static $is_rendering = false;
+
+		if ( $is_rendering ) {
+			return '';
+		}
+
 		// Get client ID for unique class.
 		$client_id = magazine_blocks_array_get( $attributes, 'clientId', '' );
 
@@ -40,10 +47,12 @@ class PostContent extends Block {
 		$html = '<div class="mzb-post-content mzb-post-content-' . esc_attr( $client_id ) . '">';
 
 		if ( is_singular( 'post' ) ) {
+			$is_rendering = true;
 			// Output the post content.
 			ob_start();
 			the_content();
-			$html .= ob_get_clean();
+			$html        .= ob_get_clean();
+			$is_rendering = false;
 		} else {
 			// Optionally, show a message or nothing.
 			$html .= esc_html__( 'No post content available.', 'magazine-blocks' );

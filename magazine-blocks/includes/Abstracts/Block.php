@@ -11,6 +11,9 @@ namespace MagazineBlocks\Abstracts;
 use MagazineBlocks\Interfaces\RenderableInterface;
 use MagazineBlocks\Services\BlockRegistrar;
 use MagazineBlocks\Services\PostQueryBuilder;
+use MagazineBlocks\Traits\Blocks\HasAttributes;
+use MagazineBlocks\Traits\Blocks\HasClassNames;
+use MagazineBlocks\Traits\Blocks\HasHtmlAttributes;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,6 +25,10 @@ defined( 'ABSPATH' ) || exit;
  * @package Magazine Blocks
  */
 abstract class Block implements RenderableInterface {
+
+	use HasAttributes;
+	use HasClassNames;
+	use HasHtmlAttributes;
 
 	/**
 	 * The unique name.
@@ -67,12 +74,20 @@ abstract class Block implements RenderableInterface {
 	/**
 	 * Register the block.
 	 *
+	 * Wraps the block's render() in a single shared callback so cssID/className
+	 * from the Advanced panel are merged into the rendered output's outermost
+	 * tag regardless of how each block builds its own markup - see
+	 * HasHtmlAttributes::merge_advanced_attributes().
+	 *
 	 * @since x.x.x
 	 */
 	protected function register() {
 		$this->registrar->register(
 			$this->block_name,
-			array( $this, 'render' )
+			function ( $attributes = array(), $content = '', $block = null ) {
+				$this->attributes = $attributes;
+				return $this->merge_advanced_attributes( $this->render( $attributes, $content, $block ) );
+			}
 		);
 	}
 

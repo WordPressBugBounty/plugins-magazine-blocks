@@ -91,6 +91,14 @@ class Setting {
 	);
 
 	/**
+	 * Immutable snapshot of default values, captured once on first read() before any
+	 * filter/stored-option merging mutates $data. Backs get_defaults().
+	 *
+	 * @var array|null
+	 */
+	private static $defaults = null;
+
+	/**
 	 * Sanitize callbacks.
 	 *
 	 * @var array
@@ -167,6 +175,9 @@ class Setting {
 	 */
 	public static function read() {
 		self::set_default_global_styles();
+		if ( null === self::$defaults ) {
+			self::$defaults = self::$data;
+		}
 		self::$data = apply_filters( 'magazine_blocks_default_settings', self::$data );
 		$settings   = get_option( '_magazine_blocks_settings', self::$data );
 		self::$data = magazine_blocks_parse_args( $settings, self::$data );
@@ -183,10 +194,23 @@ class Setting {
 	}
 
 	/**
+	 * Get the default settings values, unaffected by whatever is currently stored.
+	 *
+	 * Used to diff a site's live settings against defaults (e.g. for anonymized usage
+	 * telemetry reporting which settings were touched, never their values).
+	 *
+	 * @return array
+	 */
+	public static function get_defaults() {
+		self::read();
+		return apply_filters( 'magazine_blocks_default_settings', self::$defaults );
+	}
+
+	/**
 	 * Get setting.
 	 *
-	 * @param string $key
-	 * @param mixed  $default_value
+	 * @param string $key Dot-notated setting key.
+	 * @param mixed  $default_value Value to return if the key isn't set.
 	 * @return mixed
 	 */
 	public static function get( $key, $default_value = null ) {
@@ -197,7 +221,7 @@ class Setting {
 	/**
 	 * Set multiple data.
 	 *
-	 * @param array $data
+	 * @param array $data Nested settings data to merge in.
 	 * @return void
 	 */
 	public static function set_data( $data ) {

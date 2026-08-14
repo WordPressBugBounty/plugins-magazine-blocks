@@ -81,6 +81,7 @@ class FeaturedPosts extends Block {
 			'category'                           => magazine_blocks_array_get( $attributes, 'category', '' ),
 			'tag'                                => magazine_blocks_array_get( $attributes, 'tag', '' ),
 			'excluded_category'                  => magazine_blocks_array_get( $attributes, 'excludedCategory', '' ),
+			'excluded_tag'                       => magazine_blocks_array_get( $attributes, 'excludedTag', '' ),
 			'order_by'                           => magazine_blocks_array_get( $attributes, 'orderBy', '' ),
 			'order_type'                         => magazine_blocks_array_get( $attributes, 'orderType', '' ),
 			'author'                             => magazine_blocks_array_get( $attributes, 'authorName', '' ),
@@ -156,7 +157,7 @@ class FeaturedPosts extends Block {
 			'enable_override_category_color'     => get_theme_mod( 'colormag_enable_override_category_color', false ),
 
 			// Pagination.
-			'paged'                              => isset( $_GET[ 'block_id_' . $client_id ], $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'mzb_featured_posts' ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1,
+			'paged'                              => isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1, //phpcs:ignore.
 
 			// Border settings.
 			'post_card_border'                   => isset( magazine_blocks_array_get( $attributes, 'postCardBorder', '' )['border'] ) ?
@@ -181,6 +182,7 @@ class FeaturedPosts extends Block {
 			'order'               => $attrs['order_type'],
 			'author'              => 'all' === $attrs['author'] ? '' : $attrs['author'],
 			'category__not_in'    => $attrs['excluded_category'],
+			'tag__not_in'         => $attrs['excluded_tag'],
 			'ignore_sticky_posts' => 1,
 			'paged'               => $attrs['paged'],
 			'offset'              => $attrs['offset'],

@@ -213,7 +213,10 @@ class CategoryList extends Block {
 
 		$color_style = '';
 		if ( function_exists( 'colormag_category_color' ) ) {
-			$color_style = 'style="background-color:' . esc_attr( colormag_category_color( $cat_id ) ) . ';"';
+			$color = colormag_category_color( $cat_id );
+			if ( $color ) {
+				$color_style = 'style="background-color:' . esc_attr( $color ) . ';"';
+			}
 		}
 
 		return '
@@ -246,7 +249,10 @@ class CategoryList extends Block {
 
 		$color_style = '';
 		if ( function_exists( 'colormag_category_color' ) ) {
-			$color_style = 'style="background-color:' . esc_attr( colormag_category_color( $cat_id ) ) . ';"';
+			$color = colormag_category_color( $cat_id );
+			if ( $color ) {
+				$color_style = 'style="background-color:' . esc_attr( $color ) . ';"';
+			}
 		}
 
 		$html  = '<div class="mzb-title-wrapper" ' . $background_style . '>';
@@ -322,7 +328,10 @@ class CategoryList extends Block {
 
 		$color_style = '';
 		if ( function_exists( 'colormag_category_color' ) ) {
-			$color_style = 'style="background-color:' . esc_attr( colormag_category_color( $cat_id ) ) . ';"';
+			$color = colormag_category_color( $cat_id );
+			if ( $color ) {
+				$color_style = 'style="background-color:' . esc_attr( $color ) . ';"';
+			}
 		}
 
 		$html  = '<div class="mzb-title-wrapper" ' . $background_style . '>';

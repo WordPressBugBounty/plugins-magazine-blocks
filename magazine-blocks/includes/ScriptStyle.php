@@ -122,9 +122,11 @@ class ScriptStyle {
 				'version' => MAGAZINE_BLOCKS_VERSION,
 			),
 			'news-ticker'     => array(
-				'src'     => plugins_url( 'assets/js/news-ticker.js', MAGAZINE_BLOCKS_PLUGIN_FILE ),
-				'deps'    => array( 'jquery' ),
-				'version' => MAGAZINE_BLOCKS_VERSION,
+				'src'      => MAGAZINE_BLOCKS_PLUGIN_DIR_URL . 'assets/js/news-ticker.js',
+				'deps'     => array( 'jquery' ),
+				'version'  => MAGAZINE_BLOCKS_VERSION,
+				// Signals Pro's `magazine_blocks_scripts` filter to keep loading this script from Free, not swap in its own copy.
+				'override' => false,
 			),
 		);
 

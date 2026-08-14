@@ -49,5 +49,14 @@
             'reference' => null,
             'dev_requirement' => false,
         ),
+        'themegrill/themegrill-sdk' => array(
+            'pretty_version' => '1.0.4',
+            'version' => '1.0.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../themegrill/themegrill-sdk',
+            'aliases' => array(),
+            'reference' => '2787bc7bcd0c5d6bf470c986682fd74b390d34c3',
+            'dev_requirement' => false,
+        ),
     ),
 );

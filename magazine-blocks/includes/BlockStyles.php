@@ -1056,6 +1056,43 @@ class BlockStyles {
 
 
 	/**
+	 * Normalize legacy "left"/"right"/"top"/"bottom" values into their CSS-valid align-items
+	 * equivalents. Older UI controls (Advertisement's `alignment`, Section's `verticalAlignment`)
+	 * used to save these keywords directly into an align-items declaration, which never accepted
+	 * them in any browser; current controls only save "start"/"center"/"end"/"stretch". Existing
+	 * saved content can still carry the old keywords, so remap them here rather than emitting
+	 * invalid CSS for posts that predate the value change.
+	 *
+	 * @param string $selector CSS selector template containing the target declaration.
+	 * @param mixed  $value Setting value, scalar or array of per-device values.
+	 *
+	 * @return mixed
+	 */
+	private function normalize_legacy_align_items_value( $selector, $value ) {
+		if ( false === strpos( $selector, 'align-items' ) ) {
+			return $value;
+		}
+
+		$map = array(
+			'left'   => 'flex-start',
+			'top'    => 'flex-start',
+			'right'  => 'flex-end',
+			'bottom' => 'flex-end',
+		);
+
+		if ( is_array( $value ) ) {
+			return array_map(
+				function ( $device_value ) use ( $map ) {
+					return is_string( $device_value ) && isset( $map[ $device_value ] ) ? $map[ $device_value ] : $device_value;
+				},
+				$value
+			);
+		}
+
+		return is_string( $value ) && isset( $map[ $value ] ) ? $map[ $value ] : $value;
+	}
+
+	/**
 	 * The method processes a value selector for CSS styling, taking into account different devices and
 	 * units.
 	 *
@@ -1066,10 +1103,12 @@ class BlockStyles {
 	 * parameters.
 	 */
 	private function process_value_selector( $value, $selector, &$css ) {
+		$value = $this->normalize_legacy_align_items_value( $selector, $value );
+
 		if ( is_array( $value ) ) {
 			if ( count( array_intersect( array_keys( $value ), array( 'desktop', 'tablet', 'mobile' ) ) ) > 0 ) {
 				foreach ( self::DEVICES as $device ) {
-					if ( ! isset( $value[ $device ] ) ) {
+					if ( ! isset( $value[ $device ] ) || '' === $value[ $device ] ) {
 						continue;
 					}
 					if ( is_array( $value[ $device ] ) ) {

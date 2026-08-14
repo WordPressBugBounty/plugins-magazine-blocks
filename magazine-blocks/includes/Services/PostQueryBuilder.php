@@ -102,10 +102,24 @@ class PostQueryBuilder {
 	 * @return self
 	 */
 	public function set_order_by( $orderby ) {
+		if ( 'popular' === $orderby ) {
+			return $this->set_order_by_popular();
+		}
+
 		$valid_orderby = array( 'date', 'title', 'rand', 'comment_count', 'modified' );
 		if ( in_array( $orderby, $valid_orderby, true ) ) {
 			$this->args['orderby'] = $orderby;
 		}
+		return $this;
+	}
+
+	/**
+	 * Order posts by view count, treating posts with no recorded views as zero.
+	 *
+	 * @return self
+	 */
+	private function set_order_by_popular() {
+		$this->args = array_merge( $this->args, magazine_blocks_get_popular_order_args() );
 		return $this;
 	}
 
@@ -169,6 +183,17 @@ class PostQueryBuilder {
 	}
 
 	/**
+	 * Exclude posts having the given tags.
+	 *
+	 * @param array $tags Tag IDs to exclude.
+	 * @return self
+	 */
+	public function exclude_tags( $tags ) {
+		$this->args['tag__not_in'] = (array) $tags;
+		return $this;
+	}
+
+	/**
 	 * Build query from attributes.
 	 *
 	 * @param array $attrs Block attributes.
@@ -214,6 +239,10 @@ class PostQueryBuilder {
 
 		if ( ! empty( $attrs['category__not_in'] ) ) {
 			$this->exclude_categories( $attrs['category__not_in'] );
+		}
+
+		if ( ! empty( $attrs['tag__not_in'] ) ) {
+			$this->exclude_tags( $attrs['tag__not_in'] );
 		}
 
 		if ( ! empty( $attrs['author'] ) && 'all' !== $attrs['author'] ) {

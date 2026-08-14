@@ -75,6 +75,9 @@
     "excludedCategory": {
       "type": "array"
     },
+    "excludedTag": {
+      "type": "array"
+    },
     "column": {
       "type": "number",
       "default": 4

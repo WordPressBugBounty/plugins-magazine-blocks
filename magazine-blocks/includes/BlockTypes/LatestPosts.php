@@ -41,18 +41,21 @@ class LatestPosts extends Block {
 		$posts      = $this->get_latest_posts_by_category(
 			$categories,
 			$attrs['excluded_category'],
-			$attrs['offset'],
+			$attrs['excluded_tag'],
+			$attrs['offset'] + ( $attrs['paged'] - 1 ),
 			$attrs['post_type'],
-			$attrs['author']
+			$attrs['author'],
+			$attrs['tag']
 		);
 
-		$query = $this->query_builder->build_query(
-			array(
-				'paged' => $attrs['paged'],
-			)
-		);
-
-		$attrs['max_num_pages'] = $query->max_num_pages;
+		$attrs['max_num_pages'] = $attrs['enable_pagination'] ? $this->get_max_num_pages(
+			$categories,
+			$attrs['excluded_category'],
+			$attrs['excluded_tag'],
+			$attrs['post_type'],
+			$attrs['author'],
+			$attrs['tag']
+		) : 1;
 
 		return $this->render_block( $posts, $attrs );
 	}
@@ -83,6 +86,7 @@ class LatestPosts extends Block {
 			'category'          => magazine_blocks_array_get( $attributes, 'category', '' ),
 			'tag'               => magazine_blocks_array_get( $attributes, 'tag', '' ),
 			'excluded_category' => magazine_blocks_array_get( $attributes, 'excludedCategory', '' ),
+			'excluded_tag'      => magazine_blocks_array_get( $attributes, 'excludedTag', '' ),
 			'order_by'          => magazine_blocks_array_get( $attributes, 'orderBy', '' ),
 			'order_type'        => magazine_blocks_array_get( $attributes, 'orderType', '' ),
 			'author'            => magazine_blocks_array_get( $attributes, 'authorName', '' ),
@@ -106,7 +110,7 @@ class LatestPosts extends Block {
 			'layout2_style'     => magazine_blocks_array_get( $attributes, 'layout2AdvancedStyle', '' ),
 			'enable_pagination' => magazine_blocks_array_get( $attributes, 'enablePagination', false ),
 			// pagination.
-			'paged'             => isset( $_GET[ 'block_id_' . $client_id ], $_GET['_wpnonce'] ) && wp_verify_nonce( $_GET['_wpnonce'], 'mzb_latest_posts' ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1,
+			'paged'             => isset( $_GET[ 'block_id_' . $client_id ] ) ? max( 1, intval( $_GET[ 'block_id_' . $client_id ] ) ) : 1, //phpcs:ignore.
 
 		);
 	}
@@ -116,11 +120,13 @@ class LatestPosts extends Block {
 	 *
 	 * @param mixed $categories The categories list.
 	 * @param mixed $excluded_category The excluded category list.
+	 * @param mixed $excluded_tag The excluded tag list.
 	 * @param mixed $offset The offset.
 	 * @param mixed $post_type  Th post type.
 	 * @param mixed $author     The author.
+	 * @param mixed $tag        The tag to include.
 	 */
-	protected function get_latest_posts_by_category( $categories, $excluded_category, $offset, $post_type, $author ) {
+	protected function get_latest_posts_by_category( $categories, $excluded_category, $excluded_tag, $offset, $post_type, $author, $tag = '' ) {
 		if ( ! is_array( $excluded_category ) ) {
 			$excluded_category = empty( $excluded_category ) ? array() : array( $excluded_category );
 		}
@@ -130,7 +136,7 @@ class LatestPosts extends Block {
 
 		foreach ( $categories as $category ) {
 			if ( ! in_array( $category->term_id, $excluded_category, true ) ) {
-				$post = $this->get_latest_post_in_category( $category->term_id, $excluded_category, $offset, $post_type, $author );
+				$post = $this->get_latest_post_in_category( $category->term_id, $excluded_category, $excluded_tag, $offset, $post_type, $author, $tag );
 
 				if ( $post && ! in_array( $post->ID, $displayed_posts, true ) ) {
 					$displayed_posts[] = $post->ID;
@@ -147,11 +153,13 @@ class LatestPosts extends Block {
 	 *
 	 * @param mixed $category_id The categories ID.
 	 * @param mixed $excluded_category The excluded category list.
+	 * @param mixed $excluded_tag The excluded tag list.
 	 * @param mixed $offset The offset.
 	 * @param mixed $post_type  Th post type.
 	 * @param mixed $author     The author.
+	 * @param mixed $tag        The tag to include.
 	 */
-	protected function get_latest_post_in_category( $category_id, $excluded_category, $offset, $post_type, $author ) {
+	protected function get_latest_post_in_category( $category_id, $excluded_category, $excluded_tag, $offset, $post_type, $author, $tag = '' ) {
 		$latest_posts = get_posts(
 			array(
 				'post_type'        => $post_type,
@@ -160,12 +168,61 @@ class LatestPosts extends Block {
 				'orderby'          => 'date',
 				'order'            => 'DESC',
 				'category__not_in' => $excluded_category,
+				'tag__not_in'      => $excluded_tag,
+				'tag_id'           => 'all' === $tag ? '' : $tag,
 				'offset'           => $offset,
 				'author'           => 'all' === $author ? '' : $author,
 			)
 		);
 
 		return ! empty( $latest_posts ) ? $latest_posts[0] : null;
+	}
+
+	/**
+	 * Get the maximum number of pages available across the selected categories.
+	 *
+	 * Each page advances one post deeper into every category's post history,
+	 * so the total pages available is bounded by whichever category has the most matching posts.
+	 *
+	 * @param mixed $categories The categories list.
+	 * @param mixed $excluded_category The excluded category list.
+	 * @param mixed $excluded_tag The excluded tag list.
+	 * @param mixed $post_type  The post type.
+	 * @param mixed $author     The author.
+	 * @param mixed $tag        The tag to include.
+	 * @return int
+	 */
+	protected function get_max_num_pages( $categories, $excluded_category, $excluded_tag, $post_type, $author, $tag = '' ) {
+		if ( ! is_array( $excluded_category ) ) {
+			$excluded_category = empty( $excluded_category ) ? array() : array( $excluded_category );
+		}
+
+		$max_num_pages = 1;
+
+		foreach ( $categories as $category ) {
+			if ( in_array( $category->term_id, $excluded_category, true ) ) {
+				continue;
+			}
+
+			$post_count = count(
+				get_posts(
+					array(
+						'post_type'        => $post_type,
+						'category'         => $category->term_id,
+						'numberposts'      => -1,
+						'fields'           => 'ids',
+						'category__not_in' => $excluded_category,
+						'tag__not_in'      => $excluded_tag,
+						'tag_id'           => 'all' === $tag ? '' : $tag,
+						'author'           => 'all' === $author ? '' : $author,
+					)
+				)
+			);
+
+			$max_num_pages = max( $max_num_pages, $post_count );
+		}
+
+		return $max_num_pages;
 	}
 
 	/**
@@ -230,13 +287,11 @@ class LatestPosts extends Block {
 						</div>
 					</div>
 				<?php endforeach; ?>
-
-				<?php if ( $attrs['enable_pagination'] ) : ?>
-					<div class="mzb-pagination-numbers">
-						<h2><?php echo esc_html( mzb_numbered_pagination( $attrs['max_num_pages'], $attrs['paged'], $attrs['client_id'] ) ); ?></h2>
-					</div>
-				<?php endif; ?>
 			</div>
+
+			<?php if ( $attrs['enable_pagination'] ) : ?>
+				<?php echo mzb_numbered_pagination( $attrs['max_num_pages'], $attrs['paged'], $attrs['client_id'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Plugin-generated markup; URLs already escaped inside mzb_numbered_pagination(). ?>
+			<?php endif; ?>
 		</div>
 		<?php
 		return ob_get_clean();

@@ -42,6 +42,77 @@ class RestApi {
 	public function on_rest_api_init() {
 		$this->register_rest_routes();
 		$this->register_rest_fields();
+		$this->allow_random_orderby();
+		$this->register_orderby_support();
+	}
+
+	/**
+	 * Allow `orderby=rand` on the core posts collection endpoint.
+	 *
+	 * WordPress core restricts the REST posts collection `orderby` param to a fixed
+	 * enum that excludes `rand`, even though `WP_Query` itself supports it. Blocks
+	 * exposing a "Random" order option (Banner Posts, Latest Posts, etc.) query
+	 * `wp/v2/{post_type}` via `getEntityRecords()` in the editor, so without this the
+	 * request 400s and the block renders empty. See MZB-725.
+	 *
+	 * @return void
+	 */
+	private function allow_random_orderby() {
+		foreach ( magazine_blocks_get_post_types() as $post_type ) {
+			add_filter(
+				"rest_{$post_type->name}_collection_params",
+				function ( $params ) {
+					if ( isset( $params['orderby']['enum'] ) && ! in_array( 'rand', $params['orderby']['enum'], true ) ) {
+						$params['orderby']['enum'][] = 'rand';
+					}
+
+					return $params;
+				}
+			);
+		}
+	}
+
+	/**
+	 * Allow the editor's post-query preview to order by popularity/comment count.
+	 *
+	 * Core's REST post controller restricts `orderby` to a fixed enum, so
+	 * these values are rejected with a 400 error unless explicitly added.
+	 *
+	 * @return void
+	 */
+	private function register_orderby_support() {
+		foreach ( magazine_blocks_get_post_types() as $post_type ) {
+			add_filter( "rest_{$post_type->name}_collection_params", array( $this, 'add_orderby_options' ) );
+			add_filter( "rest_{$post_type->name}_query", array( $this, 'map_popular_orderby_to_query' ), 10, 2 );
+		}
+	}
+
+	/**
+	 * Add popularity-related values to the allowed `orderby` enum.
+	 *
+	 * @param array $params Collection query params.
+	 * @return array
+	 */
+	public function add_orderby_options( $params ) {
+		if ( isset( $params['orderby']['enum'] ) ) {
+			$params['orderby']['enum'][] = 'popular';
+			$params['orderby']['enum'][] = 'comment_count';
+		}
+		return $params;
+	}
+
+	/**
+	 * Translate the `popular` orderby request into real WP_Query args.
+	 *
+	 * @param array            $args    WP_Query args.
+	 * @param \WP_REST_Request $request REST request.
+	 * @return array
+	 */
+	public function map_popular_orderby_to_query( $args, $request ) {
+		if ( 'popular' === $request->get_param( 'orderby' ) ) {
+			$args = array_merge( $args, magazine_blocks_get_popular_order_args() );
+		}
+		return $args;
 	}
 
 	/**

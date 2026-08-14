@@ -100,6 +100,7 @@ class Slider extends Block {
 			'category'                       => magazine_blocks_array_get( $attributes, 'category', '' ),
 			'tag'                            => magazine_blocks_array_get( $attributes, 'tag', '' ),
 			'excluded_category'              => magazine_blocks_array_get( $attributes, 'excludedCategory', '' ),
+			'excluded_tag'                   => magazine_blocks_array_get( $attributes, 'excludedTag', '' ),
 			'order_by'                       => magazine_blocks_array_get( $attributes, 'orderBy', '' ),
 			'order_type'                     => magazine_blocks_array_get( $attributes, 'orderType', '' ),
 			'author'                         => magazine_blocks_array_get( $attributes, 'authorName', '' ),
@@ -175,6 +176,7 @@ class Slider extends Block {
 			'order'               => $attrs['order_type'],
 			'author'              => 'all' === $attrs['author'] ? '' : $attrs['author'],
 			'category__not_in'    => $attrs['excluded_category'],
+			'tag__not_in'         => $attrs['excluded_tag'],
 			'ignore_sticky_posts' => 1,
 		);
 
@@ -578,12 +580,13 @@ class Slider extends Block {
 				'/<a(.+?)href="([^"]+)"(.+?)>([^<]+)<\/a>/',
 				function ( $matches ) {
 					$cat_id = get_cat_ID( $matches[4] );
+					$color  = function_exists( 'colormag_category_color' ) ? colormag_category_color( $cat_id ) : '';
 					return sprintf(
 						'<a%shref="%s"%s style="%s">%s</a>',
 						$matches[1],
 						$matches[2],
 						$matches[3],
-						function_exists( 'colormag_category_color' ) ? 'background-color:' . colormag_category_color( $cat_id ) . ';' : '',
+						$color ? 'background-color:' . esc_attr( $color ) . ';' : '',
 						$matches[4]
 					);
 				},

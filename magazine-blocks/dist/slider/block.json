@@ -48,6 +48,9 @@
     "excludedCategory": {
       "type": "array"
     },
+    "excludedTag": {
+      "type": "array"
+    },
     "postCount": {
       "type": "number",
       "default": "4"

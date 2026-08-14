@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 6.3
 Tested up to: 7.0.2
 Requires PHP: 7.0
-Stable tag: 1.8.5
+Stable tag: 1.8.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,53 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.6 - 14-08-2026 =
+* Added - "Popular", "Comments", and "Modified Date" order-by options for Banner Posts, Featured Posts, Post List, Post Slider, and Grid Module blocks.
+* Added - Post/Highlighted style switcher to the Post Card panel in the Featured Posts block.
+* Added - Include/Exclude toggle and a new "Exclude Tag" option for Category and Tag filtering on all post-listing blocks.
+* Added - Hover tooltips to Post List's Horizontal and Vertical Alignment controls.
+* Added - Default state and hover labels for Social Icons block's Icon Alignment control.
+* Added - Helper note explaining why Column Gap has no effect when Social Icons alignment is set to "Space Between".
+* Added - Placeholder and helper text for the CSS ID and Additional CSS Class(es) fields in the Advanced panel.
+* Added - Opt-in usage tracking to help prioritize future development.
+* Improved - Standardized the Post Options query field order across all post-listing blocks.
+* Improved - Renamed the "Border" settings panel to "Border & Shadow" in Button, Image, Social Icons, Section, Icon, Column, and Category List blocks.
+* Improved - Section block's Horizontal/Vertical Alignment labels, icons, and tooltips for clarity.
+* Improved - Post List block now only shows the Image Position control for Style 1.
+* Fix - Banner Posts block ignoring the selected Order By value on the frontend.
+* Fix - "Popular" and "Comments" order-by options showing a blank block preview in the editor.
+* Fix - "Popular" order-by option excluding posts with no recorded views.
+* Fix - Excerpt limit not applying to posts with a manually-set excerpt.
+* Fix - Post List block's "Right" image position option not working.
+* Fix - Post List block missing Post Box padding and border/border-radius options.
+* Fix - Post List block's Style 2 preset overflowing on narrow screens.
+* Fix - Post List block's Style 4 preset image sizing and content alignment.
+* Fix - Post Video block's featured image not sizing correctly.
+* Fix - Removed the non-functional pagination option from the Banner Posts block.
+* Fix - Post List's Vertical Alignment control using the same icons as Horizontal Alignment.
+* Fix - Missing borders between panels in the Global Settings sidebar.
+* Fix - Template Builder's template list showing a spinner instead of a skeleton loader.
+* Fix - Template Builder's Edit/Delete dropdown overflowing outside the panel.
+* Fix - Pagination not applying on the frontend for Grid Module, Post List, Featured Posts, and Latest Posts blocks.
+* Fix - Grid Module's pagination preview rendering as an unstyled, slow list in the editor.
+* Fix - Social Icons block's Icon Alignment and Column Gap controls not updating visually in the editor.
+* Fix - Category block settings not applying and category selection not persisting.
+* Fix - Section block's Horizontal Alignment "Center" icon matching Vertical Alignment's icon.
+* Fix - Section block's Alignment and Row Gap labels breaking translation due to a wrong text domain.
+* Fix - CSS ID and Additional CSS Class(es) fields in the Advanced panel not applying to the frontend for most blocks.
+* Fix - Heading block dropping its custom CSS class on the frontend.
+* Fix - Magazine Blocks Library panel icon not opening.
+* Fix - Heading block showing a validation error when no global typography preset was set.
+* Fix - Responsive condition panel's grey overlay not matching the device being previewed.
+* Fix - Banner Posts (and other blocks with a Random order option) disappearing in the editor when Order By is set to Random.
+* Fix - Several CSS validation errors reported by the W3C validator.
+* Fix - Settings could not be saved from any tab due to a validation issue in the Integrations tab.
+* Fix - News Ticker block loading its script from both the free and Pro plugin when Pro is active.
+* Fix - Latest Posts block pagination rendering as raw text, not updating posts, and misplaced in the layout.
+* Fix - Banner Posts Style 10 second post inheriting the highlighted title's font size on the frontend.
+* Fix - Custom header/footer templates stripping scripts/styles and blocking block CSS from loading site-wide.
+* Fix - Infinite recursion in the Post Content block causing a fatal memory error.
+
 = 1.8.5 - 22-07-2026 =
 * Improved - Migrated all blocks to the latest block API version for better compatibility with the WordPress block editor.
 * Improved - General code quality, PHP 8.4 compatibility, and minor block display fixes across the plugin.

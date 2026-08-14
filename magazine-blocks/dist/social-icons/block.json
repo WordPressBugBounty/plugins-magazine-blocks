@@ -23,9 +23,12 @@
     },
     "alignment": {
       "type": "object",
+      "default": {
+        "desktop": "left"
+      },
       "style": [
         {
-          "selector": "{{WRAPPER}} {justify-content: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}, {{WRAPPER}} .mzb-social-links {justify-content: {{VALUE}}; }"
         }
       ]
     },
@@ -39,7 +42,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-social-links .block-editor-block-list__layout, {{WRAPPER}} {column-gap: {{VALUE}}; }"
+          "selector": "{{WRAPPER}}, {{WRAPPER}} .mzb-social-links {column-gap: {{VALUE}}; }"
         }
       ]
     },

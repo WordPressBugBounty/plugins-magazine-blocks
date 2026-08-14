@@ -532,6 +532,9 @@
     "excludedCategory": {
       "type": "array"
     },
+    "excludedTag": {
+      "type": "array"
+    },
     "label": {
       "type": "string",
       "default": "Latest"
@@ -618,7 +621,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-posts > .mzb-post:first-of-type .mzb-post-title a, {{WRAPPER}} .mzb-layout-4-style-2 .mzb-post:nth-child(2) .mzb-post-title a"
+          "selector": "{{WRAPPER}} .mzb-posts > .mzb-post:first-of-type .mzb-post-title a"
         }
       ]
     },
@@ -1104,134 +1107,6 @@
         }
       ]
     },
-    "enablePagination": {
-      "type": "boolean",
-      "default": false
-    },
-    "paginationAlignment": {
-      "type": "object",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers, {{WRAPPER}} .mzb-pagination-numbers .components-flex {justify-content: {{VALUE}}; }"
-        }
-      ]
-    },
-    "paginationColor": {
-      "type": "string",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button {color: {{VALUE}}; }"
-        }
-      ]
-    },
-    "paginationBackground": {
-      "type": "object",
-      "default": {
-        "background": 1
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button"
-        }
-      ]
-    },
-    "paginationHoverColor": {
-      "type": "string",
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a:hover, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button:hover {fill: {{VALUE}}; }"
-        }
-      ]
-    },
-    "paginationHoverBackground": {
-      "type": "object",
-      "default": {
-        "background": 1
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a:hover, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button:hover"
-        }
-      ]
-    },
-    "paginationPadding": {
-      "type": "object",
-      "default": {
-        "dimension": 1,
-        "desktop": {
-          "lock": true
-        }
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button { padding: {{VALUE}}; }"
-        }
-      ]
-    },
-    "paginationBorder": {
-      "type": "object",
-      "default": {
-        "border": 1,
-        "radius": {
-          "desktop": {
-            "lock": true
-          }
-        },
-        "size": {
-          "desktop": {
-            "lock": true
-          }
-        }
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button"
-        }
-      ]
-    },
-    "paginationHoverBorder": {
-      "type": "object",
-      "default": {
-        "border": 1,
-        "radius": {
-          "desktop": {
-            "lock": true
-          }
-        },
-        "size": {
-          "desktop": {
-            "lock": true
-          }
-        }
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a:hover, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button"
-        }
-      ]
-    },
-    "paginationBoxShadow": {
-      "type": "object",
-      "default": {
-        "boxShadow": 1
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button"
-        }
-      ]
-    },
-    "paginationBoxShadowHover": {
-      "type": "object",
-      "default": {
-        "boxShadow": 1
-      },
-      "style": [
-        {
-          "selector": "{{WRAPPER}} .mzb-pagination-numbers .page-item a:hover, {{WRAPPER}} .mzb-pagination-numbers .components-flex .components-button:hover"
-        }
-      ]
-    },
     "postBoxWrapperPadding": {
       "type": "object",
       "default": {
@@ -1273,10 +1148,6 @@
     },
     "size": {
       "type": "string"
-    },
-    "page": {
-      "type": "number",
-      "default": 1
     },
     "blockHTML": {
       "type": "string",

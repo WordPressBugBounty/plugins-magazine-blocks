@@ -24,12 +24,15 @@
             "type": "object",
             "style": [
                 {
-                    "selector": "{{WRAPPER}} .mzb-category-list {text-align: {{VALUE}}; }"
+                    "selector": "{{WRAPPER}} .mzb-category-list {text-align: {{VALUE}}; justify-content: {{VALUE}}; }"
                 }
             ],
             "default": {
                 "desktop": "left"
             }
+        },
+        "category": {
+            "type": "number"
         },
         "categoryColor": {
             "type": "string",

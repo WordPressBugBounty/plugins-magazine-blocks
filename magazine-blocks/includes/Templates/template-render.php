@@ -39,7 +39,7 @@
 
 	// Render header
 	if ( $use_custom_header ) {
-		echo wp_kses_post( magazine_blocks()->render_template_to_string( $header[0]->ID ) );
+		echo magazine_blocks()->render_template_to_string( $header[0]->ID ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Block markup includes <style>/<script>; sanitized at save time via WP's own content filters.
 	} else {
 		get_header();
 	}
@@ -49,7 +49,7 @@
 
 	if ( $template_id && function_exists( 'magazine_blocks' ) ) {
 		// Custom page template exists, render it
-		echo wp_kses_post( magazine_blocks()->render_template_to_string( $template_id ) );
+		echo magazine_blocks()->render_template_to_string( $template_id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Block markup includes <style>/<script>; sanitized at save time via WP's own content filters.
 	} else {
 		// Determine the template WordPress would normally use
 		if ( is_front_page() ) {
@@ -92,7 +92,7 @@
 			$template_content = preg_replace( '/<body[^>]*>/i', '', $template_content );
 			$template_content = preg_replace( '/<\/body>/i', '', $template_content );
 
-			echo wp_kses_post( $template_content );
+			echo $template_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Re-echoing the original theme template's own trusted output; wp_kses_post() would strip its <script>/<style> tags.
 		} else {
 			// Fallback if template not found.
 			echo '<div class="site-content">';
@@ -144,7 +144,7 @@
 
 	// Render footer
 	if ( $use_custom_footer ) {
-		echo wp_kses_post( magazine_blocks()->render_template_to_string( $footer[0]->ID ) );
+		echo magazine_blocks()->render_template_to_string( $footer[0]->ID ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Block markup includes <style>/<script>; sanitized at save time via WP's own content filters.
 	} else {
 		get_footer();
 	}

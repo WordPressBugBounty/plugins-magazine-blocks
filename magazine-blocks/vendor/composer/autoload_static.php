@@ -4,10 +4,11 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit5f0157d22d85bc90f0c211c2f6c97b2f
+class ComposerStaticInit2f934115b119f0f413a5f06435cd712e
 {
     public static $files = array (
         'ace6d88241f812b4accb2d847454aef6' => __DIR__ . '/..' . '/halaxa/json-machine/src/functions.php',
+        '08d8dfb987ad248af2bc959d5c0f6886' => __DIR__ . '/..' . '/themegrill/themegrill-sdk/load.php',
         '3703a551cf6c1195f75d3eb3d959d24e' => __DIR__ . '/../..' . '/includes/Helpers/core.php',
         '5067cb711d5749dcde86acd2b66a8949' => __DIR__ . '/../..' . '/includes/Helpers/array.php',
     );
@@ -183,6 +184,8 @@ class ComposerStaticInit5f0157d22d85bc90f0c211c2f6c97b2f
         'MagazineBlocks\\Activation' => __DIR__ . '/../..' . '/includes/Activation.php',
         'MagazineBlocks\\Admin' => __DIR__ . '/../..' . '/includes/Admin.php',
         'MagazineBlocks\\Ajax' => __DIR__ . '/../..' . '/includes/Ajax.php',
+        'MagazineBlocks\\Analytics\\BlockUsageTracker' => __DIR__ . '/../..' . '/includes/Analytics/BlockUsageTracker.php',
+        'MagazineBlocks\\Analytics\\UsageTracking' => __DIR__ . '/../..' . '/includes/Analytics/UsageTracking.php',
         'MagazineBlocks\\BlockStyles' => __DIR__ . '/../..' . '/includes/BlockStyles.php',
         'MagazineBlocks\\BlockTypes\\AbstractBlock' => __DIR__ . '/../..' . '/includes/BlockTypes/AbstractBlock.php',
         'MagazineBlocks\\BlockTypes\\Advertisement' => __DIR__ . '/../..' . '/includes/BlockTypes/Advertisement.php',
@@ -234,6 +237,7 @@ class ComposerStaticInit5f0157d22d85bc90f0c211c2f6c97b2f
         'MagazineBlocks\\RestApi\\Controllers\\RegenCSSController' => __DIR__ . '/../..' . '/includes/RestApi/Controllers/RegenCSSController.php',
         'MagazineBlocks\\RestApi\\Controllers\\SettingsController' => __DIR__ . '/../..' . '/includes/RestApi/Controllers/SettingsController.php',
         'MagazineBlocks\\RestApi\\Controllers\\SiteBuilderController' => __DIR__ . '/../..' . '/includes/RestApi/Controllers/SiteBuilderController.php',
+        'MagazineBlocks\\RestApi\\Controllers\\TrackingController' => __DIR__ . '/../..' . '/includes/RestApi/Controllers/TrackingController.php',
         'MagazineBlocks\\RestApi\\Controllers\\VersionControlController' => __DIR__ . '/../..' . '/includes/RestApi/Controllers/VersionControlController.php',
         'MagazineBlocks\\RestApi\\RestApi' => __DIR__ . '/../..' . '/includes/RestApi/RestApi.php',
         'MagazineBlocks\\Review' => __DIR__ . '/../..' . '/includes/Review.php',
@@ -259,9 +263,9 @@ class ComposerStaticInit5f0157d22d85bc90f0c211c2f6c97b2f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit5f0157d22d85bc90f0c211c2f6c97b2f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit5f0157d22d85bc90f0c211c2f6c97b2f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit5f0157d22d85bc90f0c211c2f6c97b2f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2f934115b119f0f413a5f06435cd712e::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2f934115b119f0f413a5f06435cd712e::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2f934115b119f0f413a5f06435cd712e::$classMap;
 
         }, null, ClassLoader::class);
     }

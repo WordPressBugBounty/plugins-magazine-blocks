@@ -148,6 +148,9 @@ final class Blocks {
 			}
 		);
 
+		add_filter( 'posts_join', 'magazine_blocks_join_popular_order_meta', 10, 2 );
+		add_filter( 'posts_orderby', 'magazine_blocks_orderby_popular_order_meta', 10, 2 );
+
 		add_action(
 			'enqueue_block_editor_assets',
 			array( $this, 'mzb_post_type' ),

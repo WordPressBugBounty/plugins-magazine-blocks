@@ -57,6 +57,9 @@
     "excludedCategory": {
       "type": "array"
     },
+    "excludedTag": {
+      "type": "array"
+    },
     "offset": {
       "type": "number",
       "default": 0
