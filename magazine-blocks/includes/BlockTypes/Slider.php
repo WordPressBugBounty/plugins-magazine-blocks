@@ -537,7 +537,7 @@ class Slider extends Block {
 		$href   = $attributes['view_more_url']['url'] ?? '';
 		$target = ! empty( $attributes['view_more_url']['newTab'] ) ? ' target="_blank"' : '';
 		$rel    = ! empty( $attributes['view_more_url']['noFollow'] ) ? ' rel="nofollow"' : '';
-		$icon   = $attributes['enable_view_more_icon'] ? magazine_blocks_get_icon( $attributes['view_more_icon'], false ) : '';
+		$icon   = $attributes['enable_view_more_icon'] ? wp_kses( magazine_blocks_get_icon( $attributes['view_more_icon'], false ), magazine_blocks_get_allowed_svg_elements() ) : '';
 
 		return sprintf(
 			'<div class="mzb-view-more%s"><a href="%s"%s%s>

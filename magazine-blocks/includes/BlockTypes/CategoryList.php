@@ -269,7 +269,7 @@ class CategoryList extends Block {
 		$html .= '<div class="mzb-overlay"></div>';
 		if ( $attributes['enable_icon'] ) {
 			$html .= '<div class="mzb-list-icon">';
-			$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . $attributes['icon'] . '</a>';
+			$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . wp_kses( $attributes['icon'], magazine_blocks_get_allowed_svg_elements() ) . '</a>';
 			$html .= '</div>';
 		}
 		$html .= '</div>';
@@ -306,7 +306,7 @@ class CategoryList extends Block {
 		$html .= '</div>';
 		if ( $attributes['enable_icon'] ) {
 			$html .= '<div class="mzb-list-icon">';
-			$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . $attributes['icon'] . '</a>';
+			$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . wp_kses( $attributes['icon'], magazine_blocks_get_allowed_svg_elements() ) . '</a>';
 			$html .= '</div>';
 		}
 		$html .= '</div>';

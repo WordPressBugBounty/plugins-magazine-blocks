@@ -65,7 +65,7 @@ class SiteBuilderController extends \WP_REST_Controller {
 	 * @return true|\WP_Error
 	 */
 	public function get_items_permissions_check( $request ) {
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return new \WP_Error(
 				'rest_forbidden',
 				esc_html__( 'You are not allowed to access this resource.', 'magazine-blocks' ),

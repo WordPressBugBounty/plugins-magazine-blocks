@@ -1,5 +1,4 @@
 <?php
-
 /**
  * News Ticker block.
  *
@@ -40,7 +39,7 @@ class NewsTicker extends Block {
 
 		$html = '';
 		if ( $query->have_posts() ) {
-			$html .= '<div class="mzb-news-ticker mzb-news-ticker-' . $attrs['client_id'] . '"';
+			$html .= '<div class="mzb-news-ticker mzb-news-ticker-' . esc_attr( $attrs['client_id'] ) . '"';
 			$html .= ' data-ticker-effect="' . esc_attr( $attrs['ticker_effect'] ) . '"';
 			$html .= ' data-ticker-direction="' . esc_attr( $attrs['ticker_direction'] ) . '"';
 			$html .= ' data-delay-timer="' . esc_attr( $attrs['delay_timer'] ) . '"';
@@ -51,7 +50,7 @@ class NewsTicker extends Block {
 			$html .= '>';
 
 			if ( isset( $attrs['enable_icon'] ) && $attrs['enable_icon'] ) {
-				$html .= '<span class="mzb-weather">' . $attrs['get_icon'] . '</span>';
+				$html .= '<span class="mzb-weather">' . wp_kses( $attrs['get_icon'], magazine_blocks_get_allowed_svg_elements() ) . '</span>';
 			}
 
 			if ( isset( $attrs['enable_label'] ) && $attrs['enable_label'] ) {

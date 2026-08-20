@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 6.3
 Tested up to: 7.0.2
 Requires PHP: 7.0
-Stable tag: 1.8.6
+Stable tag: 1.8.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,10 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.7 - 20-08-2026 =
+* Security - Escaped the News Ticker block's internal ID attribute to close a stored cross-site scripting vulnerability.
+* Security - Restricted Site Builder template management to Administrators to close an authorization bypass that let lower-privileged users take over site-wide templates.
+
 = 1.8.6 - 14-08-2026 =
 * Added - "Popular", "Comments", and "Modified Date" order-by options for Banner Posts, Featured Posts, Post List, Post Slider, and Grid Module blocks.
 * Added - Post/Highlighted style switcher to the Post Card panel in the Featured Posts block.

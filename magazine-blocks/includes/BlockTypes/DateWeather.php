@@ -43,7 +43,7 @@ class DateWeather extends Block {
 		$html = '';
 
 		$html .= '<div class="mzb-date-weather mzb-date-weather-' . esc_attr( $client_id ) . '">';
-		$html .= '<span class="mzb-weather-icon">' . $get_icon . '</span>';
+		$html .= '<span class="mzb-weather-icon">' . wp_kses( $get_icon, magazine_blocks_get_allowed_svg_elements() ) . '</span>';
 
 		// Temperature with default.
 		$temp  = $open_weather->show_temp();

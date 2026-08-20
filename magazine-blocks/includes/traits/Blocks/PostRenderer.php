@@ -193,12 +193,12 @@ trait PostRenderer {
 			// wp_trim_words() is used directly since get_the_excerpt() ignores excerpt_length for manual excerpts.
 			$excerpt = wp_trim_words( get_the_excerpt( $post_id ), $attributes['excerpt_limit'] );
 
-			$html .= sprintf( '<div class="mzb-entry-summary"><p>%s</p></div>', $excerpt );
+			$html .= sprintf( '<div class="mzb-entry-summary"><p>%s</p></div>', wp_kses_post( $excerpt ) );
 		}
 
 		if ( $attributes['enable_readmore'] ) {
 			$icon = isset( $attributes['enable_read_more_icon'] ) ?
-				magazine_blocks_get_icon( $attributes['read_more_icon'], false ) : '';
+				wp_kses( magazine_blocks_get_icon( $attributes['read_more_icon'], false ), magazine_blocks_get_allowed_svg_elements() ) : '';
 
 			$html .= sprintf(
 				'<div class="mzb-read-more"><a href="%s">%s%s</a></div>',
@@ -280,7 +280,7 @@ trait PostRenderer {
 		$href   = $attributes['view_more_url']['url'] ?? '';
 		$target = ! empty( $attributes['view_more_url']['newTab'] ) ? ' target="_blank"' : '';
 		$rel    = ! empty( $attributes['view_more_url']['noFollow'] ) ? ' rel="nofollow"' : '';
-		$icon   = $attributes['enable_view_more_icon'] ? magazine_blocks_get_icon( $attributes['view_more_icon'], false ) : '';
+		$icon   = $attributes['enable_view_more_icon'] ? wp_kses( magazine_blocks_get_icon( $attributes['view_more_icon'], false ), magazine_blocks_get_allowed_svg_elements() ) : '';
 
 		return sprintf(
 			'<div class="mzb-view-more%s"><a href="%s"%s%s>

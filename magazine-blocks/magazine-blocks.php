@@ -4,7 +4,7 @@
  * Description: Craft your beautifully unique and dynamic Magazine, Newspaper website with various beautiful and advanced posts related blocks like Featured Posts, Banner Posts, Grid Module, Tab Posts, and more.
  * Author: WPBlockArt
  * Author URI: https://wpblockart.com/
- * Version: 1.8.6
+ * Version: 1.8.7
  * Requires at least: 6.3
  * Requires PHP: 7.0
  * Text Domain: magazine-blocks
@@ -23,7 +23,7 @@ use MagazineBlocks\MagazineBlocks;
 
 defined( 'ABSPATH' ) || exit;
 
-! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.6' );
+! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.7' );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_FILE' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_FILE', __FILE__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR', __DIR__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
