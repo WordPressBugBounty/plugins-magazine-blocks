@@ -98,8 +98,8 @@ class FeaturedPosts extends Block {
 
 			// Post title settings.
 			'post_title_markup'                  => magazine_blocks_sanitize_html_tag(
-				magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' ),
-				'h3'
+				magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h6' ),
+				'h6'
 			),
 
 			// Featured image settings.
@@ -187,6 +187,16 @@ class FeaturedPosts extends Block {
 			'paged'               => $attrs['paged'],
 			'offset'              => $attrs['offset'],
 		);
+
+		/**
+		 * Filters the WP_Query args for the Featured Posts block.
+		 *
+		 * Allows overriding the post count above the editor's slider limit.
+		 *
+		 * @param array $args  WP_Query arguments.
+		 * @param array $attrs Processed block attributes.
+		 */
+		$args = apply_filters( 'magazine_blocks_featured_posts_query_args', $args, $attrs );
 
 		return $this->query_builder->build_query( $args );
 	}

@@ -400,7 +400,9 @@
     "highlightedPostTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1
+        "typography": 1,
+        "weight": "400",
+        "transform": "none"
       },
       "style": [
         {
@@ -497,7 +499,9 @@
     "postTitleTypography": {
       "type": "object",
       "default": {
-        "typography": 1
+        "typography": 1,
+        "weight": "400",
+        "transform": "none"
       },
       "style": [
         {
@@ -510,7 +514,7 @@
     },
     "postTitleMarkup": {
       "type": "string",
-      "default": "h3"
+      "default": "h6"
     },
     "postTitleColor": {
       "type": "string",

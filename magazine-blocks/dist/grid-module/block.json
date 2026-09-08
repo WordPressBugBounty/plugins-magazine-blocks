@@ -460,10 +460,10 @@
       },
       "style": [
         {
-          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-post-title"
+          "selector": ".mzb-grid-module{{WRAPPER}} .mzb-post-title a"
         },
         {
-          "selector": ".editor-styles-wrapper .mzb-grid-module{{WRAPPER}} .mzb-post-title"
+          "selector": ".editor-styles-wrapper .mzb-grid-module{{WRAPPER}} .mzb-post-title a"
         }
       ]
     },

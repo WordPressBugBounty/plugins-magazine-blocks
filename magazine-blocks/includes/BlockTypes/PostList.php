@@ -164,6 +164,16 @@ class PostList extends Block {
 			'offset'              => $attrs['offset'],
 		);
 
+		/**
+		 * Filters the WP_Query args for the Post List block.
+		 *
+		 * Allows overriding the post count above the editor's slider limit.
+		 *
+		 * @param array $args  WP_Query arguments.
+		 * @param array $attrs Processed block attributes.
+		 */
+		$args = apply_filters( 'magazine_blocks_post_list_query_args', $args, $attrs );
+
 		return $this->query_builder->build_query( $args );
 	}
 

@@ -847,7 +847,7 @@ class BlockStyles {
 
 			$selector   = str_replace( '{{WRAPPER}}', $wrapper_class, $style_def['selector'] );
 			$family     = magazine_blocks_array_get( $value, 'family', 'Default' );
-			$weight     = magazine_blocks_array_get( $value, 'weight' );
+			$weight     = magazine_blocks_array_get( $value, 'weight', 'default' );
 			$transform  = magazine_blocks_array_get( $value, 'transform', 'default' );
 			$decoration = magazine_blocks_array_get( $value, 'decoration', 'default' );
 			$style      = magazine_blocks_array_get( $value, 'fontStyle', 'default' );
@@ -855,7 +855,7 @@ class BlockStyles {
 			if ( 'default' !== strtolower( $family ) ) {
 				$css['desktop'][ $selector ]['font-family'] = $family;
 			}
-			if ( $weight ) {
+			if ( $weight && 'default' !== strtolower( $weight ) ) {
 				$css['desktop'][ $selector ]['font-weight'] = $weight;
 			}
 			if ( 'default' !== strtolower( $transform ) ) {
@@ -890,13 +890,13 @@ class BlockStyles {
 			$line_height_unit    = magazine_blocks_array_get( $value, "lineHeight.$device.unit", 'px' );
 			$letter_spacing      = magazine_blocks_array_get( $value, "letterSpacing.$device.value", false );
 			$letter_spacing_unit = magazine_blocks_array_get( $value, "letterSpacing.$device.unit", 'px' );
-			if ( $size ) {
+			if ( is_numeric( $size ) ) {
 				$css[ $device ][ $selector ]['font-size'] = $size . $size_unit;
 			}
-			if ( $line_height ) {
+			if ( is_numeric( $line_height ) ) {
 				$css[ $device ][ $selector ]['line-height'] = $line_height . $line_height_unit;
 			}
-			if ( $letter_spacing ) {
+			if ( is_numeric( $letter_spacing ) ) {
 				$css[ $device ][ $selector ]['letter-spacing'] = $letter_spacing . $letter_spacing_unit;
 			}
 		}

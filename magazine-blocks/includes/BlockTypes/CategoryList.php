@@ -60,23 +60,33 @@ class CategoryList extends Block {
 		$icon        = isset( $icon_list['icon'] ) ? magazine_blocks_get_icon( $icon_list['icon'], false ) : '';
 		$enable_icon = isset( $icon_list['enable'] ) ? $icon_list['enable'] : false;
 
+		// List icon settings (layout-3-style-1 preset).
+		$list_icon_list   = magazine_blocks_array_get( $attributes, 'listIcon', array() );
+		$list_icon        = isset( $list_icon_list['icon'] ) ? magazine_blocks_get_icon( $list_icon_list['icon'], false ) : '';
+		$list_icon_enable = isset( $list_icon_list['enable'] ) ? $list_icon_list['enable'] : false;
+
 		return array(
 			// General attributes.
-			'client_id'      => $client_id,
-			'layout'         => $layout,
-			'advanced_style' => $advanced_style,
-			'post_box_style' => magazine_blocks_array_get( $attributes, 'postBoxStyle', 'true' ),
-			'category_count' => magazine_blocks_array_get( $attributes, 'categoryCount', '4' ),
+			'client_id'             => $client_id,
+			'layout'                => $layout,
+			'advanced_style'        => $advanced_style,
+			'post_box_style'        => magazine_blocks_array_get( $attributes, 'postBoxStyle', 'true' ),
+			'category_count'        => magazine_blocks_array_get( $attributes, 'categoryCount', '4' ),
 
 			// Icon settings.
-			'icon'           => $icon,
-			'enable_icon'    => $enable_icon,
+			'icon'                  => $icon,
+			'enable_icon'           => $enable_icon,
+			'list_icon'             => $list_icon,
+			'list_icon_enable'      => $list_icon_enable,
 
 			// Heading settings.
-			'enable_heading' => magazine_blocks_array_get( $attributes, 'enableHeading', '' ),
-			'heading_layout' => $heading_layout,
-			'heading_style'  => $heading_style,
-			'label'          => magazine_blocks_array_get( $attributes, 'label', 'Categories' ),
+			'enable_heading'        => magazine_blocks_array_get( $attributes, 'enableHeading', '' ),
+			'heading_layout'        => $heading_layout,
+			'heading_style'         => $heading_style,
+			'label'                 => magazine_blocks_array_get( $attributes, 'label', 'Categories' ),
+
+			// Category title settings.
+			'category_title_markup' => magazine_blocks_sanitize_html_tag( magazine_blocks_array_get( $attributes, 'categoryTitleMarkup', 'h6' ), 'h6' ),
 		);
 	}
 
@@ -219,12 +229,14 @@ class CategoryList extends Block {
 			}
 		}
 
+		$tag = $attributes['category_title_markup'];
+
 		return '
 			<div class="mzb-title-wrapper" ' . $background_style . '>
 				<div class="mzb-title" ' . $color_style . '>
-					<span class="mzb-post-categories">
+					<' . $tag . ' class="mzb-post-categories">
 						<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->name ) . '</a>
-					</span>
+					</' . $tag . '>
 					<div class="mzb-post-count-wrapper">
 						<div class="mzb-post-count">
 							<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' ' . esc_html( $this->get_post_count_label( $category->category_count ) ) . '</a>
@@ -236,13 +248,13 @@ class CategoryList extends Block {
 	}
 
 	/**
- * Render layout 2 style 2.
- *
- * @param \WP_Term $category Category object.
- * @param int      $cat_id Category ID.
- * @param array    $attributes Block attributes.
- * @return string Layout HTML.
- */
+	 * Render layout 2 style 2.
+	 *
+	 * @param \WP_Term $category Category object.
+	 * @param int      $cat_id Category ID.
+	 * @param array    $attributes Block attributes.
+	 * @return string Layout HTML.
+	 */
 	protected function render_layout_2_style_2( $category, $cat_id, $attributes ) {
 		$src              = $this->get_category_image( $category->slug );
 		$background_style = $src ? 'style="background-image: url(' . esc_url( $src ) . ');"' : '';
@@ -255,11 +267,13 @@ class CategoryList extends Block {
 			}
 		}
 
+		$tag = $attributes['category_title_markup'];
+
 		$html  = '<div class="mzb-title-wrapper" ' . $background_style . '>';
 		$html .= '<div class="mzb-title">';
-		$html .= '<span class="mzb-post-categories">';
+		$html .= '<' . $tag . ' class="mzb-post-categories">';
 		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->name ) . '</a>';
-		$html .= '</span>';
+		$html .= '</' . $tag . '>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
 		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' ' . esc_html( $this->get_post_count_label( $category->category_count ) ) . '</a>';
@@ -293,11 +307,13 @@ class CategoryList extends Block {
 		$html .= '<div class="mzb-overlay"></div>';
 		$html .= '</div>';
 
+		$tag = $attributes['category_title_markup'];
+
 		$html .= '<div class="mzb-title-with-icon">';
 		$html .= '<div class="mzb-title">';
-		$html .= '<span class="mzb-post-categories">';
+		$html .= '<' . $tag . ' class="mzb-post-categories">';
 		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->name ) . '</a>';
-		$html .= '</span>';
+		$html .= '</' . $tag . '>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';
 		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '">' . esc_html( $category->category_count ) . ' ' . esc_html( $this->get_post_count_label( $category->category_count ) ) . '</a>';
@@ -334,11 +350,15 @@ class CategoryList extends Block {
 			}
 		}
 
+		$tag = $attributes['category_title_markup'];
+
 		$html  = '<div class="mzb-title-wrapper" ' . $background_style . '>';
-		$html .= '<span class="mzb-post-categories">';
-		// $html .= $attributes['enable_icon'] ? '<span class="mzb-list-icon">' . $attributes['icon'] . '</span>' : '';
+		$html .= '<' . $tag . ' class="mzb-post-categories">';
+		if ( 'layout-3' === $attributes['layout'] && $attributes['list_icon_enable'] && $attributes['list_icon'] ) {
+			$html .= '<span class="mzb-list-icon">' . wp_kses( $attributes['list_icon'], magazine_blocks_get_allowed_svg_elements() ) . '</span>';
+		}
 		$html .= '<a href="' . esc_url( get_category_link( $cat_id ) ) . '" ' . $color_style . '>' . esc_html( $category->name ) . '</a>';
-		$html .= '</span>';
+		$html .= '</' . $tag . '>';
 		$html .= '</div>';
 		$html .= '<div class="mzb-post-count-wrapper">';
 		$html .= '<div class="mzb-post-count">';

@@ -142,6 +142,7 @@ return array(
     'MagazineBlocks\\Admin' => $baseDir . '/includes/Admin.php',
     'MagazineBlocks\\Ajax' => $baseDir . '/includes/Ajax.php',
     'MagazineBlocks\\Analytics\\BlockUsageTracker' => $baseDir . '/includes/Analytics/BlockUsageTracker.php',
+    'MagazineBlocks\\Analytics\\TrackingNotice' => $baseDir . '/includes/Analytics/TrackingNotice.php',
     'MagazineBlocks\\Analytics\\UsageTracking' => $baseDir . '/includes/Analytics/UsageTracking.php',
     'MagazineBlocks\\BlockStyles' => $baseDir . '/includes/BlockStyles.php',
     'MagazineBlocks\\BlockTypes\\AbstractBlock' => $baseDir . '/includes/BlockTypes/AbstractBlock.php',

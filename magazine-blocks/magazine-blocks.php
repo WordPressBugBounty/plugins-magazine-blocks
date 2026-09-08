@@ -4,7 +4,7 @@
  * Description: Craft your beautifully unique and dynamic Magazine, Newspaper website with various beautiful and advanced posts related blocks like Featured Posts, Banner Posts, Grid Module, Tab Posts, and more.
  * Author: WPBlockArt
  * Author URI: https://wpblockart.com/
- * Version: 1.8.7
+ * Version: 1.8.8
  * Requires at least: 6.3
  * Requires PHP: 7.0
  * Text Domain: magazine-blocks
@@ -23,7 +23,7 @@ use MagazineBlocks\MagazineBlocks;
 
 defined( 'ABSPATH' ) || exit;
 
-! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.7' );
+! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.8' );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_FILE' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_FILE', __FILE__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR', __DIR__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
@@ -111,7 +111,7 @@ function magazine_blocks_register_rest_fields() {
 				'get_callback'    => 'magazine_blocks_get_category_list',
 				'update_callback' => null,
 				'schema'          => array(
-					'description' => esc_html__( 'Category list links' ),
+					'description' => esc_html__( 'Category list links', 'magazine-blocks' ),
 					'type'        => 'string',
 				),
 			)
@@ -125,7 +125,7 @@ function magazine_blocks_register_rest_fields() {
 				'get_callback'    => 'magazine_blocks_get_video_url',
 				'update_callback' => null,
 				'schema'          => array(
-					'description' => esc_html__( 'Video URL from the video post format meta' ),
+					'description' => esc_html__( 'Video URL from the video post format meta', 'magazine-blocks' ),
 					'type'        => 'string',
 				),
 			)
@@ -182,25 +182,64 @@ function magazine_blocks_get_video_url( $object ) {
 }
 
 // Category list.
+if ( ! function_exists( 'magazine_blocks_render_category_link' ) ) {
+	/**
+	 * Render a single category/term as a link, matching the frontend's own
+	 * category markup so the block editor preview doesn't diverge from it:
+	 * only add the ColorMag override class + inline color when the theme's
+	 * "Override Category Color" setting is on and a color actually resolves.
+	 *
+	 * @param \WP_Term $term          Category or term.
+	 * @param bool     $use_override  Whether ColorMag's category color override is active.
+	 * @return string Rendered anchor markup.
+	 */
+	function magazine_blocks_render_category_link( $term, $use_override ) {
+		$link = get_term_link( $term );
+		$url  = is_wp_error( $link ) ? '#' : esc_url( $link );
+
+		if ( $use_override ) {
+			$color = colormag_category_color( $term->term_id );
+			if ( $color ) {
+				return sprintf(
+					'<a href="%s" class="category-link category-link-%d" style="color: %s;">%s</a>',
+					$url,
+					(int) $term->term_id,
+					esc_attr( $color ),
+					esc_html( $term->name )
+				);
+			}
+		}
+
+		return sprintf( '<a href="%s">%s</a>', $url, esc_html( $term->name ) );
+	}
+}
+
 if ( ! function_exists( 'magazine_blocks_get_category_list' ) ) {
+	/**
+	 * REST field callback returning a post's category/term links as HTML,
+	 * used by the block editor's live post-listing previews.
+	 *
+	 * @param array $object REST response object array.
+	 * @return string Category links HTML.
+	 */
 	function magazine_blocks_get_category_list( $object ) {
-		$taxonomies = get_post_taxonomies( $object['id'] );
-		$post_id    = $object['id'];
-		$output     = '';
+		$taxonomies   = get_post_taxonomies( $object['id'] );
+		$post_id      = $object['id'];
+		$output       = '';
+		$use_override = get_theme_mod( 'colormag_enable_override_category_color', false ) && function_exists( 'colormag_category_color' );
 
 		if ( 'post' === get_post_type( $post_id ) ) {
 			$categories = get_the_category( $post_id );
 			if ( ! empty( $categories ) ) {
 				foreach ( $categories as $category ) {
-					$class   = 'category-link category-link-' . esc_attr( $category->term_id );
-					$output .= '<a href="#" class="' . $class . '">' . esc_html( $category->name ) . '</a> ';}
+					$output .= magazine_blocks_render_category_link( $category, $use_override ) . ' ';
+				}
 			}
 		} elseif ( ! empty( $taxonomies ) ) {
 			$terms = get_the_terms( $post_id, $taxonomies[0] );
 			if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
 				foreach ( $terms as $term ) {
-					$class   = 'category-link category-link-' . esc_attr( $term->term_id );
-					$output .= '<a href="#" class="' . $class . '">' . esc_html( $term->name ) . '</a> ';
+					$output .= magazine_blocks_render_category_link( $term, $use_override ) . ' ';
 				}
 			}
 		}

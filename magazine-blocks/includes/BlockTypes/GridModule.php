@@ -188,6 +188,16 @@ class GridModule extends Block {
 			'offset'              => $attrs['offset'],
 		);
 
+		/**
+		 * Filters the WP_Query args for the Grid Module block.
+		 *
+		 * Allows overriding the post count above the editor's slider limit.
+		 *
+		 * @param array $args  WP_Query arguments.
+		 * @param array $attrs Processed block attributes.
+		 */
+		$args = apply_filters( 'magazine_blocks_grid_module_query_args', $args, $attrs );
+
 		return $this->query_builder->build_query( $args );
 	}
 
@@ -212,8 +222,9 @@ class GridModule extends Block {
 		// Render start.
 		$html = sprintf( '<div class="%s">', esc_attr( implode( ' ', array_filter( $classes ) ) ) );
 		// Render heading section.
-		if ( $attributes['enable_view_more'] && 'top' === $attributes['view_button_position'] ) {
-			$html .= $this->render_heading( $attributes, 'top' );
+		$show_top_view_more = $attributes['enable_view_more'] && 'top' === $attributes['view_button_position'];
+		if ( $attributes['enable_heading'] || $show_top_view_more ) {
+			$html .= $this->render_heading( $attributes, $show_top_view_more ? 'top' : 'none' );
 		}
 
 		// Render posts container.

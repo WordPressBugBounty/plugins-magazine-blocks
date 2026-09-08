@@ -1,4 +1,39 @@
 == Changelog ==
+= 1.8.8 - 08-09-2026 =
+* Added - Alignment control (Left/Center/Right) to the Button block.
+* Improved - Post title HTML Markup default changed to H6 for Banner Posts, Featured Posts, Tab Post, Latest Posts, and Category List.
+* Fix - Post List block's alignment setting behaving inconsistently.
+* Fix - Advertisement block's alignment setting not applying on the frontend.
+* Fix - Category tag becoming invisible on hover in Post List and other post-listing blocks.
+* Fix - Block icons rendering black or invisible in the block inserter panel, list view, and slash command autocomplete popup.
+* Fix - Split Feed block's category meta breaking the layout.
+* Fix - Featured Posts block's Styles 5 and 6 rendering differently in the editor than on the frontend.
+* Fix - Category List block's icon not appearing on the frontend.
+* Fix - Tab Post block's tab title layout not matching the selected preset style.
+* Fix - Border showing on the frontend by default when no border size was configured, despite not appearing in the editor.
+* Fix - Post title HTML Markup setting not controlling font size across post-listing blocks, leaving titles stuck at one fixed size regardless of the selected heading level (H1-H6).
+* Fix - Split Feed block's second column misaligning in the editor preview and breaking layout when post tags were displayed.
+* Fix - Grid Module block's post title font size not applying in the editor or on the frontend.
+* Fix - Tab Post block's post title HTML Markup setting not working.
+* Fix - Image block's layout alignment not working when overlay was enabled.
+* Fix - Button block's width slider not applying full width when set to 100%.
+* Fix - Featured Posts block's Style 1 showing a gap between the image and title at 2 columns.
+* Fix - Featured Posts block's Style 5 truncating post content.
+* Fix - Icon block misaligning with its container on block themes.
+* Fix - Post Slider block's heading divider sitting off-center in Preset Styles 6 and 7 on the frontend.
+* Fix - Icon block's hide-on-tablet/mobile setting not applying on the frontend.
+* Fix - Button block taking full browser width in the editor instead of the container width.
+* Fix - Editor canvas duplicating when clicking the title, author, or date inside Grid Module, Latest Posts, Featured Posts, and other post-listing blocks.
+* Fix - Post Count slider limited to 15 (20 for News Ticker) posts across Grid Module, Featured Categories, Featured Posts, News Ticker, Post List, and Slider blocks; now allows up to 100.
+* Fix - Grid Module block's heading text not showing on the frontend unless "View More" was also enabled.
+* Fix - Split Feed post cards in the Featured Categories block missing author/date meta and showing incorrectly sized images.
+* Fix - Section block's background settings affecting the original section when a duplicated section was edited.
+* Fix - Background Image control's remove-image button being invisible.
+* Fix - Editor crashing with a security error when clicking a real link (e.g. post title, "View More") inside a post-related block.
+* Fix - Font Size slider and number input sharing the same maximum, blocking custom values above it.
+* Fix - Font Size, Line Height, and Letter Spacing values of 0 not applying in the editor or on the frontend.
+* Fix - Typography sliders (Font Size, Line Height, Letter Spacing) lagging while dragging.
+
 = 1.8.7 - 20-08-2026 =
 * Security - Escaped the News Ticker block's internal ID attribute to close a stored cross-site scripting vulnerability.
 * Security - Restricted Site Builder template management to Administrators to close an authorization bypass that let lower-privileged users take over site-wide templates.

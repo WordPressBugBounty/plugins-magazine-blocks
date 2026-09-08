@@ -13,6 +13,7 @@ namespace MagazineBlocks;
 defined( 'ABSPATH' ) || exit;
 
 use MagazineBlocks\Analytics\BlockUsageTracker;
+use MagazineBlocks\Analytics\TrackingNotice;
 use MagazineBlocks\Analytics\UsageTracking;
 use MagazineBlocks\RestApi\RestApi;
 use MagazineBlocks\Traits\Singleton;
@@ -54,6 +55,7 @@ final class MagazineBlocks {
 		Review::init();
 		MaintenanceMode::init();
 		UsageTracking::init();
+		TrackingNotice::init();
 		BlockUsageTracker::init();
 		$this->init_hooks();
 	}

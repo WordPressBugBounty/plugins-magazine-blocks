@@ -340,6 +340,10 @@
       "type": "boolean",
       "default": true
     },
+    "postTitleMarkup": {
+      "type": "string",
+      "default": "h6"
+    },
     "postTitleTypography": {
       "type": "object",
       "default": {

@@ -188,7 +188,7 @@
             "type": "boolean",
             "style": [
                 {
-                    "selector": "@media (min-width:62em) { {{WRAPPER}} { display: none; } }"
+                    "selector": "@media (min-width:62em) { {{WRAPPER}} { display: none !important; } }"
                 }
             ]
         },
@@ -196,7 +196,7 @@
             "type": "boolean",
             "style": [
                 {
-                    "selector": "@media (min-width:48em) and (max-width:62em) { {{WRAPPER}} { display: none; } }"
+                    "selector": "@media (min-width:48em) and (max-width:62em) { {{WRAPPER}} { display: none !important; } }"
                 }
             ]
         },
@@ -204,7 +204,7 @@
             "type": "boolean",
             "style": [
                 {
-                    "selector": "@media (max-width:48em) { {{WRAPPER}} { display: none; } }"
+                    "selector": "@media (max-width:48em) { {{WRAPPER}} { display: none !important; } }"
                 }
             ]
         },

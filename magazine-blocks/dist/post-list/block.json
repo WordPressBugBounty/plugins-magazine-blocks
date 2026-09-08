@@ -214,6 +214,9 @@
         },
         {
           "selector": "{{WRAPPER}} .mzb-post .mzb-post-entry-meta {justify-content: {{VALUE}}; }"
+        },
+        {
+          "selector": "{{WRAPPER}} .mzb-post-content .mzb-post-meta {justify-content: {{VALUE}}; }"
         }
       ],
       "default": {

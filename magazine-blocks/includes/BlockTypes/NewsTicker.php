@@ -133,6 +133,16 @@ class NewsTicker extends Block {
 			'category__in'   => $attrs['category'],
 		);
 
+		/**
+		 * Filters the WP_Query args for the News Ticker block.
+		 *
+		 * Allows overriding the post count above the editor's slider limit.
+		 *
+		 * @param array $args  WP_Query arguments.
+		 * @param array $attrs Processed block attributes.
+		 */
+		$args = apply_filters( 'magazine_blocks_news_ticker_query_args', $args, $attrs );
+
 		return $this->query_builder->build_query( $args, array( 'exclude_template' => true ) );
 	}
 

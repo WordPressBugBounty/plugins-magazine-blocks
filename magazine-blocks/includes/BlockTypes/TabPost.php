@@ -64,7 +64,8 @@ class TabPost extends Block {
 			'class_name'                     => magazine_blocks_array_get( $attributes, 'className', '' ),
 			'css_id'                         => magazine_blocks_array_get( $attributes, 'cssID', '' ),
 			'post_count'                     => magazine_blocks_array_get( $attributes, 'postCount', '4' ),
-			'post_title_markup'              => magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' ),
+			'post_title_markup'              => magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h6' ),
+			'layout'                         => magazine_blocks_array_get( $attributes, 'layout', 'default' ),
 
 			// Query parameters.
 			'category'                       => magazine_blocks_array_get( $attributes, 'category', '' ),
@@ -149,7 +150,7 @@ class TabPost extends Block {
 		);
 
 		// Render tab controls.
-		$html .= $this->render_tab_controls();
+		$html .= $this->render_tab_controls( $attributes['layout'] );
 
 		// Render latest posts.
 		$html .= $this->render_posts_container( $latest_query, $attributes, 'latest' );
@@ -165,11 +166,14 @@ class TabPost extends Block {
 	/**
 	 * Render tab controls.
 	 *
+	 * @param string $layout Tab header preset layout.
 	 * @return string Tab controls HTML.
 	 */
-	protected function render_tab_controls() {
+	protected function render_tab_controls( $layout = 'default' ) {
+		$classes = 'style1' === $layout ? 'mzb-tab-controls mzb-tab-layout-style1' : 'mzb-tab-controls';
+
 		return '
-			<div class="mzb-tab-controls">
+			<div class="' . esc_attr( $classes ) . '">
 				<div data-tab="latest" class="mzb-tab-title active">' . esc_html__( 'Latest', 'magazine-blocks' ) . '</div>
 				<div data-tab="popular" class="mzb-tab-title">' . esc_html__( 'Popular', 'magazine-blocks' ) . '</div>
 			</div>

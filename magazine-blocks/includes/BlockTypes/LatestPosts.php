@@ -95,6 +95,7 @@ class LatestPosts extends Block {
 			// Display toggles.
 			'enable_heading'    => magazine_blocks_array_get( $attributes, 'enableHeading', true ),
 			'enable_post_title' => magazine_blocks_array_get( $attributes, 'enablePostTitle', true ),
+			'post_title_markup' => magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h6' ),
 			'enable_excerpt'    => magazine_blocks_array_get( $attributes, 'enableExcerpt', false ),
 			'enable_read_more'  => magazine_blocks_array_get( $attributes, 'enableReadMore', false ),
 			'read_more_text'    => magazine_blocks_array_get( $attributes, 'readMoreText', '' ),
@@ -264,7 +265,7 @@ class LatestPosts extends Block {
 							<?php endif; ?>
 
 							<?php if ( $attrs['enable_post_title'] ) : ?>
-								<?php echo $this->render_post_title( $post->ID, 'h3' ); ?>
+								<?php echo $this->render_post_title( $post->ID, $attrs['post_title_markup'] ); ?>
 							<?php endif; ?>
 
 							<?php if ( 'bottom' === $attrs['meta_position'] ) : ?>

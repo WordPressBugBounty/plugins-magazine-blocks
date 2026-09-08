@@ -80,8 +80,8 @@ class BannerPosts extends Block {
 			'author'                         => magazine_blocks_array_get( $attributes, 'authorName', '' ),
 			'post_type'                      => magazine_blocks_array_get( $attributes, 'postType', 'post' ),
 			'post_title_markup'              => magazine_blocks_sanitize_html_tag(
-				magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h3' ),
-				'h3'
+				magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h6' ),
+				'h6'
 			),
 			'enable_category'                => magazine_blocks_array_get( $attributes, 'enableCategory', true ),
 			'enable_highlighted_category'    => magazine_blocks_array_get( $attributes, 'enableHighlightedCategory', true ),
@@ -157,6 +157,16 @@ class BannerPosts extends Block {
 		if ( 'all' === $args['author'] ) {
 			unset( $args['author'] );
 		}
+
+		/**
+		 * Filters the WP_Query args for the Banner Posts block.
+		 *
+		 * Allows overriding the post count above the editor's slider limit.
+		 *
+		 * @param array $args  WP_Query arguments.
+		 * @param array $attrs Processed block attributes.
+		 */
+		$args = apply_filters( 'magazine_blocks_banner_posts_query_args', $args, $attrs );
 
 		return $this->query_builder->build_query( $args );
 	}

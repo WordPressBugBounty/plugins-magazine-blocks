@@ -22,7 +22,7 @@
       "type": "string"
     },
     "alignment": {
-      "type": "string",
+      "type": "object",
       "style": [
         {
           "selector": "{{WRAPPER}} { text-align: {{VALUE}}; }"
@@ -55,6 +55,14 @@
     "size": {
       "type": "string",
       "default": "large"
+    },
+    "width": {
+      "type": "object",
+      "style": [
+        {
+          "selector": "{{WRAPPER}} .mzb-button-link { width: {{VALUE}}%; }"
+        }
+      ]
     },
     "padding": {
       "type": "object",

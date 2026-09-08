@@ -372,6 +372,9 @@ importers:
       grunt-rtlcss:
         specifier: ^2.0.2
         version: 2.0.2
+      grunt-text-replace:
+        specifier: ^0.4.0
+        version: 0.4.0
       husky:
         specifier: ^7.0.2
         version: 7.0.4
@@ -5127,6 +5130,10 @@ packages:
 
   grunt-rtlcss@2.0.2:
     resolution: {integrity: sha512-WbI2thnwlF04N+xvJu+NxqEaCyPuLyar196SYhEQFZ2EJHkOS8YYE+Zkh+X9cWhwAtKp7ZEpR/IKXcyQggOIsQ==}
+    engines: {node: '>= 0.8.0'}
+
+  grunt-text-replace@0.4.0:
+    resolution: {integrity: sha512-A4dFGpOaD/TQpeOlDK/zP962X1qG7KcOqPiSXOWOIeAKMzzpoDJYZ8Sz56iazI5+kTqeTa+IaEEl5c4sk+QN+Q==}
     engines: {node: '>= 0.8.0'}
 
   grunt@1.6.1:
@@ -15754,6 +15761,8 @@ snapshots:
     dependencies:
       chalk: 1.1.3
       rtlcss: 2.6.2
+
+  grunt-text-replace@0.4.0: {}
 
   grunt@1.6.1:
     dependencies:
