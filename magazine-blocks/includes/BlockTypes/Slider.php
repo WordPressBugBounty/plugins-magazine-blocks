@@ -495,44 +495,6 @@ class Slider extends Block {
 	}
 
 	/**
-	 * Render excerpt and read more content.
-	 *
-	 * @param int   $post_id Post ID.
-	 * @param array $attributes Block attributes.
-	 * @return string Excerpt and read more HTML.
-	 */
-	protected function render_excerpt_and_read_more( $post_id, $attributes ) {
-		$html = '<div class="mzb-entry-content">';
-
-		if ( $attributes['enable_excerpt'] ) {
-			// Set custom excerpt length.
-			add_filter(
-				'excerpt_length',
-				function () use ( $attributes ) {
-					return $attributes['excerpt_limit'];
-				}
-			);
-
-			$excerpt = get_the_excerpt( $post_id );
-			remove_filter( 'excerpt_length', function () {} );
-
-			$html .= sprintf( '<div class="mzb-entry-summary"><p>%s</p></div>', $excerpt );
-		}
-
-		if ( $attributes['enable_readmore'] ) {
-			$html .= sprintf(
-				'<div class="mzb-read-more"><a href="%s">%s</a></div>',
-				esc_url( get_the_permalink( $post_id ) ),
-				esc_html( $attributes['read_more_text'] )
-			);
-		}
-
-		$html .= '</div>';
-
-		return $html;
-	}
-
-	/**
 	 * Render view more link.
 	 *
 	 * @param array  $attributes Block attributes.

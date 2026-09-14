@@ -87,6 +87,9 @@ class TabPost extends Block {
 			'meta_separator'                 => magazine_blocks_array_get( $attributes, 'separatorType', 'none' ),
 			'enable_icon'                    => magazine_blocks_array_get( $attributes, 'enableIcon', '' ),
 			'enable_excerpt'                 => magazine_blocks_array_get( $attributes, 'enableExcerpt', true ),
+			'excerpt_limit'                  => magazine_blocks_array_get( $attributes, 'excerptLimit', 20 ),
+			'enable_readmore'                => magazine_blocks_array_get( $attributes, 'enableReadMore', false ),
+			'read_more_text'                 => magazine_blocks_array_get( $attributes, 'readMoreText', '' ),
 
 			// Theme override.
 			'enable_override_category_color' => get_theme_mod( 'colormag_enable_override_category_color', false ),
@@ -227,8 +230,8 @@ class TabPost extends Block {
 		// Render content.
 		$html .= '<div class="mzb-post-content">';
 
-		// Render category meta (only for latest tab).
-		if ( 'latest' === $tab_type && $attributes['enable_category'] ) {
+		// Render category meta.
+		if ( $attributes['enable_category'] ) {
 			$html .= '<div class="mzb-post-meta">';
 			$html .= $this->render_categories( $post_id, $attributes['enable_override_category_color'] );
 			$html .= '</div>';
@@ -240,9 +243,10 @@ class TabPost extends Block {
 		}
 
 		// Render title.
-		if ( $attributes['enable_excerpt'] ) {
-			$html .= $this->render_post_title( $post_id, $attributes['post_title_markup'] );
-		}
+		$html .= $this->render_post_title( $post_id, $attributes['post_title_markup'] );
+
+		// Render excerpt.
+		$html .= $this->render_excerpt_and_read_more( $post_id, $attributes );
 
 		// Render bottom meta.
 		if ( 'bottom' === $attributes['meta_position'] ) {

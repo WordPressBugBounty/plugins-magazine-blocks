@@ -2,9 +2,9 @@
 Contributors: WPBlockArt
 Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 6.3
-Tested up to: 7.0.2
-Requires PHP: 7.0
-Stable tag: 1.8.8
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 1.8.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,16 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.9 - 14-09-2026 =
+* Fix - Section block showing an extra 24px gap between blocks in the editor that doesn't appear on the frontend.
+* Fix - Split Feed block cutting off post content regardless of the excerpt limit setting.
+* Fix - Tab Post block's excerpt toggle hiding the post title instead of the excerpt.
+* Fix - Compatibility issues with PHP 8.5 and WordPress 7.1.
+* Fix - Style reset button closing the popover instead of just resetting the value.
+* Fix - Block icons rendering black instead of purple in the editor's List View.
+* Fix - Tab Post block's Popular tab post titles rendering larger than the Latest tab in the editor.
+* Fix - Tab Post block's Category and Excerpt settings not reflected in the editor preview for the Popular tab.
+
 = 1.8.8 - 08-09-2026 =
 * Added - Alignment control (Left/Center/Right) to the Button block.
 * Improved - Post title HTML Markup default changed to H6 for Banner Posts, Featured Posts, Tab Post, Latest Posts, and Category List.

@@ -4,9 +4,9 @@
  * Description: Craft your beautifully unique and dynamic Magazine, Newspaper website with various beautiful and advanced posts related blocks like Featured Posts, Banner Posts, Grid Module, Tab Posts, and more.
  * Author: WPBlockArt
  * Author URI: https://wpblockart.com/
- * Version: 1.8.8
+ * Version: 1.8.9
  * Requires at least: 6.3
- * Requires PHP: 7.0
+ * Requires PHP: 7.4
  * Text Domain: magazine-blocks
  * Domain Path: /languages
  * License: GNU General Public License v3.0
@@ -23,7 +23,7 @@ use MagazineBlocks\MagazineBlocks;
 
 defined( 'ABSPATH' ) || exit;
 
-! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.8' );
+! defined( 'MAGAZINE_BLOCKS_VERSION' ) && define( 'MAGAZINE_BLOCKS_VERSION', '1.8.9' );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_FILE' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_FILE', __FILE__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR', __DIR__ );
 ! defined( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL' ) && define( 'MAGAZINE_BLOCKS_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
@@ -318,9 +318,16 @@ add_action( 'wp_ajax_magazine_blocks_pagination_load', 'magazine_blocks_paginati
 add_action( 'wp_ajax_nopriv_magazine_blocks_pagination_load', 'magazine_blocks_pagination_load' );
 
 function magazine_blocks_pagination_load() {
-	$page = intval( $_GET['page'] );
+	if ( ! check_ajax_referer( '_magazine_blocks_nonce', 'security', false ) ) {
+		wp_send_json_error(
+			array( 'message' => __( 'Invalid request.', 'magazine-blocks' ) ),
+			403
+		);
+	}
 
-	$att = $_POST['att']; // Pass the attributes needed for rendering
+	$page = isset( $_GET['page'] ) ? absint( wp_unslash( $_GET['page'] ) ) : 0;
+
+	$att = isset( $_POST['att'] ) && is_array( $_POST['att'] ) ? map_deep( wp_unslash( $_POST['att'] ), 'sanitize_text_field' ) : array(); // Pass the attributes needed for rendering
 
 	// Modify the attributes with the new page number
 	$att['paged'] = $page;

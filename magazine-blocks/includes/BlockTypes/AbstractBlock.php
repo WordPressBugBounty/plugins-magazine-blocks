@@ -223,7 +223,7 @@ abstract class AbstractBlock {
 			'id'    => $this->get_attribute( 'cssID', '', true ),
 			'class' => $this->cn(
 				"mzb-$this->block_name mzb-$this->block_name-{$this->get_attribute('clientId', '', true)}",
-				$this->get_attribute( 'className', '' ),
+				$this->get_attribute( 'className', '' )
 			),
 		);
 	}

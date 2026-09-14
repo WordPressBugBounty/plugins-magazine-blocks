@@ -159,7 +159,7 @@
       },
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-content .mzb-post-title a"
+          "selector": "{{WRAPPER}} .mzb-post-content .mzb-entry-content .mzb-entry-summary p"
         }
       ]
     },
@@ -377,7 +377,7 @@
       "type": "string",
       "style": [
         {
-          "selector": "{{WRAPPER}} .mzb-post-content .mzb-post-title a {color: {{VALUE}}; }"
+          "selector": "{{WRAPPER}} .mzb-post-content .mzb-entry-content .mzb-entry-summary p {color: {{VALUE}}; }"
         }
       ]
     },

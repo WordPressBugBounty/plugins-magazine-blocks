@@ -182,6 +182,12 @@ trait PostRenderer {
 	/**
 	 * Render excerpt and read more content.
 	 *
+	 * For a post without a manual excerpt, get_the_excerpt() trims post_content to whatever the active
+	 * theme's `excerpt_length` filter returns (e.g. ColorMag hardcodes 20 words) before this method ever
+	 * sees it, so the block's own excerpt_limit is silently capped by the theme. PHP_INT_MAX priority
+	 * forces our override to run last regardless of what priority the theme registered at, and the
+	 * filter is removed immediately after so it never leaks into posts or blocks rendered afterward.
+	 *
 	 * @param int   $post_id Post ID.
 	 * @param array $attributes Block attributes.
 	 * @return string Excerpt and read more HTML.
@@ -190,10 +196,16 @@ trait PostRenderer {
 		$html = '<div class="mzb-entry-content">';
 
 		if ( $attributes['enable_excerpt'] ) {
-			// wp_trim_words() is used directly since get_the_excerpt() ignores excerpt_length for manual excerpts.
-			$excerpt = wp_trim_words( get_the_excerpt( $post_id ), $attributes['excerpt_limit'] );
+			$excerpt_length_filter = function () use ( $attributes ) {
+				return $attributes['excerpt_limit'];
+			};
 
-			$html .= sprintf( '<div class="mzb-entry-summary"><p>%s</p></div>', wp_kses_post( $excerpt ) );
+			add_filter( 'excerpt_length', $excerpt_length_filter, PHP_INT_MAX );
+			// wp_trim_words() already runs wp_strip_all_tags() internally, so the excerpt is plain text by this point.
+			$excerpt = wp_trim_words( get_the_excerpt( $post_id ), $attributes['excerpt_limit'] );
+			remove_filter( 'excerpt_length', $excerpt_length_filter, PHP_INT_MAX );
+
+			$html .= sprintf( '<div class="mzb-entry-summary"><p>%s</p></div>', esc_html( $excerpt ) );
 		}
 
 		if ( $attributes['enable_readmore'] ) {

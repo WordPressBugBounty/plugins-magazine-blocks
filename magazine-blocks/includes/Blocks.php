@@ -153,7 +153,7 @@ final class Blocks {
 
 		add_action(
 			'enqueue_block_editor_assets',
-			array( $this, 'mzb_post_type' ),
+			array( $this, 'mzb_post_type' )
 		);
 
 		if ( 'customize.php' !== $pagenow ) {
