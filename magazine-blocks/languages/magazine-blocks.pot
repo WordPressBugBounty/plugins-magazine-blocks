@@ -2,20 +2,21 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: Magazine Blocks 1.8.9\n"
+"Project-Id-Version: Magazine Blocks 1.8.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/magazine-blocks\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-14T07:55:13+00:00\n"
+"POT-Creation-Date: 2026-10-27T11:30:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: magazine-blocks\n"
 
 #. Plugin Name of the plugin
 #: magazine-blocks.php
+#: includes/Abilities/Abilities.php:53
 #: includes/Admin.php:50
 #: includes/Admin.php:51
 #: dist/blocks.js:2
@@ -36,6 +37,114 @@ msgstr ""
 #. Author URI of the plugin
 #: magazine-blocks.php
 msgid "https://wpblockart.com/"
+msgstr ""
+
+#: includes/Abilities/Abilities.php:54
+msgid "Discover and use the Magazine Blocks editor blocks, layouts and design settings."
+msgstr ""
+
+#: includes/Abilities/GetBlockSchema.php:52
+msgid "Get Magazine Blocks block schema"
+msgstr ""
+
+#: includes/Abilities/GetBlockSchema.php:61
+msgid "Returns the attributes (type and default) of one Magazine Blocks block, plus the parent blocks it must be placed in. By default only content and structure attributes are returned; set include_style to also get styling attributes, including the responsive hide and reverse toggles."
+msgstr ""
+
+#: includes/Abilities/GetBlockSchema.php:85
+msgid "Block name as returned by list-blocks, e.g. magazine-blocks/heading."
+msgstr ""
+
+#: includes/Abilities/GetBlockSchema.php:90
+msgid "Also return styling attributes (colors, spacing, typography, ...)."
+msgstr ""
+
+#: includes/Abilities/GetBlockSchema.php:147
+msgid "No Magazine Blocks block is registered with that name."
+msgstr ""
+
+#: includes/Abilities/GetGlobalStyles.php:35
+msgid "Get Magazine Blocks global styles"
+msgstr ""
+
+#: includes/Abilities/GetGlobalStyles.php:44
+msgid "Returns the global color and typography presets and the per-category colors configured for Magazine Blocks, so new content can match the site design."
+msgstr ""
+
+#: includes/Abilities/ListBlocks.php:42
+msgid "List Magazine Blocks"
+msgstr ""
+
+#: includes/Abilities/ListBlocks.php:51
+msgid "Lists every Magazine Blocks block registered on this site (including blocks added by add-ons) with its name, title, description and editor category. Optionally filter by category or search text."
+msgstr ""
+
+#: includes/Abilities/ListBlocks.php:74
+msgid "Only return blocks in this editor category slug, e.g. magazine-blocks."
+msgstr ""
+
+#: includes/Abilities/ListBlocks.php:79
+msgid "Only return blocks whose name, title or description contains this text."
+msgstr ""
+
+#: includes/Abilities/ListLibrarySections.php:60
+msgid "List Magazine Blocks library sections"
+msgstr ""
+
+#: includes/Abilities/ListLibrarySections.php:69
+msgid "Lists the ready-made page sections (sliders, banners, post grids, post lists, ads, ...) from the Magazine Blocks design library, with the blocks each one uses. Filter by category slug or by an included block such as slider."
+msgstr ""
+
+#: includes/Abilities/ListLibrarySections.php:92
+msgid "Only return sections in this library category slug, e.g. slider."
+msgstr ""
+
+#: includes/Abilities/ListLibrarySections.php:96
+msgid "Only return sections that include this block slug, e.g. grid-module."
+msgstr ""
+
+#: includes/Abilities/ListPostTerms.php:65
+msgid "List post terms"
+msgstr ""
+
+#: includes/Abilities/ListPostTerms.php:74
+msgid "Lists categories (or tags / other public taxonomies) with their IDs and post counts. Use the IDs to point post blocks such as featured posts or grid module at a category or tag."
+msgstr ""
+
+#: includes/Abilities/ListPostTerms.php:98
+msgid "Taxonomy slug, e.g. category or post_tag."
+msgstr ""
+
+#: includes/Abilities/ListPostTerms.php:107
+msgid "Skip terms that have no published posts."
+msgstr ""
+
+#: includes/Abilities/ListPostTerms.php:175
+msgid "No public taxonomy exists with that slug."
+msgstr ""
+
+#: includes/Abilities/ListPostTerms.php:201
+msgid "The terms could not be retrieved."
+msgstr ""
+
+#: includes/Abilities/PreviewBlockPosts.php:82
+msgid "Preview posts for a Magazine Blocks post block"
+msgstr ""
+
+#: includes/Abilities/PreviewBlockPosts.php:91
+msgid "Returns the published posts that a Magazine Blocks post block would display for the given post type, category, tag and ordering, so a layout can be checked before it is built."
+msgstr ""
+
+#: includes/Abilities/PreviewBlockPosts.php:119
+msgid "Category term ID, from list-post-terms. 0 means any category."
+msgstr ""
+
+#: includes/Abilities/PreviewBlockPosts.php:124
+msgid "Tag term ID, from list-post-terms. 0 means any tag."
+msgstr ""
+
+#: includes/Abilities/PreviewBlockPosts.php:195
+msgid "That post type is not available to post blocks."
 msgstr ""
 
 #: includes/Admin.php:95

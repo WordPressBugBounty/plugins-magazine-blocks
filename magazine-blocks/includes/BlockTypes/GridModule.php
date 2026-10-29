@@ -123,7 +123,7 @@ class GridModule extends Block {
 			// Post Title.
 			'enable_post_title'              => magazine_blocks_array_get( $attributes, 'enablePostTitle', 'true' ),
 			'enable_post_title_border'       => magazine_blocks_array_get( $attributes, 'enablePostTitleBorder', 'true' ),
-			'tag_name'                       => magazine_blocks_array_get( $attributes, 'tagName', 'h6' ),
+			'tag_name'                       => magazine_blocks_array_get( $attributes, 'postTitleMarkup', 'h6' ),
 
 			// Meta.
 			'meta_position'                  => magazine_blocks_array_get( $attributes, 'metaPosition', '' ),

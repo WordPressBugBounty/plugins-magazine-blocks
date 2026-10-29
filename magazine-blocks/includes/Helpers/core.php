@@ -100,7 +100,10 @@ function magazine_blocks_get_popular_order_args(): array {
 }
 
 /**
- * LEFT JOIN the view-count meta table when ordering by popularity.
+ * LEFT JOIN the view count of each post when ordering by popularity.
+ *
+ * The count is aggregated to one row per post first: a post that carries the view-count meta more than once would
+ * otherwise be returned several times, which corrupts pagination and the found-posts total.
  *
  * @since x.x.x
  * @param string    $join  SQL JOIN clause.
@@ -114,7 +117,7 @@ function magazine_blocks_join_popular_order_meta( $join, $query ) {
 		return $join;
 	}
 
-	$join .= " LEFT JOIN {$wpdb->postmeta} AS mzb_popular_meta ON ( {$wpdb->posts}.ID = mzb_popular_meta.post_id AND mzb_popular_meta.meta_key = '_mzb_post_view_count' )"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$join .= " LEFT JOIN ( SELECT post_id, MAX( CAST( meta_value AS UNSIGNED ) ) AS views FROM {$wpdb->postmeta} WHERE meta_key = '_mzb_post_view_count' GROUP BY post_id ) AS mzb_popular_meta ON ( {$wpdb->posts}.ID = mzb_popular_meta.post_id )"; // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	return $join;
 }
@@ -134,7 +137,7 @@ function magazine_blocks_orderby_popular_order_meta( $orderby, $query ) {
 
 	$order = 'ASC' === strtoupper( (string) $query->get( 'order' ) ) ? 'ASC' : 'DESC';
 
-	return "CAST( COALESCE( mzb_popular_meta.meta_value, 0 ) AS UNSIGNED ) {$order}";
+	return "COALESCE( mzb_popular_meta.views, 0 ) {$order}";
 }
 
 /**

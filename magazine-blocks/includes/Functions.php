@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 class Functions {
 
 	// Pagination
-	public function pagination( $pages = '', $paginationNav, $range = 1 ) {
+	public function pagination( $pages = '', $paginationNav = '', $range = 1 ) {
 
 		$html      = '';
 		$showitems = 3;

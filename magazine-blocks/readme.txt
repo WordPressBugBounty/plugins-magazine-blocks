@@ -4,7 +4,7 @@ Tags: gutenberg, editor, news, magazine blocks, post blocks
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.8.9
+Stable tag: 1.8.10
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -163,6 +163,11 @@ Absolutely Yes! Magazine Blocks has been created using the Gutenberg editor. Hen
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/wordpress/plugin/magazine-blocks/vdp)
 
 == Changelog ==
+= 1.8.10 - 29-10-2026 =
+* Added - WordPress Abilities API support so AI tools can discover and use Magazine Blocks.
+* Fix - Grid Module block's post title HTML Markup setting not applying on the frontend.
+* Fix - PHP 8 deprecation notice in the pagination function.
+
 = 1.8.9 - 14-09-2026 =
 * Fix - Section block showing an extra 24px gap between blocks in the editor that doesn't appear on the frontend.
 * Fix - Split Feed block cutting off post content regardless of the excerpt limit setting.

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit70f3e27afcdb6b7cb4a91fa2d187bb0f
+class ComposerStaticInit0eab3a7cb38aa02a6ffc865b02f10d23
 {
     public static $files = array (
         'ace6d88241f812b4accb2d847454aef6' => __DIR__ . '/..' . '/halaxa/json-machine/src/functions.php',
@@ -179,6 +179,14 @@ class ComposerStaticInit70f3e27afcdb6b7cb4a91fa2d187bb0f
         'JsonMachine\\Tokens' => __DIR__ . '/..' . '/halaxa/json-machine/src/Tokens.php',
         'JsonMachine\\TokensWithDebugging' => __DIR__ . '/..' . '/halaxa/json-machine/src/TokensWithDebugging.php',
         'JsonMachine\\ValidJsonPointers' => __DIR__ . '/..' . '/halaxa/json-machine/src/ValidJsonPointers.php',
+        'MagazineBlocks\\Abilities\\Abilities' => __DIR__ . '/../..' . '/includes/Abilities/Abilities.php',
+        'MagazineBlocks\\Abilities\\AbstractAbility' => __DIR__ . '/../..' . '/includes/Abilities/AbstractAbility.php',
+        'MagazineBlocks\\Abilities\\GetBlockSchema' => __DIR__ . '/../..' . '/includes/Abilities/GetBlockSchema.php',
+        'MagazineBlocks\\Abilities\\GetGlobalStyles' => __DIR__ . '/../..' . '/includes/Abilities/GetGlobalStyles.php',
+        'MagazineBlocks\\Abilities\\ListBlocks' => __DIR__ . '/../..' . '/includes/Abilities/ListBlocks.php',
+        'MagazineBlocks\\Abilities\\ListLibrarySections' => __DIR__ . '/../..' . '/includes/Abilities/ListLibrarySections.php',
+        'MagazineBlocks\\Abilities\\ListPostTerms' => __DIR__ . '/../..' . '/includes/Abilities/ListPostTerms.php',
+        'MagazineBlocks\\Abilities\\PreviewBlockPosts' => __DIR__ . '/../..' . '/includes/Abilities/PreviewBlockPosts.php',
         'MagazineBlocks\\Abstracts\\Block' => __DIR__ . '/../..' . '/includes/Abstracts/Block.php',
         'MagazineBlocks\\Abstracts\\Styles' => __DIR__ . '/../..' . '/includes/Abstracts/Styles.php',
         'MagazineBlocks\\Activation' => __DIR__ . '/../..' . '/includes/Activation.php',
@@ -264,9 +272,9 @@ class ComposerStaticInit70f3e27afcdb6b7cb4a91fa2d187bb0f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit70f3e27afcdb6b7cb4a91fa2d187bb0f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit70f3e27afcdb6b7cb4a91fa2d187bb0f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit70f3e27afcdb6b7cb4a91fa2d187bb0f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0eab3a7cb38aa02a6ffc865b02f10d23::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0eab3a7cb38aa02a6ffc865b02f10d23::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0eab3a7cb38aa02a6ffc865b02f10d23::$classMap;
 
         }, null, ClassLoader::class);
     }

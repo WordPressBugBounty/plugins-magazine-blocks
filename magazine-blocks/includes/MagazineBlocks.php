@@ -12,6 +12,7 @@ namespace MagazineBlocks;
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
+use MagazineBlocks\Abilities\Abilities;
 use MagazineBlocks\Analytics\BlockUsageTracker;
 use MagazineBlocks\Analytics\TrackingNotice;
 use MagazineBlocks\Analytics\UsageTracking;
@@ -48,6 +49,7 @@ final class MagazineBlocks {
 		Deactivation::init();
 		Update::init();
 		RestApi::init();
+		Abilities::init();
 		Admin::init();
 		Blocks::init();
 		Ajax::init();

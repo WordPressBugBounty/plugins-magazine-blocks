@@ -1,4 +1,9 @@
 == Changelog ==
+= 1.8.10 - 29-10-2026 =
+* Added - WordPress Abilities API support so AI tools can discover and use Magazine Blocks.
+* Fix - Grid Module block's post title HTML Markup setting not applying on the frontend.
+* Fix - PHP 8 deprecation notice in the pagination function.
+
 = 1.8.9 - 14-09-2026 =
 * Fix - Section block showing an extra 24px gap between blocks in the editor that doesn't appear on the frontend.
 * Fix - Split Feed block cutting off post content regardless of the excerpt limit setting.
